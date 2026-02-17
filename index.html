@@ -3,391 +3,409 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SunTrips — Сырниковые острова</title>
+  <title>Сырниковые Острова — путёвки</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
 
     :root{
-      --bg:#eef3f8;
-      --card:#ffffff;
-      --line:#e6edf6;
-      --text:#122033;
-      --muted:#6b7a90;
+      --bg:#070a12;
+      --panel:#0c1220;
+      --panel2:#0e1628;
+      --line:rgba(255,255,255,.08);
 
-      --orange:#ff7a00;
-      --orange2:#ff9a3c;
-      --blue:#1d4ed8;
-      --chip:#f3f6fb;
+      --cyan:#00d4ff;
+      --violet:#7c3aed;
+      --gold:#f5c842;
 
-      --shadow: 0 10px 30px rgba(16,24,40,.08);
-      --shadow2: 0 18px 55px rgba(16,24,40,.12);
+      --text:#eaf0ff;
+      --muted:#9aaccc;
 
-      --r14:14px;
-      --r18:18px;
+      --r16:16px;
       --r22:22px;
+      --r28:28px;
+
+      --shadow: 0 22px 80px rgba(0,0,0,.55);
+      --glowC: 0 0 18px rgba(0,212,255,.35);
+      --glowV: 0 0 18px rgba(124,58,237,.30);
+      --glowG: 0 0 18px rgba(245,200,66,.22);
     }
 
     *{ box-sizing:border-box; }
+    html{ scroll-behavior:smooth; }
     body{
       margin:0;
       font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
       color:var(--text);
-      background: var(--bg);
+      background:
+        radial-gradient(900px 600px at 20% 10%, rgba(0,212,255,.08), transparent 60%),
+        radial-gradient(850px 600px at 80% 18%, rgba(124,58,237,.10), transparent 60%),
+        radial-gradient(900px 700px at 50% 95%, rgba(245,200,66,.06), transparent 60%),
+        linear-gradient(180deg, #05070f, #070a12);
+      overflow-x:hidden;
+    }
+
+    /* subtle moving particles */
+    #particles{
+      position:fixed; inset:0; width:100%; height:100%;
+      z-index:-2; pointer-events:none;
+      filter: drop-shadow(0 0 10px rgba(0,212,255,.12));
+    }
+    .fog{
+      position:fixed; inset:-20%;
+      z-index:-3; pointer-events:none;
+      background:
+        radial-gradient(circle at 30% 35%, rgba(255,255,255,.06), transparent 60%),
+        radial-gradient(circle at 70% 20%, rgba(255,255,255,.05), transparent 60%),
+        radial-gradient(circle at 50% 80%, rgba(255,255,255,.04), transparent 60%);
+      filter: blur(22px);
+      opacity:.35;
+      mask-image: radial-gradient(circle at 50% 20%, rgba(0,0,0,1), transparent 70%);
     }
 
     .container{
-      width:min(1120px, calc(100% - 32px));
+      width:min(1180px, calc(100% - 40px));
       margin:0 auto;
     }
 
-    /* Top header like example */
+    /* Header like travel sites */
     header{
-      background: var(--card);
+      position:sticky; top:0; z-index:50;
+      background: linear-gradient(180deg, rgba(7,10,18,.78), rgba(7,10,18,.35));
+      backdrop-filter: blur(14px);
       border-bottom:1px solid var(--line);
-      position: sticky;
-      top:0;
-      z-index: 50;
     }
-    .topbar{
-      display:flex;
+    .nav{
+      display:grid;
+      grid-template-columns: 1fr auto 1fr;
       align-items:center;
-      justify-content:space-between;
-      padding: 12px 0;
+      padding:14px 0;
       gap:16px;
     }
-
     .brand{
-      display:flex;
-      align-items:center;
-      gap:10px;
+      display:flex; align-items:center; gap:12px;
+      text-decoration:none; color:var(--text);
+      justify-self:start;
+    }
+    .logo{
+      width:38px; height:38px; border-radius:14px;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(0,212,255,.35), transparent 55%),
+        radial-gradient(circle at 70% 70%, rgba(124,58,237,.35), transparent 55%),
+        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      border:1px solid rgba(255,255,255,.10);
+      box-shadow: var(--glowC), var(--glowV);
+      display:grid; place-items:center;
+      position:relative; overflow:hidden;
+    }
+    .logo::after{
+      content:"";
+      position:absolute; inset:-60%;
+      background: conic-gradient(from 90deg, transparent, rgba(0,212,255,.20), transparent, rgba(124,58,237,.18), transparent);
+      animation: spin 7s linear infinite;
+      opacity:.75;
+    }
+    .logo span{ position:relative; font-weight:900; letter-spacing:.4px; }
+    .brand b{ font-weight:900; letter-spacing:.2px; }
+
+    .menu{
+      justify-self:center;
+      display:flex; gap:18px; align-items:center;
+      padding:10px 14px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      box-shadow: 0 18px 60px rgba(0,0,0,.25);
+    }
+    .menu a{
       text-decoration:none;
-      color: var(--text);
-      font-weight: 1000;
-      letter-spacing:-.3px;
+      color:var(--muted);
+      font-weight:800;
+      font-size:13px;
+      padding:8px 10px;
+      border-radius: 999px;
+      transition:.2s ease;
+      border:1px solid transparent;
     }
-    .sunLogo{
-      width:34px;height:34px;border-radius: 12px;
-      background: radial-gradient(circle at 30% 30%, #ffd28a, #ff7a00);
-      box-shadow: 0 8px 24px rgba(255,122,0,.25);
-      display:grid;
-      place-items:center;
-      color:#fff;
-      font-weight:1000;
-    }
-    .brand span{
-      font-weight:1000;
-    }
-    .brand b{
-      color: var(--orange);
+    .menu a:hover{
+      color:var(--text);
+      border-color: rgba(0,212,255,.18);
+      box-shadow: 0 0 0 4px rgba(0,212,255,.06);
+      transform: translateY(-1px);
     }
 
-    .nav{
-      display:flex;
-      gap:18px;
-      align-items:center;
-      flex-wrap:wrap;
+    .profile{
+      justify-self:end;
+      display:flex; align-items:center; gap:10px;
+      color:var(--muted);
+      font-weight:800;
     }
-    .nav a{
-      text-decoration:none;
-      font-weight:900;
-      font-size: 12px;
-      color: var(--muted);
-      padding: 8px 10px;
-      border-radius: 999px;
-    }
-    .nav a:hover{
-      background: #f4f7fb;
-      color: var(--text);
+    .avatar{
+      width:34px; height:34px; border-radius: 12px;
+      border:1px solid rgba(255,255,255,.12);
+      background:
+        radial-gradient(circle at 30% 30%, rgba(245,200,66,.18), transparent 60%),
+        radial-gradient(circle at 70% 70%, rgba(0,212,255,.12), transparent 60%),
+        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
+      box-shadow: var(--glowG);
     }
 
-    .right{
-      display:flex;
-      gap:12px;
-      align-items:center;
-      color: var(--muted);
-      font-weight:900;
-      font-size: 12px;
-      white-space:nowrap;
-    }
-    .pill{
-      padding: 8px 10px;
-      border-radius: 999px;
-      background: #f6f8fc;
-      border:1px solid var(--line);
-    }
-    .login{
-      padding: 8px 12px;
-      border-radius: 999px;
-      border:1px solid var(--line);
-      background:#fff;
-      font-weight:1000;
-      cursor:pointer;
-    }
-
-    /* Hero banner like JoinUP */
-    .hero{
-      padding: 18px 0 6px;
-    }
+    /* Banner like example */
     .banner{
-      border-radius: var(--r22);
+      margin: 18px 0 14px;
+      border-radius: 28px;
+      border:1px solid rgba(255,255,255,.10);
       overflow:hidden;
-      box-shadow: var(--shadow2);
-      background:#0b1220;
+      box-shadow: var(--shadow);
       position:relative;
-      min-height: 260px;
+      min-height: 280px;
+      background:
+        linear-gradient(90deg, rgba(7,10,18,.86) 0%, rgba(7,10,18,.50) 55%, rgba(7,10,18,.20) 100%),
+        radial-gradient(900px 400px at 70% 40%, rgba(0,212,255,.18), transparent 60%),
+        radial-gradient(700px 420px at 60% 70%, rgba(124,58,237,.18), transparent 60%),
+        radial-gradient(700px 520px at 80% 90%, rgba(245,200,66,.12), transparent 60%),
+        linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
     }
-    .banner::before{
+    .banner::after{
       content:"";
       position:absolute; inset:0;
       background:
-        linear-gradient(90deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.25) 55%, rgba(0,0,0,.10) 100%),
-        url("https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1600&q=80");
-      background-size: cover;
-      background-position: center;
-      filter: saturate(1.1) contrast(1.05);
+        radial-gradient(900px 520px at 25% 20%, rgba(0,212,255,.10), transparent 60%),
+        radial-gradient(840px 520px at 30% 80%, rgba(124,58,237,.10), transparent 60%);
+      pointer-events:none;
     }
     .bannerInner{
       position:relative;
-      padding: 22px;
+      padding: 26px;
       display:flex;
-      align-items:flex-end;
       justify-content:space-between;
       gap:18px;
-      min-height: 260px;
-      color:#fff;
+      align-items:flex-end;
+      min-height: 280px;
     }
-    .kicker{
-      display:inline-flex;
-      gap:8px;
-      align-items:center;
-      padding: 8px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.16);
-      border:1px solid rgba(255,255,255,.22);
-      font-weight:900;
-      font-size: 12px;
-      width: fit-content;
-      margin-bottom: 10px;
-    }
-    .dot{
-      width:8px;height:8px;border-radius:50%;
-      background: var(--orange);
-      box-shadow: 0 0 14px rgba(255,122,0,.65);
-    }
-    .heroTitle{
+    .bannerTitle{
       margin:0 0 8px;
-      font-size: clamp(28px, 4vw, 46px);
+      font-size: clamp(34px, 4.2vw, 56px);
       font-weight: 1000;
-      letter-spacing:-.7px;
+      letter-spacing:-1px;
+      line-height: 1.0;
       text-transform: uppercase;
+      background: linear-gradient(90deg, var(--cyan), var(--violet), var(--gold));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color: transparent;
+      text-shadow: 0 0 18px rgba(0,212,255,.12);
     }
-    .heroSub{
+    .bannerSub{
       margin:0;
-      font-weight: 800;
-      opacity:.92;
+      color: rgba(234,240,255,.86);
+      font-weight:800;
       max-width: 60ch;
     }
-    .facts{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
+    .bannerFacts{
+      display:flex; gap:10px; flex-wrap:wrap;
       justify-content:flex-end;
-      align-items:flex-end;
     }
-    .fact{
-      padding: 10px 12px;
-      border-radius: 14px;
-      background: rgba(255,255,255,.16);
-      border:1px solid rgba(255,255,255,.22);
-      font-weight: 1000;
+    .pill{
+      display:inline-flex; gap:8px; align-items:center;
+      padding:10px 12px;
+      border-radius: 999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.25);
+      color: var(--muted);
+      font-weight:900;
       font-size: 12px;
+      box-shadow: 0 16px 55px rgba(0,0,0,.35);
       white-space:nowrap;
     }
-
-    /* Segmented tabs like example */
-    .tabsWrap{
-      display:flex;
-      justify-content:center;
-      margin-top: 12px;
-    }
-    .tabs{
-      display:flex;
-      background: #e9eff7;
-      border:1px solid var(--line);
-      border-radius: 999px;
-      padding: 6px;
-      gap:6px;
-      box-shadow: var(--shadow);
-    }
-    .tab{
-      border:none;
-      padding: 10px 14px;
-      border-radius: 999px;
-      font-weight: 1000;
-      color: var(--muted);
-      background: transparent;
-      cursor:pointer;
-    }
-    .tab.active{
-      background:#fff;
-      color: var(--text);
-      box-shadow: 0 10px 22px rgba(16,24,40,.10);
-      border:1px solid var(--line);
+    .pill b{ color:var(--text); }
+    .dot{
+      width:8px;height:8px;border-radius:50%;
+      background: var(--cyan);
+      box-shadow: 0 0 14px rgba(0,212,255,.65);
     }
 
-    /* Search panel like example */
-    .search{
-      margin-top: 12px;
-    }
-    .searchCard{
-      background: var(--card);
-      border:1px solid var(--line);
-      border-radius: var(--r22);
-      box-shadow: var(--shadow);
+    /* Search bar like example */
+    .searchBox{
+      margin: -18px auto 18px;
       padding: 14px;
+      border-radius: 22px;
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.05), rgba(255,255,255,.02));
+      box-shadow: 0 24px 90px rgba(0,0,0,.55);
       display:grid;
-      grid-template-columns: 1fr 1fr 1fr 1fr auto;
+      grid-template-columns: 1.2fr 1fr 1fr auto;
       gap:10px;
       align-items:center;
+      position:relative;
     }
     @media (max-width: 980px){
-      .searchCard{ grid-template-columns: 1fr; }
+      .searchBox{ grid-template-columns: 1fr; margin-top: 12px; }
     }
     .field{
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.22);
+      padding: 10px 12px;
       display:flex;
       gap:10px;
       align-items:center;
-      padding: 12px 12px;
-      border-radius: 16px;
-      border:1px solid var(--line);
-      background: #fbfcfe;
+      min-height: 48px;
     }
-    .icon{
-      width:34px;height:34px;border-radius: 12px;
-      background: #f1f5ff;
-      border:1px solid #e6eeff;
-      display:grid;
-      place-items:center;
-      color: var(--blue);
-      flex: 0 0 auto;
-    }
-    .icon svg{ width:18px;height:18px; }
-    .ftxt{ display:flex; flex-direction:column; gap:2px; }
-    .ftxt small{
+    .field label{
       color: var(--muted);
       font-weight:900;
       font-size: 11px;
       text-transform: uppercase;
-      letter-spacing:.4px;
+      letter-spacing:.5px;
     }
-    .ftxt b{
-      font-weight: 1000;
+    .field .value{
+      font-weight:900;
+      color: var(--text);
       font-size: 13px;
+      line-height: 1.1;
     }
-
-    .go{
-      height: 52px;
-      padding: 0 16px;
-      border-radius: 16px;
-      border:none;
-      cursor:pointer;
-      background: radial-gradient(circle at 30% 30%, var(--orange2), var(--orange));
-      color:#fff;
-      font-weight:1000;
-      box-shadow: 0 12px 26px rgba(255,122,0,.28);
+    .field .subv{
+      color: var(--muted);
+      font-weight:800;
+      font-size: 12px;
+      margin-top: 2px;
+    }
+    .fieldText{
       display:flex;
-      align-items:center;
-      gap:10px;
+      flex-direction:column;
+      gap:2px;
     }
-    .go:hover{ filter: brightness(1.02); transform: translateY(-1px); }
-    .go:active{ transform: translateY(0); }
+    .ico{
+      width:34px;height:34px;border-radius: 14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(135deg, rgba(0,212,255,.14), rgba(124,58,237,.12));
+      box-shadow: var(--glowC);
+      display:grid; place-items:center;
+      flex:0 0 auto;
+    }
+    .ico svg{ width:18px; height:18px; opacity:.95; }
 
-    /* Main content grid (filters + list) */
-    .main{
-      padding: 14px 0 60px;
+    .searchBtn{
+      border:none; cursor:pointer;
+      height: 48px;
+      padding: 0 16px;
+      border-radius: 18px;
+      font-weight: 1000;
+      color: var(--text);
+      border:1px solid rgba(0,212,255,.18);
+      background: linear-gradient(90deg, rgba(0,212,255,.22), rgba(124,58,237,.22));
+      box-shadow: var(--glowC), var(--glowV), 0 18px 60px rgba(0,0,0,.35);
+      transition:.2s ease;
+      display:flex; align-items:center; justify-content:center; gap:10px;
     }
-    .grid{
+    .searchBtn:hover{ transform: translateY(-2px); }
+    .searchBtn:active{ transform: translateY(0) scale(.99); }
+
+    /* page layout like example: left filters + right list */
+    .pageGrid{
       display:grid;
-      grid-template-columns: 300px 1fr;
-      gap: 14px;
+      grid-template-columns: 320px 1fr;
+      gap: 16px;
       align-items:start;
+      padding: 10px 0 60px;
     }
     @media (max-width: 980px){
-      .grid{ grid-template-columns: 1fr; }
+      .pageGrid{ grid-template-columns: 1fr; }
     }
 
-    /* Left filters */
-    .box{
-      background: var(--card);
-      border:1px solid var(--line);
-      border-radius: var(--r22);
-      box-shadow: var(--shadow);
+    .card{
+      border-radius: var(--r28);
+      border:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
+      box-shadow: 0 18px 70px rgba(0,0,0,.45);
       overflow:hidden;
+      position:relative;
     }
-    .boxHead{
-      padding: 12px 14px;
-      border-bottom:1px solid var(--line);
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:10px;
-    }
-    .boxHead b{
-      font-weight:1000;
-      font-size: 13px;
-    }
-    .boxBody{ padding: 12px 14px; }
 
-    .check{
-      display:flex;
-      gap:10px;
-      align-items:center;
-      padding: 10px 10px;
-      border-radius: 14px;
-      border:1px solid var(--line);
-      background: #fbfcfe;
-      margin-bottom: 10px;
-    }
-    .check input{ width:18px;height:18px; accent-color: var(--orange); }
-    .check label{
+    /* Filters */
+    .filters{ padding: 14px; }
+    .filters h3{
+      margin: 4px 0 10px;
+      font-size: 14px;
       font-weight: 1000;
-      font-size: 13px;
+      color: var(--text);
+      text-shadow: 0 0 14px rgba(0,212,255,.10);
     }
-
+    .block{
+      padding: 12px;
+      border-radius: 18px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.20);
+      margin-bottom: 12px;
+    }
     .chips{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
+      display:flex; gap:8px; flex-wrap:wrap;
     }
     .chip{
-      border:1px solid var(--line);
-      background: var(--chip);
-      color: var(--muted);
+      border:none; cursor:pointer;
       padding: 10px 12px;
       border-radius: 999px;
-      font-weight:1000;
+      color: var(--muted);
+      font-weight: 900;
+      background: rgba(0,0,0,.25);
+      border:1px solid rgba(255,255,255,.08);
+      transition:.2s ease;
       font-size: 12px;
-      cursor:pointer;
+    }
+    .chip:hover{
+      color:var(--text);
+      border-color: rgba(0,212,255,.18);
+      box-shadow: 0 0 0 4px rgba(0,212,255,.06);
+      transform: translateY(-1px);
     }
     .chip.active{
-      background: #fff3e8;
-      border-color: rgba(255,122,0,.35);
-      color: #a94d00;
+      color:var(--text);
+      border-color: rgba(0,212,255,.22);
+      background: linear-gradient(90deg, rgba(0,212,255,.16), rgba(124,58,237,.14));
+      box-shadow: var(--glowC);
     }
 
-    /* Right list header */
-    .listTop{
+    .check{
+      display:flex; gap:10px; align-items:center;
+      padding: 10px 10px;
+      border-radius: 14px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.18);
+      margin-top: 8px;
+    }
+    .check input{ width:18px; height:18px; accent-color: var(--cyan); }
+    .check label{
+      font-weight:900;
+      color: var(--text);
+      font-size: 13px;
+    }
+    .hint{
+      margin-top: 10px;
+      color: var(--muted);
+      font-weight:800;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    /* Results header + sorting */
+    .resultsTop{
       display:flex;
       justify-content:space-between;
       align-items:center;
-      gap:10px;
+      gap:12px;
+      margin-bottom: 12px;
       flex-wrap:wrap;
-      margin-bottom: 10px;
     }
-    .crumb{
-      color: var(--muted);
-      font-weight:900;
-      font-size: 12px;
+    .title{
+      margin:0;
+      font-size: 20px;
+      font-weight: 1000;
+      letter-spacing:-.4px;
+      background: linear-gradient(90deg, var(--cyan), var(--violet), var(--gold));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color: transparent;
+      text-shadow: 0 0 18px rgba(0,212,255,.10);
     }
     .sort{
       display:flex; gap:10px; align-items:center;
@@ -397,75 +415,82 @@
     }
     select{
       border-radius: 14px;
-      border:1px solid var(--line);
-      background: #fff;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.25);
       color: var(--text);
       padding: 10px 12px;
       font-weight: 900;
       outline:none;
     }
 
-    /* Offer card like example */
+    /* Offer cards (right list) */
     .offer{
-      background: var(--card);
-      border:1px solid var(--line);
-      border-radius: var(--r22);
-      box-shadow: var(--shadow);
-      padding: 12px;
       display:grid;
-      grid-template-columns: 240px 1fr auto;
+      grid-template-columns: 220px 1fr auto;
       gap:12px;
-      margin-bottom: 12px;
+      padding: 14px;
       align-items:stretch;
+      margin-bottom: 12px;
+      transition:.22s ease;
     }
     @media (max-width: 980px){
       .offer{ grid-template-columns: 1fr; }
     }
-
-    .img{
-      border-radius: 18px;
-      overflow:hidden;
-      border:1px solid var(--line);
+    .thumb{
+      border-radius: 20px;
+      border:1px solid rgba(255,255,255,.10);
       background:
-        radial-gradient(220px 160px at 30% 30%, rgba(255,122,0,.15), transparent 60%),
-        radial-gradient(240px 180px at 70% 70%, rgba(29,78,216,.12), transparent 60%),
-        linear-gradient(135deg, #fff, #f5f7fb);
+        radial-gradient(220px 160px at 30% 30%, rgba(0,212,255,.18), transparent 60%),
+        radial-gradient(240px 180px at 70% 70%, rgba(124,58,237,.18), transparent 60%),
+        radial-gradient(260px 220px at 60% 90%, rgba(245,200,66,.12), transparent 60%),
+        linear-gradient(135deg, rgba(255,255,255,.05), rgba(255,255,255,.01));
+      box-shadow: 0 18px 70px rgba(0,0,0,.35);
+      min-height: 140px;
       position:relative;
-      min-height: 155px;
+      overflow:hidden;
     }
-    .img img{
-      width:100%;
-      height:100%;
-      object-fit:cover;
-      display:block;
-      filter:saturate(1.1) contrast(1.05);
+    .thumb::after{
+      content:"";
+      position:absolute; inset:-40%;
+      background: conic-gradient(from 90deg, transparent, rgba(0,212,255,.12), transparent, rgba(124,58,237,.10), transparent);
+      animation: spin 10s linear infinite;
+      opacity:.9;
     }
-    .badge{
-      position:absolute;
-      left:12px;
-      top:12px;
+    .thumbBadge{
+      position:absolute; left:12px; top:12px;
       padding: 8px 10px;
       border-radius: 999px;
-      background: rgba(255,255,255,.92);
-      border:1px solid var(--line);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.25);
       font-weight:1000;
       font-size: 12px;
-      box-shadow: 0 10px 22px rgba(16,24,40,.10);
+      color: var(--text);
+      box-shadow: var(--glowC);
+      z-index:1;
     }
 
-    .mid{ display:flex; flex-direction:column; gap:8px; }
-    .name{
+    .offerMain{
+      display:flex;
+      flex-direction:column;
+      gap:8px;
+    }
+    .crumb{
+      color: var(--muted);
+      font-weight:900;
+      font-size: 12px;
+    }
+    .offerTitle{
       margin:0;
       font-size: 16px;
-      font-weight:1000;
-      letter-spacing:-.2px;
+      font-weight: 1000;
+      color: var(--text);
+      text-shadow: 0 0 12px rgba(0,212,255,.10);
     }
     .stars{
-      display:flex;
-      gap:3px;
-      color: #ffb200;
-      font-size: 14px;
+      display:flex; gap:3px;
+      filter: drop-shadow(0 0 10px rgba(245,200,66,.18));
     }
+    .stars span{ color: var(--gold); font-size: 14px; }
     .desc{
       margin:0;
       color: var(--muted);
@@ -475,32 +500,29 @@
       max-width: 80ch;
     }
     .meta{
-      display:flex;
-      gap:8px;
-      flex-wrap:wrap;
-      margin-top: 4px;
+      display:flex; gap:8px; flex-wrap:wrap;
+      margin-top: 6px;
     }
     .tag{
       padding: 8px 10px;
       border-radius: 999px;
-      border:1px solid var(--line);
-      background: #fbfcfe;
-      font-weight: 900;
-      font-size: 12px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(0,0,0,.20);
       color: var(--text);
-      white-space:nowrap;
+      font-weight:900;
+      font-size: 12px;
     }
 
-    .side{
+    .offerSide{
       display:flex;
       flex-direction:column;
       justify-content:space-between;
       align-items:flex-end;
-      gap:10px;
-      min-width: 190px;
+      gap:12px;
+      min-width: 170px;
     }
     @media (max-width: 980px){
-      .side{ align-items:stretch; min-width:auto; }
+      .offerSide{ align-items:stretch; min-width: auto; }
     }
 
     .price{
@@ -508,13 +530,17 @@
     }
     .price b{
       display:block;
-      font-size: 20px;
-      font-weight:1000;
-      letter-spacing:-.2px;
+      font-size: 22px;
+      font-weight: 1000;
+      background: linear-gradient(90deg, var(--cyan), var(--violet));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color: transparent;
+      text-shadow: 0 0 16px rgba(0,212,255,.12);
     }
     .price small{
       color: var(--muted);
-      font-weight:900;
+      font-weight: 900;
       font-size: 12px;
     }
 
@@ -522,322 +548,363 @@
       border:none;
       cursor:pointer;
       padding: 12px 14px;
-      border-radius: 14px;
-      font-weight:1000;
-      width: 100%;
-      max-width: 160px;
-      display:flex;
+      border-radius: 16px;
+      font-weight: 1000;
+      color: var(--text);
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      transition:.2s ease;
+      position:relative;
+      overflow:hidden;
+      text-decoration:none;
+      display:inline-flex;
       align-items:center;
       justify-content:center;
       gap:10px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.35);
+      width: 100%;
+      max-width: 170px;
     }
-    .btnPick{
-      background: radial-gradient(circle at 30% 30%, var(--orange2), var(--orange));
-      color:#fff;
-      box-shadow: 0 12px 26px rgba(255,122,0,.25);
-    }
-    .btnPick:hover{ filter: brightness(1.02); transform: translateY(-1px); }
-    .btnPick:active{ transform: translateY(0); }
+    .btn:hover{ transform: translateY(-2px) scale(1.01); }
+    .btn:active{ transform: translateY(0) scale(.99); }
 
-    .btnMore{
-      background: #f6f8fc;
-      border:1px solid var(--line);
-      color: var(--text);
+    .btn.primary{
+      background: linear-gradient(90deg, rgba(0,212,255,.22), rgba(124,58,237,.22));
+      border-color: rgba(0,212,255,.18);
+      box-shadow: var(--glowC), var(--glowV), 0 18px 60px rgba(0,0,0,.35);
+    }
+    .btn.secondary{
+      background: linear-gradient(90deg, rgba(245,200,66,.16), rgba(0,212,255,.10));
+      border-color: rgba(245,200,66,.22);
+      box-shadow: var(--glowG), var(--glowC), 0 18px 60px rgba(0,0,0,.35);
+    }
+    .shimmer::before{
+      content:"";
+      position:absolute;
+      top:-70%;
+      left:-40%;
+      width:60%;
+      height:260%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,.28), transparent);
+      transform: rotate(20deg);
+      animation: shimmer 2.6s infinite;
+      opacity:.8;
     }
 
     /* Modal */
     .backdrop{
       position:fixed; inset:0;
-      background: rgba(16,24,40,.45);
+      background: rgba(0,0,0,.58);
+      backdrop-filter: blur(10px);
       display:none;
       align-items:center;
       justify-content:center;
-      padding: 18px;
+      padding: 22px;
       z-index: 999;
-      backdrop-filter: blur(6px);
     }
     .backdrop.show{ display:flex; }
 
     .modal{
       width: min(560px, 100%);
-      border-radius: 20px;
-      background: #fff;
-      border: 1px solid var(--line);
-      box-shadow: 0 26px 80px rgba(16,24,40,.22);
+      border-radius: 26px;
+      border:1px solid rgba(255,255,255,.12);
+      background: linear-gradient(180deg, rgba(12,18,32,.92), rgba(7,10,18,.90));
+      box-shadow: 0 28px 120px rgba(0,0,0,.70), var(--glowC), var(--glowV);
       overflow:hidden;
+      position:relative;
     }
+    .modal::before{
+      content:"";
+      position:absolute; inset:-35%;
+      background:
+        radial-gradient(circle at 30% 30%, rgba(0,212,255,.22), transparent 60%),
+        radial-gradient(circle at 70% 60%, rgba(124,58,237,.22), transparent 60%),
+        radial-gradient(circle at 50% 90%, rgba(245,200,66,.12), transparent 60%);
+      filter: blur(12px);
+      opacity:.85;
+      pointer-events:none;
+    }
+    .modal > *{ position:relative; z-index:1; }
+
     .mTop{
-      padding: 14px 14px 10px;
-      border-bottom:1px solid var(--line);
+      padding: 18px 18px 10px;
       display:flex;
-      align-items:center;
+      align-items:flex-start;
       justify-content:space-between;
-      gap:10px;
+      gap:14px;
+      border-bottom: 1px solid rgba(255,255,255,.10);
     }
-    .mTop b{
-      font-weight:1000;
+    .mTop h3{
+      margin:0;
+      font-size: 20px;
+      font-weight: 1000;
+      background: linear-gradient(90deg, var(--gold), var(--cyan), var(--violet));
+      -webkit-background-clip:text;
+      background-clip:text;
+      color: transparent;
+      text-shadow: 0 0 18px rgba(245,200,66,.10);
     }
     .close{
-      width:38px;height:38px;border-radius: 12px;
-      border:1px solid var(--line);
-      background:#fff;
-      cursor:pointer;
-      font-weight:1000;
+      border:none; cursor:pointer;
+      width:38px; height:38px;
+      border-radius: 14px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      color: var(--text);
+      font-weight: 1000;
+      transition:.2s ease;
+    }
+    .close:hover{
+      transform: translateY(-1px);
+      box-shadow: var(--glowC);
+      border-color: rgba(0,212,255,.18);
     }
     .mBody{
-      padding: 14px;
+      padding: 14px 18px 18px;
       color: var(--muted);
-      font-weight:800;
-      line-height:1.5;
-      font-size: 13px;
+      font-weight: 750;
+      line-height: 1.5;
     }
     .choice{
-      padding: 12px;
-      border-radius: 16px;
-      border:1px solid var(--line);
-      background:#fbfcfe;
-      margin-bottom: 12px;
+      margin: 12px 0 14px;
+      padding: 14px;
+      border-radius: 20px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.22);
       color: var(--text);
+      box-shadow: 0 18px 55px rgba(0,0,0,.25);
     }
     .choice b{
       display:block;
-      font-weight:1000;
+      font-size: 16px;
+      font-weight: 1000;
+      text-shadow: 0 0 14px rgba(0,212,255,.14);
       margin-bottom: 4px;
     }
-    .discord{
-      margin-top: 12px;
-      height: 48px;
-      width: 100%;
-      border:none;
-      cursor:pointer;
-      border-radius: 14px;
-      background: #5865F2;
-      color:#fff;
-      font-weight:1000;
-      box-shadow: 0 14px 26px rgba(88,101,242,.25);
-    }
+    .choice span{ color: var(--muted); font-weight: 900; }
 
     footer{
-      padding: 28px 0 50px;
+      padding: 28px 0 60px;
+      border-top: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(7,10,18,.15), rgba(7,10,18,.55));
+    }
+    .foot{
+      display:flex;
+      justify-content:space-between;
+      gap:18px;
+      flex-wrap:wrap;
       color: var(--muted);
-      font-weight:800;
+      font-weight: 800;
       font-size: 13px;
     }
+    .foot b{ color: var(--text); text-shadow: 0 0 10px rgba(0,212,255,.12); }
 
-    /* small helpers */
-    .muted{ color: var(--muted); }
-
+    @keyframes shimmer{
+      0%{ transform: translateX(-60%) rotate(22deg); }
+      60%{ transform: translateX(220%) rotate(22deg); }
+      100%{ transform: translateX(220%) rotate(22deg); }
+    }
+    @keyframes spin{ to{ transform: rotate(360deg); } }
   </style>
 </head>
+
 <body>
+  <canvas id="particles"></canvas>
+  <div class="fog"></div>
+
   <header>
     <div class="container">
-      <div class="topbar">
+      <div class="nav">
         <a class="brand" href="#top">
-          <div class="sunLogo">S</div>
-          <span>Sun<b>Trips</b></span>
+          <div class="logo"><span>SO</span></div>
+          <b>Сырниковые Острова</b>
         </a>
 
-        <nav class="nav" aria-label="Навигация">
-          <a href="#top">ПОИСК ТУРУ</a>
-          <a href="#offers">ПУТЁВКИ</a>
-          <a href="#info">ИНФОРМАЦИЯ</a>
-          <a href="#faq">FAQ</a>
+        <nav class="menu" aria-label="Навигация">
+          <a href="#top">Путёвки</a>
+          <a href="#offers">Предложения</a>
+          <a href="#faq">Инфо</a>
+          <a href="#discord">Discord</a>
         </nav>
 
-        <div class="right">
-          <span class="pill">📞 +380 44 290 7389</span>
-          <button class="login" type="button">УВІЙТИ</button>
+        <div class="profile" title="Профиль">
+          <div class="avatar"></div>
+          <span>Гость</span>
+          <span style="opacity:.8;">▾</span>
         </div>
       </div>
     </div>
   </header>
 
   <main id="top">
-    <section class="hero">
-      <div class="container">
+    <div class="container">
 
-        <div class="banner" id="banner">
-          <div class="bannerInner">
-            <div>
-              <div class="kicker"><span class="dot"></span> Відпочинок • Minecraft</div>
-              <h1 class="heroTitle">Сырниковые<br/>Острова</h1>
-              <p class="heroSub">Единственное направление SunTrips. Других путёвок нет — потому что лучше уже некуда 😄</p>
+      <!-- Banner -->
+      <div class="banner">
+        <div class="bannerInner">
+          <div>
+            <div class="pill" style="width:fit-content; margin-bottom:10px;">
+              <span class="dot"></span> одно направление • один кайф
             </div>
+            <h1 class="bannerTitle">Путёвки на<br/>Сырниковые Острова</h1>
+            <p class="bannerSub">Официальный “тур-листинг” сервера: выбираешь остров → оплачиваешь → заходишь в Discord → получаешь доступ и лодку 🛶</p>
+          </div>
 
-            <div class="facts">
-              <div class="fact">🛶 лодка бесплатно</div>
-              <div class="fact">🍲 еда бесплатно</div>
-              <div class="fact">⚡ доступ 24/7</div>
-            </div>
+          <div class="bannerFacts" aria-label="Факты">
+            <div class="pill"><b>24/7</b> онлайн</div>
+            <div class="pill"><b>Еда</b> бесплатно</div>
+            <div class="pill"><b>Лодка</b> в подарок</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Search (fixed destination) -->
+      <div class="searchBox" aria-label="Поиск тура">
+        <div class="field">
+          <div class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 22s7-4.4 7-12A7 7 0 1 0 5 10c0 7.6 7 12 7 12Z" stroke="currentColor" stroke-width="2"/>
+              <path d="M12 10.5a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z" fill="currentColor" opacity=".9"/>
+            </svg>
+          </div>
+          <div class="fieldText">
+            <label>Куда</label>
+            <div class="value">Сырниковые Острова</div>
+            <div class="subv">одно место • архипелаг</div>
           </div>
         </div>
 
-        <div class="tabsWrap" aria-label="Переключатель">
-          <div class="tabs">
-            <button class="tab">Про острова</button>
-            <button class="tab active">Туры на острова</button>
+        <div class="field">
+          <div class="ico" aria-hidden="true" style="background:linear-gradient(135deg, rgba(245,200,66,.14), rgba(124,58,237,.12)); box-shadow: var(--glowG);">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M7 3v3M17 3v3M4 8h16M6 12h4M6 16h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="fieldText">
+            <label>Даты</label>
+            <div class="value" id="datesValue">Любые</div>
+            <div class="subv">покупка = доступ на срок</div>
           </div>
         </div>
 
-        <div class="search">
-          <div class="searchCard" aria-label="Поиск тура">
-            <div class="field">
-              <div class="icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M12 22s7-4.4 7-12A7 7 0 1 0 5 10c0 7.6 7 12 7 12Z" stroke="currentColor" stroke-width="2"/>
-                  <path d="M12 10.5a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z" fill="currentColor" opacity=".9"/>
-                </svg>
+        <div class="field">
+          <div class="ico" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none">
+              <path d="M12 2v20M5 6h14M7 10h10M9 14h6M10 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="fieldText">
+            <label>Длительность</label>
+            <div class="value" id="daysValue">7 дней</div>
+            <div class="subv">7 / 14 / 30 / 60</div>
+          </div>
+        </div>
+
+        <button class="searchBtn" id="searchBtn" type="button">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2"/>
+            <path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+          Найти
+        </button>
+      </div>
+
+      <!-- Main grid -->
+      <div class="pageGrid" id="offers">
+        <!-- Left filters -->
+        <aside class="card filters">
+          <h3>Фильтры</h3>
+
+          <div class="block">
+            <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
+              <div style="color:var(--muted); font-weight:1000; font-size:12px; text-transform:uppercase; letter-spacing:.5px;">
+                Длительность
               </div>
-              <div class="ftxt">
-                <small>Куда</small>
-                <b>Сырниковые острова</b>
-              </div>
+              <div class="pill" style="padding:8px 10px; font-size:11px;">фикс-цены</div>
             </div>
 
-            <div class="field">
-              <div class="icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M7 3v3M17 3v3M4 8h16M6 12h4M6 16h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </div>
-              <div class="ftxt">
-                <small>Даты</small>
-                <b>Любые</b>
-              </div>
+            <div class="chips" style="margin-top:10px;">
+              <button class="chip active" data-days="7">7 дней</button>
+              <button class="chip" data-days="14">14 дней</button>
+              <button class="chip" data-days="30">30 дней</button>
+              <button class="chip" data-days="60">60 дней</button>
+            </div>
+          </div>
+
+          <div class="block">
+            <div style="color:var(--muted); font-weight:1000; font-size:12px; text-transform:uppercase; letter-spacing:.5px;">
+              Тип острова
             </div>
 
-            <div class="field">
-              <div class="icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2v20M5 6h14M7 10h10M9 14h6M10 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                </svg>
-              </div>
-              <div class="ftxt">
-                <small>Длительность</small>
-                <b id="daysLabel">7 дней</b>
-              </div>
+            <div class="check">
+              <input type="checkbox" id="fSmall" checked />
+              <label for="fSmall">Маленький</label>
+            </div>
+            <div class="check">
+              <input type="checkbox" id="fMedium" checked />
+              <label for="fMedium">Средний</label>
+            </div>
+            <div class="check">
+              <input type="checkbox" id="fBig" checked />
+              <label for="fBig">Большой</label>
             </div>
 
-            <div class="field">
-              <div class="icon" aria-hidden="true">
-                <svg viewBox="0 0 24 24" fill="none">
-                  <path d="M12 2a6 6 0 0 0-6 6c0 5 6 12 6 12s6-7 6-12a6 6 0 0 0-6-6Z" stroke="currentColor" stroke-width="2"/>
-                </svg>
-              </div>
-              <div class="ftxt">
-                <small>Туристы</small>
-                <b>1–2 игрока</b>
-              </div>
+            <div class="hint">
+              💡 Фильтры не “по приколу” — они реально скрывают/показывают карточки справа.
             </div>
+          </div>
 
-            <button class="go" id="goBtn" type="button" title="Найти">
-              🔍 Найти
+          <div class="block" id="discord">
+            <div style="color:var(--muted); font-weight:1000; font-size:12px; text-transform:uppercase; letter-spacing:.5px;">
+              Активация
+            </div>
+            <p style="margin:10px 0 12px; color:var(--muted); font-weight:850; font-size:13px; line-height:1.4;">
+              После покупки нужно зайти в Discord — там выдадут доступ, лодку 🛶 и подскажут, куда плыть.
+            </p>
+            <button class="btn secondary shimmer" id="discordBtnAside" type="button" style="max-width:none;">
+              Открыть Discord
             </button>
           </div>
-        </div>
+        </aside>
 
+        <!-- Right list -->
+        <section>
+          <div class="resultsTop">
+            <h2 class="title">Предложения</h2>
+            <div class="sort">
+              Сортировать:
+              <select id="sortSel">
+                <option value="cheap">цена: дешёвые</option>
+                <option value="expensive">цена: дорогие</option>
+                <option value="rating">рейтинг</option>
+              </select>
+            </div>
+          </div>
+
+          <div id="list"></div>
+
+          <div class="card" id="faq" style="padding:14px; border-radius:22px; margin-top:12px;">
+            <div style="font-weight:1000; margin-bottom:8px; text-shadow:0 0 12px rgba(0,212,255,.10);">
+              Информация
+            </div>
+            <div style="color:var(--muted); font-weight:850; line-height:1.45; font-size:13px;">
+              • Направление одно: <b style="color:var(--text);">Сырниковые Острова</b><br/>
+              • По билету можно <b style="color:var(--text);">бесплатно есть в любом ресторане</b><br/>
+              • <b style="color:var(--text);">Лодка выдаётся бесплатно</b>, чтобы доплыть до центра<br/>
+              • Покупка = срок доступа (7/14/30/60 дней)
+            </div>
+          </div>
+        </section>
       </div>
-    </section>
 
-    <section class="main" id="offers">
-      <div class="container">
-        <div class="grid">
-          <!-- Filters -->
-          <aside class="box">
-            <div class="boxHead">
-              <b>ТИП ТУРУ</b>
-              <span class="muted" style="font-weight:900; font-size:12px;">выбрать все</span>
-            </div>
-            <div class="boxBody">
-              <div class="check">
-                <input type="checkbox" id="fHot" checked>
-                <label for="fHot">Гарячі пропозиції</label>
-              </div>
-              <div class="check">
-                <input type="checkbox" id="fRec" checked>
-                <label for="fRec">Рекомендовано</label>
-              </div>
-              <div class="check">
-                <input type="checkbox" id="fTop" checked>
-                <label for="fTop">Топ тижня</label>
-              </div>
-              <p class="muted" style="margin:10px 0 0; font-size:12px; font-weight:800;">
-                Тут всегда будет 1 направление: Сырниковые Острова.
-              </p>
-            </div>
-
-            <div class="boxHead">
-              <b>ДЛИТЕЛЬНОСТЬ</b>
-              <span class="muted" style="font-weight:900; font-size:12px;">выбрать</span>
-            </div>
-            <div class="boxBody">
-              <div class="chips">
-                <button class="chip active" data-days="7">7</button>
-                <button class="chip" data-days="14">14</button>
-                <button class="chip" data-days="30">30</button>
-                <button class="chip" data-days="60">60</button>
-              </div>
-              <p class="muted" style="margin:10px 0 0; font-size:12px; font-weight:800;">
-                Цена меняется в зависимости от дней.
-              </p>
-            </div>
-
-            <div class="boxHead" id="info">
-              <b>ИНФО</b>
-              <span class="muted" style="font-weight:900; font-size:12px;">важно</span>
-            </div>
-            <div class="boxBody">
-              <p class="muted" style="margin:0 0 8px; font-size:12px; font-weight:850;">
-                ✅ Лодка выдаётся бесплатно<br>
-                ✅ Еда в ресторанах бесплатно<br>
-                ✅ Активация в Discord после покупки
-              </p>
-              <button class="btn btnMore" id="discordBtnSide" type="button" style="max-width:none;">
-                Discord (активация)
-              </button>
-            </div>
-          </aside>
-
-          <!-- List -->
-          <section>
-            <div class="listTop">
-              <div class="crumb">SunTrips → Сырниковые острова</div>
-              <div class="sort">
-                Сортувати:
-                <select id="sortSel">
-                  <option value="cheap">Ціна: від найнижчої</option>
-                  <option value="expensive">Ціна: від найвищої</option>
-                  <option value="rating">Рейтинг</option>
-                </select>
-              </div>
-            </div>
-
-            <div id="list"></div>
-
-            <div class="box" id="faq" style="margin-top:12px;">
-              <div class="boxHead">
-                <b>FAQ</b>
-                <span class="muted" style="font-weight:900; font-size:12px;">кратко</span>
-              </div>
-              <div class="boxBody">
-                <p class="muted" style="margin:0; font-weight:850; font-size:13px; line-height:1.45;">
-                  <b style="color:var(--text);">Почему только один остров?</b><br>
-                  Потому что SunTrips продаёт только Сырниковые Острова — это официальный архипелаг сервера.<br><br>
-                  <b style="color:var(--text);">Что после покупки?</b><br>
-                  Открываешь Discord → пишешь в поддержку → получаешь доступ и лодку 🛶
-                </p>
-              </div>
-            </div>
-
-          </section>
-        </div>
-      </div>
-    </section>
+    </div>
 
     <footer>
       <div class="container">
-        © <b>SunTrips</b> • Только Сырниковые Острова • One-file HTML
+        <div class="foot">
+          <div>© <b>Сырниковые Острова</b> • Путёвки</div>
+          <div>One-file HTML • неон включён ✨</div>
+        </div>
       </div>
     </footer>
   </main>
@@ -846,15 +913,26 @@
   <div class="backdrop" id="backdrop" role="dialog" aria-modal="true" aria-hidden="true">
     <div class="modal" role="document">
       <div class="mTop">
-        <b>Выбор путёвки</b>
+        <h3>Покупка путёвки</h3>
         <button class="close" id="closeBtn" aria-label="Закрыть">✕</button>
       </div>
       <div class="mBody">
-        <div class="choice" id="choiceBox"></div>
-        <div class="muted" style="font-weight:850;">
-          Нажми Discord — и там тебе активируют покупку (выдадут доступ + лодку).
+        <div class="choice" id="choiceBox">
+          <b>—</b>
+          <span>—</span>
         </div>
-        <button class="discord" id="discordBtnModal" type="button">Открыть Discord</button>
+
+        <p style="margin:0 0 14px;">
+          Дальше — в Discord: там активация покупки и выдача доступа. (Лодка 🛶 уже “в комплекте”.)
+        </p>
+
+        <button class="btn primary shimmer" id="discordBtnModal" type="button" style="max-width:none;">
+          Перейти в Discord
+        </button>
+
+        <p style="margin:14px 0 0; color:var(--muted); font-weight:900; font-size:12px;">
+          Вставь свою invite-ссылку в JS переменную <b style="color:var(--text);">DISCORD_INVITE</b>.
+        </p>
       </div>
     </div>
   </div>
@@ -863,176 +941,223 @@
     // =========================
     // CONFIG
     // =========================
-    const DISCORD_INVITE = "https://discord.com/"; // <-- вставь свой инвайт сюда
+    const DISCORD_INVITE = "https://discord.com/"; // <-- вставь инвайт на свой сервер
 
-    // optional images (replace if you want)
-    const BANNER_URL = "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1600&q=80";
-    const CARD_IMG_URL = "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1200&q=80";
+    // base prices for 7 days (from your examples)
+    const base = {
+      small: 70,
+      medium: 165,
+      big: 240
+    };
 
-    // prices for 7 days (your examples)
-    const base = { small: 70, medium: 165, big: 240 };
-    // multipliers for duration
-    const mult = { 7: 1, 14: 1.9, 30: 3.5, 60: 6.4 };
+    // multipliers for duration (smooth, but still “правильно” по смыслу)
+    const mult = {
+      7: 1,
+      14: 1.9,
+      30: 3.5,
+      60: 6.4
+    };
 
-    // IMPORTANT: выбора направления НЕТ — только Сырниковые острова
     const offers = [
       {
-        id: "small",
-        name: "Сырниковые острова — Маленький остров",
+        id:"small",
+        name:"Маленький остров",
         rating: 4.8,
-        desc: "Уютный вариант для спокойной жизни: домик, ферма, красивый вид — всё на месте.",
-        badge: "Рекомендовано",
-        tags: ["лодка бесплатно", "еда бесплатно", "доступ 24/7"]
+        desc:"Уютный остров для спокойной жизни. Идеально для старта, домика и красивых прогулок.",
+        tags:["7/14/30/60", "лодка бесплатно", "еда бесплатно"]
       },
       {
-        id: "medium",
-        name: "Сырниковые острова — Средний остров",
+        id:"medium",
+        name:"Средний остров",
         rating: 4.9,
-        desc: "Самый популярный выбор: достаточно места, чтобы строить красиво и масштабно.",
-        badge: "Топ тижня",
-        tags: ["популярный", "центр рядом", "еда бесплатно"]
+        desc:"Золотая середина: места много, строить приятно, выглядит солидно. Самый популярный выбор.",
+        tags:["популярный", "центр рядом", "еда бесплатно"]
       },
       {
-        id: "big",
-        name: "Сырниковые острова — Большой остров",
+        id:"big",
+        name:"Большой остров",
         rating: 5.0,
-        desc: "Максимум свободы: огромная территория для мегапроектов и эпичных построек.",
-        badge: "Гарячі",
-        tags: ["максимум места", "лодка бесплатно", "для проектов"]
+        desc:"Для тех, кто хочет “ВАУ”. Большая территория, масштабные проекты и полный простор.",
+        tags:["максимум места", "для проектов", "лодка бесплатно"]
       }
     ];
 
-    // set banner background
-    const banner = document.getElementById("banner");
-    banner.style.setProperty("--banner-url", `url("${BANNER_URL}")`);
-    // hack: replace banner ::before background image via style injection
-    const style = document.createElement("style");
-    style.textContent = `.banner::before{ background:
-      linear-gradient(90deg, rgba(0,0,0,.55) 0%, rgba(0,0,0,.25) 55%, rgba(0,0,0,.10) 100%),
-      url("${BANNER_URL}");
-      background-size:cover; background-position:center;
-    }`;
-    document.head.appendChild(style);
+    // =========================
+    // Helpers
+    // =========================
+    const won = (n) => new Intl.NumberFormat("ru-RU").format(Math.round(n)) + " вон";
+    const calcPrice = (id, days) => base[id] * mult[days];
 
+    // =========================
+    // UI state
+    // =========================
     let currentDays = 7;
 
-    const listEl = document.getElementById("list");
-    const daysLabel = document.getElementById("daysLabel");
     const chips = [...document.querySelectorAll(".chip")];
+    const listEl = document.getElementById("list");
     const sortSel = document.getElementById("sortSel");
 
-    const won = (n) => new Intl.NumberFormat("ru-RU").format(Math.round(n)) + " вон";
-    const priceFor = (id) => base[id] * mult[currentDays];
+    const fSmall = document.getElementById("fSmall");
+    const fMedium = document.getElementById("fMedium");
+    const fBig = document.getElementById("fBig");
 
+    const daysValue = document.getElementById("daysValue");
+    const datesValue = document.getElementById("datesValue");
+
+    // =========================
+    // Render
+    // =========================
     function stars(r){
-      const full = Math.round(r);
-      return "★★★★★".slice(0, full) + "☆☆☆☆☆".slice(0, 5-full);
+      const full = Math.round(r); // simple
+      return "★★★★★".slice(0, full).split("").map(s => `<span>${s}</span>`).join("") +
+             "☆☆☆☆☆".slice(0, 5-full).split("").map(s => `<span style="opacity:.25;color:var(--gold)">${s}</span>`).join("");
+    }
+
+    function isAllowed(id){
+      if(id==="small") return fSmall.checked;
+      if(id==="medium") return fMedium.checked;
+      if(id==="big") return fBig.checked;
+      return true;
     }
 
     function sorted(arr){
-      const mode = sortSel.value;
       const a = [...arr];
-      if(mode==="cheap") a.sort((x,y)=> priceFor(x.id) - priceFor(y.id));
-      if(mode==="expensive") a.sort((x,y)=> priceFor(y.id) - priceFor(x.id));
-      if(mode==="rating") a.sort((x,y)=> y.rating - x.rating);
+      const mode = sortSel.value;
+      if(mode==="cheap"){
+        a.sort((x,y)=> calcPrice(x.id,currentDays) - calcPrice(y.id,currentDays));
+      } else if(mode==="expensive"){
+        a.sort((x,y)=> calcPrice(y.id,currentDays) - calcPrice(x.id,currentDays));
+      } else if(mode==="rating"){
+        a.sort((x,y)=> y.rating - x.rating);
+      }
       return a;
     }
 
     function render(){
-      daysLabel.textContent = `${currentDays} дней`;
+      daysValue.textContent = `${currentDays} дней`;
+      datesValue.textContent = "Любые";
 
-      const data = sorted(offers);
+      const visible = sorted(offers).filter(o => isAllowed(o.id));
 
-      listEl.innerHTML = data.map(o => {
-        const p = priceFor(o.id);
-        const tags = o.tags.map(t => `<span class="tag">${t}</span>`).join("");
+      listEl.innerHTML = visible.map(o => {
+        const price = calcPrice(o.id, currentDays);
+        const badge = o.id === "medium" ? `<div class="thumbBadge">ПОПУЛЯРНО</div>` : `<div class="thumbBadge">ОСТРОВ</div>`;
         return `
-          <div class="offer">
-            <div class="img">
-              <div class="badge">${o.badge}</div>
-              <img alt="Сырниковые острова" src="${CARD_IMG_URL}" onerror="this.remove()">
+          <div class="card offer">
+            <div class="thumb" aria-hidden="true">
+              ${badge}
             </div>
 
-            <div class="mid">
-              <div class="crumb">Сырниковые острова • Minecraft</div>
-              <h3 class="name">${o.name}</h3>
-              <div class="stars" aria-label="Рейтинг">${stars(o.rating).split("").map(s=>`<span>${s}</span>`).join("")}</div>
+            <div class="offerMain">
+              <div class="crumb">Сырниковые Острова • Minecraft</div>
+              <h3 class="offerTitle">${o.name}</h3>
+              <div class="stars" aria-label="Рейтинг">${stars(o.rating)}</div>
               <p class="desc">${o.desc}</p>
+
               <div class="meta">
                 <span class="tag">⏱ ${currentDays} дней</span>
-                ${tags}
+                <span class="tag">🛶 лодка бесплатно</span>
+                <span class="tag">🍲 еда бесплатно</span>
               </div>
             </div>
 
-            <div class="side">
+            <div class="offerSide">
               <div class="price">
-                <b>${won(p)}</b>
+                <b>${won(price)}</b>
                 <small>за ${currentDays} дней</small>
               </div>
 
-              <button class="btn btnPick" data-pick="${o.id}">ВЫБРАТИ</button>
-              <button class="btn btnMore" data-more="${o.id}">Подробнее</button>
+              <button class="btn primary shimmer" data-buy="${o.id}">
+                Купить
+              </button>
+
+              <button class="btn secondary" data-open="${o.id}">
+                Подробнее
+              </button>
             </div>
           </div>
         `;
       }).join("");
 
-      listEl.querySelectorAll("[data-pick]").forEach(btn=>{
+      // bind buttons
+      listEl.querySelectorAll("[data-buy]").forEach(btn=>{
         btn.addEventListener("click", ()=>{
-          const id = btn.dataset.pick;
-          const offer = offers.find(x=>x.id===id);
-          openModal(offer);
-        });
-      });
-
-      listEl.querySelectorAll("[data-more]").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const id = btn.dataset.more;
+          const id = btn.getAttribute("data-buy");
           const offer = offers.find(x=>x.id===id);
           openModal(offer, true);
         });
       });
+
+      listEl.querySelectorAll("[data-open]").forEach(btn=>{
+        btn.addEventListener("click", ()=>{
+          const id = btn.getAttribute("data-open");
+          const offer = offers.find(x=>x.id===id);
+          openModal(offer, false);
+        });
+      });
+
+      // empty state
+      if(visible.length === 0){
+        listEl.innerHTML = `
+          <div class="card" style="padding:16px; border-radius:22px;">
+            <div style="font-weight:1000; margin-bottom:6px;">Ничего не найдено</div>
+            <div style="color:var(--muted); font-weight:850;">Включи хотя бы один тип острова слева — и всё появится.</div>
+          </div>
+        `;
+      }
     }
 
-    // duration chips
-    chips.forEach(ch=>{
-      ch.addEventListener("click", ()=>{
-        chips.forEach(x=>x.classList.remove("active"));
+    // =========================
+    // Filters (duration chips)
+    // =========================
+    chips.forEach(ch => {
+      ch.addEventListener("click", () => {
+        chips.forEach(x => x.classList.remove("active"));
         ch.classList.add("active");
         currentDays = Number(ch.dataset.days);
         render();
       });
     });
 
-    // search button just scrolls to offers
-    document.getElementById("goBtn").addEventListener("click", ()=>{
-      document.getElementById("offers").scrollIntoView({behavior:"smooth"});
-      render();
-    });
-
+    [fSmall, fMedium, fBig].forEach(el => el.addEventListener("change", render));
     sortSel.addEventListener("change", render);
 
-    // modal
+    document.getElementById("searchBtn").addEventListener("click", () => {
+      // it’s a fake “search” (like on travel sites) — just re-render
+      render();
+      // small smooth nudge to results
+      document.getElementById("offers").scrollIntoView({behavior:"smooth", block:"start"});
+    });
+
+    // =========================
+    // Modal + Discord
+    // =========================
     const backdrop = document.getElementById("backdrop");
     const closeBtn = document.getElementById("closeBtn");
     const choiceBox = document.getElementById("choiceBox");
+    const discordBtnModal = document.getElementById("discordBtnModal");
+    const discordBtnAside = document.getElementById("discordBtnAside");
 
     function openDiscord(){
       window.open(DISCORD_INVITE, "_blank", "noopener,noreferrer");
     }
-    document.getElementById("discordBtnModal").addEventListener("click", openDiscord);
-    document.getElementById("discordBtnSide").addEventListener("click", openDiscord);
+    discordBtnModal.addEventListener("click", openDiscord);
+    discordBtnAside.addEventListener("click", openDiscord);
 
-    function openModal(offer, isMore=false){
-      const p = priceFor(offer.id);
+    function openModal(offer, isBuy){
+      const price = calcPrice(offer.id, currentDays);
       choiceBox.innerHTML = `
         <b>${offer.name}</b>
-        <div class="muted" style="font-weight:900; font-size:12px;">Направление: Сырниковые острова (единственное)</div>
-        <div style="margin-top:8px; font-weight:1000;">Цена: ${won(p)} • ${currentDays} дней</div>
-        <div class="muted" style="margin-top:6px; font-weight:850;">
-          ${isMore ? offer.desc : "Покупка оформляется через Discord: там активация и выдача доступа + лодки 🛶"}
-        </div>
+        <span>${won(price)} • ${currentDays} дней • Сырниковые Острова</span>
       `;
+
+      const text = isBuy
+        ? "Покупка почти готова. Следующий шаг — Discord (там активация и выдача доступа)."
+        : "Коротко: выбираешь срок → покупаешь → заходишь в Discord → получаешь доступ + лодку.";
+
+      // replace paragraph text (simple)
+      const p = backdrop.querySelector(".mBody p");
+      if(p) p.textContent = text;
 
       backdrop.classList.add("show");
       backdrop.setAttribute("aria-hidden","false");
@@ -1048,7 +1173,78 @@
     backdrop.addEventListener("click", (e)=>{ if(e.target===backdrop) closeModal(); });
     window.addEventListener("keydown", (e)=>{ if(e.key==="Escape") closeModal(); });
 
-    // init
+    // =========================
+    // Particles
+    // =========================
+    const canvas = document.getElementById("particles");
+    const ctx = canvas.getContext("2d");
+    let W=0,H=0,DPR=Math.min(window.devicePixelRatio||1,2);
+
+    function resize(){
+      W = canvas.width = Math.floor(innerWidth * DPR);
+      H = canvas.height = Math.floor(innerHeight * DPR);
+      canvas.style.width = innerWidth + "px";
+      canvas.style.height = innerHeight + "px";
+    }
+    addEventListener("resize", resize);
+    resize();
+
+    const COLORS = [
+      {r:0,g:212,b:255},
+      {r:124,g:58,b:237},
+      {r:245,g:200,b:66},
+    ];
+    const rand = (a,b)=>Math.random()*(b-a)+a;
+
+    const count = Math.floor(Math.min(130, Math.max(70, innerWidth/11)));
+    const parts = Array.from({length:count}, ()=>spawn());
+
+    function spawn(){
+      const c = COLORS[(Math.random()*COLORS.length)|0];
+      return {
+        x: rand(0,W),
+        y: rand(H*0.85, H*1.2),
+        r: rand(1.1, 2.8)*DPR,
+        vy: rand(0.25, 1.05)*DPR,
+        vx: rand(-0.16, 0.16)*DPR,
+        a: rand(0.14, 0.52),
+        tw: rand(0.003, 0.012),
+        t: rand(0,999),
+        c
+      };
+    }
+
+    function frame(){
+      ctx.clearRect(0,0,W,H);
+
+      for(const p of parts){
+        p.t += 1;
+        p.x += p.vx;
+        p.y -= p.vy;
+
+        if(p.y < -30*DPR){
+          p.y = rand(H*1.05, H*1.25);
+          p.x = rand(0,W);
+        }
+        if(p.x < -20*DPR) p.x = W + 20*DPR;
+        if(p.x > W + 20*DPR) p.x = -20*DPR;
+
+        const tw = 0.55 + 0.45 * Math.sin(p.t * p.tw);
+        const a = p.a * tw;
+
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(${p.c.r},${p.c.g},${p.c.b},${a})`;
+        ctx.shadowBlur = 18*DPR;
+        ctx.shadowColor = `rgba(${p.c.r},${p.c.g},${p.c.b},${a})`;
+        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+        ctx.fill();
+      }
+
+      requestAnimationFrame(frame);
+    }
+    frame();
+
+    // initial render
     render();
   </script>
 </body>
