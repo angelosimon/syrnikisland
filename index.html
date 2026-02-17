@@ -938,6 +938,26 @@
   </div>
 
   <script>
+    // =========================
+    // CONFIG
+    // =========================
+    const DISCORD_INVITE = "https://discord.com/"; // <-- вставь инвайт на свой сервер
+
+    // base prices for 7 days (from your examples)
+    const base = {
+      small: 70,
+      medium: 165,
+      big: 240
+    };
+
+    // multipliers for duration (smooth, but still “правильно” по смыслу)
+    const mult = {
+      7: 1,
+      14: 1.9,
+      30: 3.5,
+      60: 6.4
+    };
+
 const offers = [
   {
     id:"small",
