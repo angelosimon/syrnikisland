@@ -1012,6 +1012,10 @@
           <div class="gallery-grid" id="galleryGrid">
             <!-- initial cards -->
           </div>
+          
+        </div>
+      </div>
+    </section>
 
     <!-- PRICING -->
     <section id="pricing">
@@ -1182,19 +1186,6 @@
 
     renderGallery();
 
-    // Add form
-    const addForm = document.getElementById("addForm");
-    addForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const title = document.getElementById("gTitle").value.trim();
-      const desc  = document.getElementById("gDesc").value.trim();
-      const url   = document.getElementById("gUrl").value.trim();
-
-      if(!title || !desc || !url) return;
-
-      gallery.unshift({ title, desc, url });
-      renderGallery();
-      addForm.reset();
 
       // tiny "pop" feedback
       galleryGrid.firstElementChild?.animate(
