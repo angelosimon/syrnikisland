@@ -3,1464 +3,171 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🏝️ Сырниковые Острова — Minecraft Server</title>
-
+  <title>Сырниковые Острова – Minecraft сервер</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;900&display=swap" rel="stylesheet" />
   <style>
-    /* =========================
-       СЫРНИКОВЫЕ ОСТРОВА — PREMIUM UI
-       One-file HTML: CSS + JS
-    ========================== */
+    :root {
+      --bg: #131518;
+      --card: #1b1e23;
+      --card-dark: #16181c;
+      --border: rgba(255,255,255,.05);
+      --text: #e5e7eb;
+      --accent: #3b82f6;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;line-height:1.5;-webkit-font-smoothing:antialiased;}
+    a{color:inherit;text-decoration:none;}
+    img{display:block;max-width:100%;}
+    /* Topbar */
+    .topbar{display:flex;align-items:center;justify-content:space-between;padding:1rem 2rem;}
+    .logo{display:flex;align-items:center;gap:.6rem;font-weight:700;font-size:1.1rem;}
+    .logo img{width:32px;height:32px;}
+    .nav{display:flex;gap:1.5rem;font-size:.95rem;}
+    .nav a{opacity:.85;transition:.25s;}
+    .nav a:hover{opacity:1;color:var(--accent);} 
+    .profile img{width:32px;height:32px;border-radius:50%;}
 
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
+    /* Hero grid */
+    .hero{padding:2rem 2rem 4rem;display:flex;flex-direction:column;gap:2rem;max-width:1200px;margin:auto;}
 
-    :root{
-      --bg0:#070a14;
-      --bg1:#070d1f;
-      --card:#0b1226;
-      --card2:#0e1933;
-      --line: rgba(255,255,255,.08);
+    .hero-grid{display:grid;grid-template-columns:1fr 260px;gap:1.5rem;}
+    .card{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1.5rem;position:relative;overflow:hidden;}
+    .card-dark{background:var(--card-dark);} 
 
-      --cyan:#00d4ff;
-      --violet:#7c3aed;
-      --gold:#f5c842;
+    /* Main hero card */
+    .hero-main{padding:2rem 2rem 0;display:flex;flex-direction:column;min-height:420px;}
+    .hero-main .caption{font-size:.85rem;text-transform:uppercase;opacity:.7;margin-bottom:.5rem;}
+    .hero-main .logo-text{font-size:4rem;font-weight:900;letter-spacing:-2px;line-height:1;margin-bottom:.5rem;}
+    @media(max-width:500px){.hero-main .logo-text{font-size:2.8rem;}}
+    .hero-main .sub{max-width:320px;margin-bottom:1.2rem;}
+    .btn-primary{background:var(--accent);color:#fff;padding:.8rem 1.6rem;border-radius:.5rem;font-weight:600;display:inline-block;margin-bottom:1rem;transition:.25s;}
+    .btn-primary:hover{background:#60a5fa;transform:translateY(-2px);} 
+    .price{font-size:1.3rem;font-weight:700;margin-bottom:1rem;}
+    .edition{font-size:.8rem;opacity:.7;}
+    .hero-img{position:absolute;bottom:0;right:0;width:280px;pointer-events:none;}
 
-      --text:#e7eefc;
-      --muted:#9bb0d1;
+    /* Side highlight cards */
+    .side-card{display:flex;flex-direction:column;justify-content:flex-end;min-height:200px;background-size:cover;background-position:center;}
+    .side-card h3{font-size:1rem;font-weight:700;margin-bottom:.5rem;}
 
-      --shadowC: 0 0 18px rgba(0,212,255,.35);
-      --shadowV: 0 0 18px rgba(124,58,237,.35);
-      --shadowG: 0 0 18px rgba(245,200,66,.25);
+    /* Features row */
+    .feature-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1.5rem;}
+    .feature-card{display:flex;align-items:center;justify-content:space-between;gap:1rem;}
+    .feature-card h4{font-size:1rem;font-weight:700;}
 
-      --radius: 20px;
-      --radius2: 28px;
-    }
-
-    *{ box-sizing:border-box; }
-    html{ scroll-behavior:smooth; }
-    body{
-      margin:0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(1200px 800px at 20% 10%, rgba(0,212,255,.10), transparent 60%),
-        radial-gradient(900px 600px at 80% 20%, rgba(124,58,237,.12), transparent 55%),
-        radial-gradient(900px 700px at 50% 90%, rgba(245,200,66,.08), transparent 55%),
-        linear-gradient(180deg, var(--bg0), var(--bg1));
-      overflow-x:hidden;
-    }
-
-    /* background particles canvas */
-    #particles{
-      position:fixed;
-      inset:0;
-      width:100%;
-      height:100%;
-      z-index:-2;
-      pointer-events:none;
-      filter: drop-shadow(0 0 10px rgba(0,212,255,.12));
-    }
-
-    /* subtle grid */
-    .grid-overlay{
-      position:fixed;
-      inset:0;
-      z-index:-3;
-      pointer-events:none;
-      opacity:.22;
-      background-image:
-        linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
-      background-size: 52px 52px;
-      mask-image: radial-gradient(circle at 50% 20%, rgba(0,0,0,1), transparent 65%);
-    }
-
-    /* layout */
-    .container{
-      width:min(1150px, calc(100% - 40px));
-      margin:0 auto;
-    }
-
-    header{
-      position:sticky;
-      top:0;
-      z-index:50;
-      backdrop-filter: blur(14px);
-      background: linear-gradient(180deg, rgba(7,10,20,.72), rgba(7,10,20,.35));
-      border-bottom:1px solid var(--line);
-    }
-    .nav{
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      padding:14px 0;
-      gap:18px;
-    }
-
-    .brand{
-      display:flex;
-      align-items:center;
-      gap:12px;
-      text-decoration:none;
-      color:var(--text);
-    }
-    .brand-badge{
-      width:42px;
-      height:42px;
-      border-radius:14px;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(0,212,255,.55), transparent 60%),
-        radial-gradient(circle at 70% 70%, rgba(124,58,237,.55), transparent 60%),
-        linear-gradient(135deg, rgba(0,212,255,.22), rgba(124,58,237,.18));
-      border:1px solid rgba(255,255,255,.10);
-      box-shadow: var(--shadowC), var(--shadowV);
-      display:grid;
-      place-items:center;
-      position:relative;
-      overflow:hidden;
-    }
-    .brand-badge::after{
-      content:"";
-      position:absolute;
-      inset:-40%;
-      background: conic-gradient(from 180deg, transparent, rgba(0,212,255,.30), transparent, rgba(124,58,237,.25), transparent);
-      animation: spin 6s linear infinite;
-      opacity:.6;
-    }
-    .brand-badge span{
-      position:relative;
-      font-weight:900;
-      letter-spacing:.5px;
-      text-shadow: 0 0 12px rgba(0,212,255,.35);
-    }
-
-    .brand-title{
-      display:flex;
-      flex-direction:column;
-      line-height:1.05;
-    }
-    .brand-title b{
-      font-weight:800;
-      letter-spacing:.2px;
-    }
-    .brand-title small{
-      color:var(--muted);
-      font-weight:500;
-    }
-
-    .nav-links{
-      display:flex;
-      gap:14px;
-      align-items:center;
-      flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-    .nav-links a{
-      color:var(--muted);
-      text-decoration:none;
-      font-weight:600;
-      font-size:14px;
-      padding:10px 12px;
-      border-radius:14px;
-      border:1px solid transparent;
-      transition: .22s ease;
-      position:relative;
-    }
-    .nav-links a:hover{
-      color:var(--text);
-      border-color: rgba(0,212,255,.18);
-      box-shadow: 0 0 0 4px rgba(0,212,255,.06);
-      transform: translateY(-1px);
-    }
-
-    /* sections + scroll fade */
-    section{
-      padding: 84px 0;
-      position:relative;
-    }
-    .reveal{
-      opacity:0;
-      transform: translateY(18px);
-      transition: .75s cubic-bezier(.2,.9,.2,1);
-    }
-    .reveal.in{
-      opacity:1;
-      transform: translateY(0);
-    }
-
-    /* HERO */
-    .hero{
-      padding: 70px 0 56px;
-    }
-    .hero-wrap{
-      display:grid;
-      grid-template-columns: 1.15fr .85fr;
-      gap:28px;
-      align-items:center;
-    }
-    @media (max-width: 940px){
-      .hero-wrap{ grid-template-columns:1fr; }
-    }
-
-    .hero-card{
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      border:1px solid rgba(255,255,255,.09);
-      border-radius: var(--radius2);
-      padding: 34px 28px;
-      box-shadow:
-        0 18px 60px rgba(0,0,0,.45),
-        0 0 0 1px rgba(0,212,255,.06) inset;
-      position:relative;
-      overflow:hidden;
-    }
-    .hero-card::before{
-      content:"";
-      position:absolute;
-      inset:-40%;
-      background:
-        radial-gradient(circle at 35% 35%, rgba(0,212,255,.18), transparent 55%),
-        radial-gradient(circle at 70% 60%, rgba(124,58,237,.16), transparent 55%),
-        radial-gradient(circle at 55% 80%, rgba(245,200,66,.10), transparent 55%);
-      filter: blur(10px);
-      opacity:.85;
-      pointer-events:none;
-    }
-    .hero-card > *{ position:relative; }
-
-    .kicker{
-      display:inline-flex;
-      gap:10px;
-      align-items:center;
-      padding:10px 14px;
-      border-radius: 999px;
-      background: rgba(0,212,255,.08);
-      border: 1px solid rgba(0,212,255,.18);
-      color: var(--text);
-      font-weight:700;
-      font-size: 13px;
-      box-shadow: var(--shadowC);
-    }
-    .dot{
-      width:8px; height:8px; border-radius:50%;
-      background: var(--cyan);
-      box-shadow: 0 0 14px rgba(0,212,255,.65);
-    }
-
-    .hero-title{
-      margin: 14px 0 10px;
-      font-size: clamp(42px, 5vw, 64px);
-      line-height: 1.02;
-      letter-spacing: -1.2px;
-      font-weight: 900;
-
-      background: linear-gradient(90deg, var(--cyan), var(--violet), var(--gold));
-      -webkit-background-clip: text;
-      background-clip:text;
-      color: transparent;
-
-      text-shadow:
-        0 0 18px rgba(0,212,255,.18),
-        0 0 24px rgba(124,58,237,.14),
-        0 0 28px rgba(245,200,66,.10);
-      filter: drop-shadow(0 0 12px rgba(0,212,255,.14));
-    }
-    .hero-sub{
-      margin:0 0 18px;
-      color: var(--muted);
-      font-size: 18px;
-      font-weight: 600;
-    }
-
-    /* shimmer buttons */
-    .btns{
-      display:flex;
-      gap:14px;
-      flex-wrap:wrap;
-      margin-top: 18px;
-    }
-    .btn{
-      border:none;
-      cursor:pointer;
-      padding: 12px 16px;
-      border-radius: 16px;
-      font-weight: 800;
-      letter-spacing:.2px;
-      color: var(--text);
-      transition: .2s ease;
-      position:relative;
-      overflow:hidden;
-      user-select:none;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      border: 1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);
-      box-shadow: 0 10px 30px rgba(0,0,0,.35);
-      will-change: transform;
-    }
-    .btn:hover{ transform: translateY(-2px) scale(1.01); }
-    .btn:active{ transform: translateY(0px) scale(.99); }
-
-    .btn.primary{
-      background: linear-gradient(90deg, rgba(0,212,255,.22), rgba(124,58,237,.22));
-      border-color: rgba(0,212,255,.18);
-      box-shadow: var(--shadowC), var(--shadowV), 0 18px 40px rgba(0,0,0,.35);
-    }
-    .btn.secondary{
-      background: linear-gradient(90deg, rgba(245,200,66,.12), rgba(0,212,255,.10));
-      border-color: rgba(245,200,66,.22);
-      box-shadow: var(--shadowG), var(--shadowC), 0 18px 40px rgba(0,0,0,.35);
-    }
-
-    .btn.shimmer::before{
-      content:"";
-      position:absolute;
-      top:-60%;
-      left:-40%;
-      width: 60%;
-      height: 220%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.28), transparent);
-      transform: rotate(22deg);
-      animation: shimmer 2.6s infinite;
-      opacity:.7;
-    }
-    .btn.shimmer:hover::before{
-      animation-duration: 1.7s;
-      opacity: .9;
-    }
-
-    .glow{
-      text-shadow: 0 0 14px rgba(0,212,255,.35), 0 0 18px rgba(124,58,237,.28);
-    }
-
-    /* hero side panel */
-    .hero-side{
-      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
-      border:1px solid rgba(255,255,255,.09);
-      border-radius: var(--radius2);
-      padding: 22px;
-      box-shadow: 0 18px 60px rgba(0,0,0,.45);
-      position:relative;
-      overflow:hidden;
-      min-height: 250px;
-    }
-    .hero-side::before{
-      content:"";
-      position:absolute;
-      inset:-30%;
-      background:
-        radial-gradient(circle at 35% 25%, rgba(245,200,66,.12), transparent 55%),
-        radial-gradient(circle at 65% 65%, rgba(124,58,237,.14), transparent 55%);
-      filter: blur(10px);
-      opacity:.9;
-      pointer-events:none;
-    }
-    .hero-side > *{ position:relative; }
-
-    .stat-grid{
-      display:grid;
-      grid-template-columns: 1fr 1fr;
-      gap:12px;
-      margin-top: 10px;
-    }
-    .stat{
-      padding: 14px 14px;
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.08);
-      background: linear-gradient(180deg, rgba(11,18,38,.65), rgba(11,18,38,.35));
-      transition: .2s ease;
-    }
-    .stat:hover{
-      transform: translateY(-2px);
-      box-shadow: var(--shadowC);
-      border-color: rgba(0,212,255,.16);
-    }
-    .stat b{
-      display:block;
-      font-size: 20px;
-      letter-spacing:-.2px;
-      text-shadow: 0 0 12px rgba(0,212,255,.18);
-    }
-    .stat span{
-      display:block;
-      color: var(--muted);
-      font-weight: 600;
-      font-size: 13px;
-      margin-top: 2px;
-    }
-
-    /* section headings */
-    .section-title{
-      font-size: 34px;
-      margin:0 0 8px;
-      font-weight: 900;
-      letter-spacing:-.7px;
-      background: linear-gradient(90deg, var(--cyan), var(--violet), var(--gold));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-      text-shadow: 0 0 18px rgba(0,212,255,.14), 0 0 22px rgba(124,58,237,.12);
-    }
-    .section-sub{
-      margin:0 0 24px;
-      color: var(--muted);
-      font-weight: 600;
-      max-width: 70ch;
-    }
-
-    /* cards hover */
-    .card{
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      border:1px solid rgba(255,255,255,.09);
-      border-radius: var(--radius);
-      overflow:hidden;
-      box-shadow: 0 18px 55px rgba(0,0,0,.40);
-      transition: .22s ease;
-      will-change: transform;
-      position:relative;
-    }
-    .card:hover{
-      transform: translateY(-8px) scale(1.01);
-      box-shadow: var(--shadowC), var(--shadowV), 0 22px 70px rgba(0,0,0,.55);
-      border-color: rgba(0,212,255,.20);
-    }
-
-    /* Gallery */
-    .gallery-grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:16px;
-    }
-    @media (max-width: 980px){
-      .gallery-grid{ grid-template-columns: repeat(2, 1fr); }
-    }
-    @media (max-width: 640px){
-      .gallery-grid{ grid-template-columns: 1fr; }
-    }
-
-    .img{
-      width:100%;
-      height: 180px;
-      object-fit: cover;
-      display:block;
-      filter: saturate(1.05) contrast(1.05);
-      background: radial-gradient(circle at 30% 30%, rgba(0,212,255,.22), rgba(124,58,237,.14));
-    }
-    .card-body{ padding: 14px 14px 16px; }
-    .card-body h3{
-      margin:0 0 6px;
-      font-size: 16px;
-      font-weight: 900;
-      text-shadow: 0 0 12px rgba(0,212,255,.18);
-    }
-    .card-body p{
-      margin:0;
-      color: var(--muted);
-      font-weight: 600;
-      font-size: 13px;
-      line-height: 1.35;
-      min-height: 34px;
-    }
-
-    .add-form{
-      margin-top: 22px;
-      display:grid;
-      grid-template-columns: 1fr 1fr 1.2fr auto;
-      gap:12px;
-      padding: 14px;
-      border-radius: 22px;
-      border:1px solid rgba(255,255,255,.10);
-      background: linear-gradient(180deg, rgba(11,18,38,.55), rgba(11,18,38,.30));
-      box-shadow: 0 18px 55px rgba(0,0,0,.35);
-    }
-    @media (max-width: 980px){
-      .add-form{ grid-template-columns: 1fr 1fr; }
-      .add-form .full{ grid-column: 1 / -1; }
-    }
-    .field{
-      display:flex;
-      flex-direction:column;
-      gap:6px;
-    }
-    label{
-      font-size: 12px;
-      color: var(--muted);
-      font-weight: 700;
-    }
-    input, textarea{
-      border-radius: 14px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(7,10,20,.55);
-      color: var(--text);
-      padding: 11px 12px;
-      outline:none;
-      font-weight: 650;
-      transition: .2s ease;
-    }
-    textarea{ min-height: 44px; resize: vertical; }
-    input:focus, textarea:focus{
-      border-color: rgba(0,212,255,.22);
-      box-shadow: 0 0 0 4px rgba(0,212,255,.08);
-    }
-    .form-btn{
-      align-self:end;
-      height: 44px;
-      padding: 0 16px;
-      border-radius: 16px;
-      border:1px solid rgba(0,212,255,.18);
-      background: linear-gradient(90deg, rgba(0,212,255,.18), rgba(124,58,237,.16));
-      color: var(--text);
-      font-weight: 900;
-      cursor:pointer;
-      transition:.2s ease;
-      position:relative;
-      overflow:hidden;
-      box-shadow: var(--shadowC), var(--shadowV);
-    }
-    .form-btn:hover{
-      transform: translateY(-2px);
-      box-shadow: 0 0 20px rgba(0,212,255,.35), 0 0 20px rgba(124,58,237,.25);
-    }
-    .form-btn::before{
-      content:"";
-      position:absolute;
-      top:-70%;
-      left:-40%;
-      width: 60%;
-      height: 240%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.25), transparent);
-      transform: rotate(20deg);
-      animation: shimmer 2.7s infinite;
-      opacity:.7;
-    }
-
-    /* Pricing */
-    .toggle-row{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      justify-content:space-between;
-      margin-bottom: 16px;
-    }
-    .toggle{
-      display:flex;
-      gap:10px;
-      flex-wrap:wrap;
-      align-items:center;
-      padding: 10px;
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
-      box-shadow: 0 18px 55px rgba(0,0,0,.25);
-    }
-    .chip{
-      border:none;
-      cursor:pointer;
-      padding: 10px 12px;
-      border-radius: 14px;
-      font-weight: 900;
-      color: var(--muted);
-      background: rgba(7,10,20,.45);
-      border:1px solid rgba(255,255,255,.08);
-      transition:.2s ease;
-      position:relative;
-    }
-    .chip:hover{
-      transform: translateY(-1px);
-      color: var(--text);
-      border-color: rgba(0,212,255,.16);
-      box-shadow: 0 0 0 4px rgba(0,212,255,.06);
-    }
-    .chip.active{
-      color: var(--text);
-      border-color: rgba(0,212,255,.24);
-      background: linear-gradient(90deg, rgba(0,212,255,.16), rgba(124,58,237,.14));
-      box-shadow: var(--shadowC);
-    }
-
-    .pricing-grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:16px;
-    }
-    @media (max-width: 980px){
-      .pricing-grid{ grid-template-columns: 1fr; }
-    }
-
-    .plan{
-      padding: 18px;
-      position:relative;
-      overflow:hidden;
-    }
-    .plan::before{
-      content:"";
-      position:absolute;
-      inset:-30%;
-      background:
-        radial-gradient(circle at 20% 20%, rgba(0,212,255,.10), transparent 55%),
-        radial-gradient(circle at 80% 50%, rgba(124,58,237,.10), transparent 55%),
-        radial-gradient(circle at 50% 85%, rgba(245,200,66,.08), transparent 55%);
-      filter: blur(10px);
-      opacity:.9;
-      pointer-events:none;
-    }
-    .plan > *{ position:relative; }
-
-    .plan-head{
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:10px;
-      margin-bottom: 10px;
-    }
-    .plan h3{
-      margin:0;
-      font-size: 18px;
-      font-weight: 900;
-      text-shadow: 0 0 14px rgba(0,212,255,.16);
-    }
-    .badge{
-      display:inline-flex;
-      align-items:center;
-      gap:8px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 900;
-      letter-spacing:.4px;
-      border:1px solid rgba(124,58,237,.22);
-      background: rgba(124,58,237,.14);
-      box-shadow: var(--shadowV);
-      animation: pulse 1.8s infinite;
-      white-space:nowrap;
-    }
-    .badge i{
-      width:8px;height:8px;border-radius:50%;
-      background: var(--violet);
-      box-shadow: 0 0 14px rgba(124,58,237,.65);
-      display:inline-block;
-    }
-
-    .price{
-      margin: 10px 0 10px;
-      display:flex;
-      align-items:baseline;
-      gap:10px;
-      flex-wrap:wrap;
-    }
-    .price b{
-      font-size: 36px;
-      letter-spacing:-.8px;
-      background: linear-gradient(90deg, var(--cyan), var(--violet));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-      text-shadow: 0 0 16px rgba(0,212,255,.15);
-    }
-    .price span{
-      color: var(--muted);
-      font-weight: 800;
-    }
-
-    .features{
-      margin: 12px 0 16px;
-      padding: 0;
-      list-style:none;
-      display:grid;
-      gap:10px;
-    }
-    .features li{
-      display:flex;
-      gap:10px;
-      align-items:flex-start;
-      padding: 10px 12px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(7,10,20,.35);
-      color: var(--text);
-      font-weight: 700;
-      transition:.2s ease;
-    }
-    .features li:hover{
-      transform: translateY(-2px);
-      border-color: rgba(245,200,66,.18);
-      box-shadow: var(--shadowG);
-    }
-    .tick{
-      width:18px;
-      height:18px;
-      border-radius: 7px;
-      background: linear-gradient(135deg, rgba(245,200,66,.24), rgba(0,212,255,.18));
-      border:1px solid rgba(245,200,66,.22);
-      box-shadow: 0 0 12px rgba(245,200,66,.18);
-      display:grid;
-      place-items:center;
-      flex:0 0 auto;
-      margin-top:1px;
-    }
-    .tick svg{ width:12px; height:12px; }
-
-    .plan .choose{
-      width:100%;
-      justify-content:center;
-    }
+    /* Plans */
+    #plans{padding:4rem 2rem;background:var(--card-dark);} 
+    #plans h2{text-align:center;font-size:2rem;font-weight:900;margin-bottom:2rem;}
+    .plans-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1.5rem;max-width:1000px;margin:auto;}
+    .plan-card{background:var(--card);border:1px solid var(--border);border-radius:.75rem;padding:1.5rem;transition:.25s;display:flex;flex-direction:column;}
+    .plan-card:hover{transform:translateY(-6px);border-color:var(--accent);} 
+    .plan-card .name{font-size:1.25rem;font-weight:700;margin-bottom:.25rem;}
+    .plan-card .price{font-size:1.8rem;font-weight:900;margin-bottom:.5rem;color:var(--accent);} 
+    .plan-card ul{margin-bottom:1rem;font-size:.9rem;}
+    .plan-card li{margin:.25rem 0;}
 
     /* Discord section */
-    .discord-box{
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:16px;
-      align-items:center;
-      padding: 24px;
-      border-radius: var(--radius2);
-      border:1px solid rgba(255,255,255,.10);
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      box-shadow: 0 24px 80px rgba(0,0,0,.45);
-      position:relative;
-      overflow:hidden;
-    }
-    @media (max-width: 900px){
-      .discord-box{ grid-template-columns: 1fr; }
-    }
-    .discord-box::before{
-      content:"";
-      position:absolute;
-      inset:-40%;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(124,58,237,.20), transparent 60%),
-        radial-gradient(circle at 70% 60%, rgba(0,212,255,.12), transparent 60%);
-      filter: blur(10px);
-      opacity:.9;
-      pointer-events:none;
-    }
-    .discord-box > *{ position:relative; }
+    #discord{padding:4rem 2rem;text-align:center;}
+    .discord-btn{display:inline-flex;align-items:center;gap:.6rem;padding:1rem 2.5rem;border-radius:9999px;background:var(--accent);color:#fff;font-weight:700;font-size:1.1rem;transition:.25s;}
+    .discord-btn:hover{background:#60a5fa;transform:translateY(-2px);} 
 
-    .discord-btn{
-      width:100%;
-      padding: 16px 18px;
-      border-radius: 22px;
-      border:1px solid rgba(124,58,237,.22);
-      background: linear-gradient(90deg, rgba(124,58,237,.30), rgba(0,212,255,.18));
-      color: var(--text);
-      font-weight: 900;
-      font-size: 16px;
-      cursor:pointer;
-      transition:.2s ease;
-      position:relative;
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:12px;
-      box-shadow: var(--shadowV), var(--shadowC), 0 24px 80px rgba(0,0,0,.45);
-    }
-    .discord-btn:hover{
-      transform: translateY(-3px) scale(1.01);
-      box-shadow: 0 0 22px rgba(124,58,237,.42), 0 0 20px rgba(0,212,255,.32);
-    }
-    .discord-btn::before{
-      content:"";
-      position:absolute;
-      top:-80%;
-      left:-35%;
-      width: 55%;
-      height: 260%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.30), transparent);
-      transform: rotate(22deg);
-      animation: shimmer 2.2s infinite;
-      opacity:.8;
-    }
-    .discord-icon{
-      width:22px;height:22px;
-      filter: drop-shadow(0 0 10px rgba(124,58,237,.35));
-    }
-
-    /* Footer */
-    footer{
-      padding: 38px 0 60px;
-      border-top: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(7,10,20,.2), rgba(7,10,20,.55));
-    }
-    .foot{
-      display:flex;
-      justify-content:space-between;
-      gap:18px;
-      flex-wrap:wrap;
-      color: var(--muted);
-      font-weight: 650;
-    }
-    .foot b{
-      color: var(--text);
-      text-shadow: 0 0 10px rgba(0,212,255,.14);
-    }
-
-    /* Modal */
-    .modal-backdrop{
-      position:fixed;
-      inset:0;
-      background: rgba(0,0,0,.55);
-      backdrop-filter: blur(10px);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding: 22px;
-      z-index: 999;
-    }
-    .modal-backdrop.show{ display:flex; }
-
-    .modal{
-      width: min(560px, 100%);
-      border-radius: 26px;
-      border:1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(11,18,38,.92), rgba(7,10,20,.88));
-      box-shadow: 0 28px 120px rgba(0,0,0,.70), var(--shadowC), var(--shadowV);
-      overflow:hidden;
-      position:relative;
-    }
-    .modal::before{
-      content:"";
-      position:absolute;
-      inset:-35%;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(0,212,255,.22), transparent 60%),
-        radial-gradient(circle at 70% 60%, rgba(124,58,237,.22), transparent 60%),
-        radial-gradient(circle at 50% 90%, rgba(245,200,66,.12), transparent 60%);
-      filter: blur(12px);
-      opacity:.85;
-      pointer-events:none;
-    }
-    .modal > *{ position:relative; }
-
-    .modal-top{
-      padding: 18px 18px 10px;
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:14px;
-      border-bottom: 1px solid rgba(255,255,255,.10);
-    }
-    .modal-top h3{
-      margin:0;
-      font-size: 20px;
-      font-weight: 900;
-      background: linear-gradient(90deg, var(--gold), var(--cyan), var(--violet));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-      text-shadow: 0 0 18px rgba(245,200,66,.12);
-    }
-    .close{
-      border:none;
-      cursor:pointer;
-      width:38px; height:38px;
-      border-radius: 14px;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      color: var(--text);
-      font-weight: 900;
-      transition:.2s ease;
-    }
-    .close:hover{
-      transform: translateY(-1px);
-      box-shadow: var(--shadowC);
-      border-color: rgba(0,212,255,.18);
-    }
-
-    .modal-body{
-      padding: 14px 18px 18px;
-      color: var(--muted);
-      font-weight: 650;
-      line-height: 1.5;
-    }
-    .choice{
-      margin: 12px 0 14px;
-      padding: 14px;
-      border-radius: 20px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(7,10,20,.35);
-      color: var(--text);
-      box-shadow: 0 18px 55px rgba(0,0,0,.25);
-    }
-    .choice b{
-      display:block;
-      font-size: 16px;
-      text-shadow: 0 0 14px rgba(0,212,255,.18);
-      margin-bottom: 4px;
-    }
-    .choice span{
-      color: var(--muted);
-      font-weight: 750;
-    }
-
-    /* animations */
-    @keyframes shimmer{
-      0%{ transform: translateX(-60%) rotate(22deg); }
-      60%{ transform: translateX(220%) rotate(22deg); }
-      100%{ transform: translateX(220%) rotate(22deg); }
-    }
-    @keyframes spin{
-      to{ transform: rotate(360deg); }
-    }
-    @keyframes pulse{
-      0%, 100%{ transform: translateY(0); filter: brightness(1); }
-      50%{ transform: translateY(-1px); filter: brightness(1.15); }
-    }
-
-    /* small helpers */
-    .muted{ color: var(--muted); }
-    .right{ text-align:right; }
   </style>
 </head>
-
 <body>
-  <canvas id="particles"></canvas>
-  <div class="grid-overlay"></div>
-
-  <header>
-    <div class="container">
-      <div class="nav">
-        <a class="brand" href="#top">
-          <div class="brand-badge"><span>SI</span></div>
-          <div class="brand-title">
-            <b class="glow">Сырниковые Острова</b>
-            <small>Премиум архипелаг • Minecraft</small>
-          </div>
-        </a>
-
-        <nav class="nav-links">
-          <a href="#gallery">Галерея</a>
-          <a href="#pricing">Тарифы</a>
-          <a href="#discord">Discord</a>
-        </nav>
-      </div>
-    </div>
+  <!-- Topbar -->
+  <header class="topbar">
+    <div class="logo"><img src="https://i.imgur.com/T9HFQvX.png" alt="logo"><span>Сырниковые Острова</span></div>
+    <nav class="nav">
+      <a href="#">TФ</a>
+      <a href="#">Правила</a>
+      <a href="#">Вики</a>
+      <a href="#">Города</a>
+      <a href="#">Форум</a>
+    </nav>
+    <div class="profile"><img src="https://i.imgur.com/4M34hi2.png" alt="avatar"></div>
   </header>
 
-  <!-- HERO -->
-  <main id="top">
-    <section class="hero">
-      <div class="container">
-        <div class="hero-wrap">
-          <div class="hero-card reveal">
-            <div class="kicker">
-              <span class="dot"></span>
-              <span>Неон • Градиенты • Glow</span>
-            </div>
-
-            <h1 class="hero-title glow">Сырниковые Острова</h1>
-            <p class="hero-sub">Самый красивый архипелаг в Minecraft</p>
-
-            <div class="btns">
-              <a class="btn primary shimmer" href="#pricing" aria-label="Выбрать остров">
-                <!-- simple icon -->
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7z" stroke="currentColor" stroke-width="2" opacity=".9"/>
-                </svg>
-                Выбрать остров
-              </a>
-              <a class="btn secondary shimmer" href="#gallery" aria-label="Открыть галерею">
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M4 7h16M4 17h16M7 7v10" stroke="currentColor" stroke-width="2" opacity=".9"/>
-                </svg>
-                Галерея
-              </a>
-            </div>
-
-            <p class="muted" style="margin:16px 0 0; font-weight:700;">
-              ⚓ Бесплатная лодка, 🍲 еда в ресторанах, ✨ доступ к центру — всё включено по билету.
-            </p>
-          </div>
-
-          <aside class="hero-side reveal">
-            <h3 class="glow" style="margin:0 0 10px; font-size:18px; font-weight:900;">Статистика сервера</h3>
-            <div class="stat-grid">
-              <div class="stat">
-                <b>500+</b>
-                <span>игроков</span>
-              </div>
-              <div class="stat">
-                <b>4.9★</b>
-                <span>рейтинг</span>
-              </div>
-              <div class="stat">
-                <b>3</b>
-                <span>типа островов</span>
-              </div>
-              <div class="stat">
-                <b>24/7</b>
-                <span>онлайн</span>
-              </div>
-            </div>
-            <div style="margin-top:12px; padding-top:12px; border-top:1px solid rgba(255,255,255,.10);">
-              <p class="muted" style="margin:0; font-weight:650;">
-                Тут у нас вайб как в sci-fi: неон светит, острова блестят, а ты просто выбираешь — и плывёшь 🛶
-              </p>
-            </div>
-          </aside>
-        </div>
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-grid">
+      <!-- Main -->
+      <div class="card hero-main">
+        <span class="caption">Вы ждали и вот он</span>
+        <h1 class="logo-text">СЫРНИКЛЭНД</h1>
+        <p class="sub">Присоединяйся и начинай играть прямо сейчас</p>
+        <a href="#plans" class="btn-primary">Купить проходку</a>
+        <div class="price">1500 ₽</div>
+        <p class="edition">Minecraft Java Edition<br>Лицензия не обязательна, проходка остаётся навсегда</p>
+        <img class="hero-img" src="https://i.imgur.com/4f2wYEO.png" alt="pig cake">
       </div>
-    </section>
-
-    <!-- GALLERY -->
-    <section id="gallery">
-      <div class="container">
-        <div class="reveal">
-          <h2 class="section-title glow">Галерея островов</h2>
-          <p class="section-sub">Добавляй свои красивые скрины островов ссылкой. Карточки поднимаются, светятся и делают вид, что они очень дорогие 😄</p>
-
-          <div class="gallery-grid" id="galleryGrid">
-            <!-- initial cards -->
-          </div>
-
-          <form class="add-form reveal" id="addForm" autocomplete="off">
-            <div class="field">
-              <label for="gTitle">Название</label>
-              <input id="gTitle" placeholder="Напр.: Лазурный Риф" required />
-            </div>
-            <div class="field">
-              <label for="gDesc">Описание</label>
-              <input id="gDesc" placeholder="Напр.: мосты, пальмы, маяк" required />
-            </div>
-            <div class="field full">
-              <label for="gUrl">URL картинки</label>
-              <input id="gUrl" placeholder="https://... (jpg/png/webp)" required />
-            </div>
-            <button class="form-btn shimmer" type="submit">Добавить</button>
-          </form>
-        </div>
+      <!-- Side cards -->
+      <div class="card side-card" style="background-image:url('https://i.imgur.com/lsqdUJa.png')">
+        <h3>Классные системы для взаимодействия</h3>
       </div>
-    </section>
-
-    <!-- PRICING -->
-    <section id="pricing">
-      <div class="container">
-        <div class="reveal">
-          <div class="toggle-row">
-            <div>
-              <h2 class="section-title glow" style="margin-bottom:6px;">Тарифы</h2>
-              <p class="section-sub" style="margin-bottom:0;">Выбираешь срок — цены меняются мгновенно. Никакой магии, только JS ⚡</p>
-            </div>
-
-            <div class="toggle" aria-label="Переключение длительности">
-              <button class="chip active" data-days="7">7 дней</button>
-              <button class="chip" data-days="14">14 дней</button>
-              <button class="chip" data-days="30">30 дней</button>
-              <button class="chip" data-days="60">60 дней</button>
-            </div>
-          </div>
-
-          <div class="pricing-grid" id="pricingGrid">
-            <!-- plans injected by JS -->
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- DISCORD -->
-    <section id="discord">
-      <div class="container">
-        <div class="reveal">
-          <h2 class="section-title glow">Отзывы в Discord</h2>
-          <p class="section-sub">Все отзывы и общение на Discord сервере. Там же активация покупки — зашёл, написал, и всё полетело 🚀</p>
-
-          <div class="discord-box card">
-            <div>
-              <h3 class="glow" style="margin:0 0 8px; font-size:20px; font-weight:900;">Сервер живёт в Discord</h3>
-              <p class="muted" style="margin:0; font-weight:650;">
-                Новости, поддержка, отзывы, ивенты и “а где мой остров?” — всё там.
-              </p>
-              <p class="muted" style="margin:10px 0 0; font-weight:750;">
-                💜 Нажми кнопку — и ты уже на связи.
-              </p>
-            </div>
-
-            <button class="discord-btn" id="discordMainBtn" type="button">
-              <svg class="discord-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M16.5 6.5a10.3 10.3 0 0 0-2.3-.8l-.3.6a9.7 9.7 0 0 0-2.9 0l-.3-.6a10.3 10.3 0 0 0-2.3.8c-1.5 2.2-1.9 4.4-1.7 6.5 1 1.2 2.2 2 3.6 2.5l.8-1.2c-.5-.2-1-.5-1.4-.9l.3-.2c2.7 1.2 5.6 1.2 8.2 0l.3.2c-.4.4-.9.7-1.4.9l.8 1.2c1.4-.5 2.6-1.3 3.6-2.5.2-2.1-.2-4.3-1.7-6.5Z"
-                      stroke="currentColor" stroke-width="2" opacity=".92"/>
-                <path d="M9.2 13.2c.5 0 .9-.5.9-1s-.4-1-.9-1-.9.5-.9 1 .4 1 .9 1Zm5.6 0c.5 0 .9-.5.9-1s-.4-1-.9-1-.9.5-.9 1 .4 1 .9 1Z"
-                      fill="currentColor" opacity=".92"/>
-              </svg>
-              Перейти в Discord
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <footer>
-      <div class="container">
-        <div class="foot">
-          <div>© <b>Сырниковые Острова</b> • Minecraft Server</div>
-          <div class="right">Сделано в неоне ✨ • <span class="muted">one-file HTML</span></div>
-        </div>
-      </div>
-    </footer>
-  </main>
-
-  <!-- MODAL -->
-  <div class="modal-backdrop" id="modalBackdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document">
-      <div class="modal-top">
-        <h3>Отличный выбор!</h3>
-        <button class="close" id="modalClose" aria-label="Закрыть">✕</button>
-      </div>
-      <div class="modal-body">
-        <div class="choice" id="choiceBox">
-          <b>Остров: —</b>
-          <span>Цена: —</span>
-        </div>
-
-        <p style="margin:0 0 14px;">
-          Зайди на Discord для активации. Там тебе быстро выдадут доступ, лодку 🛶 и покажут дорогу к центру.
-        </p>
-
-        <button class="discord-btn" id="discordModalBtn" type="button">
-          <svg class="discord-icon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M16.5 6.5a10.3 10.3 0 0 0-2.3-.8l-.3.6a9.7 9.7 0 0 0-2.9 0l-.3-.6a10.3 10.3 0 0 0-2.3.8c-1.5 2.2-1.9 4.4-1.7 6.5 1 1.2 2.2 2 3.6 2.5l.8-1.2c-.5-.2-1-.5-1.4-.9l.3-.2c2.7 1.2 5.6 1.2 8.2 0l.3.2c-.4.4-.9.7-1.4.9l.8 1.2c1.4-.5 2.6-1.3 3.6-2.5.2-2.1-.2-4.3-1.7-6.5Z"
-                  stroke="currentColor" stroke-width="2" opacity=".92"/>
-            <path d="M9.2 13.2c.5 0 .9-.5.9-1s-.4-1-.9-1-.9.5-.9 1 .4 1 .9 1Zm5.6 0c.5 0 .9-.5.9-1s-.4-1-.9-1-.9.5-.9 1 .4 1 .9 1Z"
-                  fill="currentColor" opacity=".92"/>
-          </svg>
-          Открыть Discord
-        </button>
-
-        <p class="muted" style="margin:14px 0 0;">
-          Подсказка: можно вставить свою ссылку приглашения в коде (см. JS переменную <b>DISCORD_INVITE</b>).
-        </p>
+      <div class="card side-card" style="background-image:url('https://i.imgur.com/dJEeK5J.png')">
+        <h3>Большое сообщество игроков</h3>
       </div>
     </div>
-  </div>
 
-  <script>
-    // =========================
-    // CONFIG
-    // =========================
-    const DISCORD_INVITE = "https://discord.com/"; // <-- вставь сюда свою invite-ссылку
+    <!-- Feature row -->
+    <div class="feature-row">
+      <div class="card feature-card">
+        <h4>Работающая экономика</h4>
+        <img src="https://i.imgur.com/gje1qSb.png" alt="emeralds" style="width:60px;">
+      </div>
+      <div class="card feature-card">
+        <h4>Интересные и приятные впечатления</h4>
+        <img src="https://i.imgur.com/2D0Gc9W.png" alt="fox" style="width:60px;">
+      </div>
+    </div>
+  </section>
 
-    // =========================
-    // Gallery data + rendering
-    // =========================
-    const initialGallery = [
-      {
-        title: "Ночной Архипелаг",
-        desc: "неоновые мосты + туман над водой",
-        url: "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1400&q=80"
-      },
-      {
-        title: "Лазурная Бухта",
-        desc: "песок, пальмы и спокойная вода",
-        url: "https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1400&q=80"
-      },
-      {
-        title: "Скалистый Центр",
-        desc: "высокие скалы и путь к центру",
-        url: "https://images.unsplash.com/photo-1501785888041-af3ef285b470?auto=format&fit=crop&w=1400&q=80"
-      },
-      {
-        title: "Фиолетовый Закат",
-        desc: "закат как будто из киберпанка",
-        url: "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?auto=format&fit=crop&w=1400&q=80"
-      },
-      {
-        title: "Золотой Берег",
-        desc: "песок сияет, как голда в лобби 😄",
-        url: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1400&q=80"
-      },
-      {
-        title: "Остров-Легенда",
-        desc: "место, где всегда хочется построить дом",
-        url: "https://images.unsplash.com/photo-1500375592092-40eb2168fd21?auto=format&fit=crop&w=1400&q=80"
-      }
-    ];
+  <!-- Plans -->
+  <section id="plans">
+    <h2>Тарифы островов</h2>
+    <div class="plans-grid">
+      <div class="plan-card">
+        <span class="name">Маленький остров</span>
+        <span class="price">70 вон / 7д</span>
+        <ul>
+          <li>Бесплатная лодка</li>
+          <li>Еда в ресторанах</li>
+          <li>Доступ к центру</li>
+        </ul>
+        <a href="#" class="btn-primary" style="align-self:flex-start;">Выбрать</a>
+      </div>
+      <div class="plan-card" style="border-color:var(--accent);">
+        <span class="name">Средний остров</span>
+        <span class="price">165 вон / 7д</span>
+        <ul>
+          <li>Бесплатная лодка</li>
+          <li>Еда в ресторанах</li>
+          <li>Доступ к центру</li>
+        </ul>
+        <a href="#" class="btn-primary" style="align-self:flex-start;">Выбрать</a>
+      </div>
+      <div class="plan-card">
+        <span class="name">Большой остров</span>
+        <span class="price">240 вон / 7д</span>
+        <ul>
+          <li>Бесплатная лодка</li>
+          <li>Еда в ресторанах</li>
+          <li>Доступ к центру</li>
+        </ul>
+        <a href="#" class="btn-primary" style="align-self:flex-start;">Выбрать</a>
+      </div>
+    </div>
+  </section>
 
-    const gallery = [...initialGallery];
-    const galleryGrid = document.getElementById("galleryGrid");
+  <!-- Discord -->
+  <section id="discord">
+    <h2 style="margin-bottom:1.5rem;font-size:1.8rem;font-weight:900;">Отзывы и общение в Discord</h2>
+    <p style="max-width:520px;margin:auto;margin-bottom:2rem;opacity:.8;">Заходи на сервер, делись впечатлениями и получай свежие новости.</p>
+    <a href="#" target="_blank" class="discord-btn">
+      <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M20.317 4.369A19.791 19.791 0 0016.556 3a14.313 14.313 0 00-.69 1.423 19.01 19.01 0 00-5.733 0A13.64 13.64 0 009.443 3a19.851 19.851 0 00-3.786 1.37C2.765 9.043 2.02 13.565 2.266 18.032a19.893 19.893 0 003.99 2.026 14.748 14.748 0 001.276-2.07 13.19 13.19 0 01-2.063-.995c.173-.126.345-.256.512-.392a13.483 13.483 0 0012.246 0c.168.137.34.266.513.392a13.19 13.19 0 01-2.064.995c.391.747.833 1.446 1.276 2.07a19.794 19.794 0 003.99-2.026c.336-5.146-.538-9.633-3.257-13.663zM8.01 15.331c-1.182 0-2.153-1.085-2.153-2.423 0-1.337.955-2.423 2.153-2.423 1.207 0 2.17 1.086 2.153 2.423 0 1.338-.955 2.423-2.153 2.423zm7.98 0c-1.182 0-2.153-1.085-2.153-2.423 0-1.337.955-2.423 2.153-2.423 1.207 0 2.17 1.086 2.153 2.423 0 1.338-.946 2.423-2.153 2.423z"/></svg>
+      Наш Discord
+    </a>
+  </section>
 
-    function sanitizeText(s){
-      return String(s).replace(/[<>]/g, "");
-    }
-
-    function renderGallery(){
-      galleryGrid.innerHTML = "";
-      gallery.forEach((item, idx) => {
-        const card = document.createElement("div");
-        card.className = "card";
-        card.innerHTML = `
-          <img class="img" src="${item.url}" alt="${sanitizeText(item.title)}" loading="lazy"
-               onerror="this.src='data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 width=%221200%22 height=%22600%22><rect width=%221200%22 height=%22600%22 fill=%22%230b1226%22/><text x=%2250%25%22 y=%2250%25%22 dominant-baseline=%22middle%22 text-anchor=%22middle%22 fill=%22%239bb0d1%22 font-family=%22Inter,Arial%22 font-size=%2230%22>Не удалось загрузить картинку</text></svg>';">
-          <div class="card-body">
-            <h3 class="glow">${sanitizeText(item.title)}</h3>
-            <p>${sanitizeText(item.desc)}</p>
-          </div>
-        `;
-        galleryGrid.appendChild(card);
-      });
-    }
-
-    renderGallery();
-
-    // Add form
-    const addForm = document.getElementById("addForm");
-    addForm.addEventListener("submit", (e) => {
-      e.preventDefault();
-      const title = document.getElementById("gTitle").value.trim();
-      const desc  = document.getElementById("gDesc").value.trim();
-      const url   = document.getElementById("gUrl").value.trim();
-
-      if(!title || !desc || !url) return;
-
-      gallery.unshift({ title, desc, url });
-      renderGallery();
-      addForm.reset();
-
-      // tiny "pop" feedback
-      galleryGrid.firstElementChild?.animate(
-        [
-          { transform:"translateY(10px) scale(.98)", opacity:.7 },
-          { transform:"translateY(0px) scale(1)", opacity:1 }
-        ],
-        { duration: 420, easing:"cubic-bezier(.2,.9,.2,1)" }
-      );
-    });
-
-    // =========================
-    // Pricing data + switching durations
-    // =========================
-    const plans = [
-      {
-        id: "small",
-        name: "Маленький остров",
-        prices: { 7: 70, 14: 133, 30: 245, 60: 448 },
-        popular: false
-      },
-      {
-        id: "medium",
-        name: "Средний остров",
-        prices: { 7: 165, 14: 314, 30: 578, 60: 1056 },
-        popular: true
-      },
-      {
-        id: "big",
-        name: "Большой остров",
-        prices: { 7: 240, 14: 456, 30: 840, 60: 1536 },
-        popular: false
-      }
-    ];
-
-    const includedFeatures = [
-      "Бесплатная лодка 🛶",
-      "Еда в ресторанах бесплатно 🍲",
-      "Доступ к центру по билету ✨"
-    ];
-
-    let currentDays = 7;
-    const pricingGrid = document.getElementById("pricingGrid");
-    const chips = Array.from(document.querySelectorAll(".chip"));
-
-    function formatWon(n){
-      // выглядит “премиально”, но без лишнего
-      return new Intl.NumberFormat("ru-RU").format(n) + " вон";
-    }
-
-    function planCardHTML(p){
-      const price = p.prices[currentDays];
-      const badge = p.popular ? `<span class="badge"><i></i>ПОПУЛЯРНЫЙ</span>` : "";
-      const featHtml = includedFeatures.map(f => `
-        <li>
-          <span class="tick" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M20 7L10 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-          <span>${f}</span>
-        </li>
-      `).join("");
-
-      return `
-        <div class="card plan">
-          <div class="plan-head">
-            <h3 class="glow">${p.name}</h3>
-            ${badge}
-          </div>
-
-          <div class="price">
-            <b>${formatWon(price)}</b>
-            <span> / ${currentDays} дней</span>
-          </div>
-
-          <ul class="features">
-            ${featHtml}
-          </ul>
-
-          <button class="btn primary shimmer choose" data-plan="${p.id}">
-            Выбрать остров
-          </button>
-        </div>
-      `;
-    }
-
-    function renderPricing(){
-      pricingGrid.innerHTML = plans.map(planCardHTML).join("");
-      // bind choose buttons
-      pricingGrid.querySelectorAll(".choose").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const id = btn.getAttribute("data-plan");
-          const plan = plans.find(x => x.id === id);
-          openModal(plan);
-        });
-      });
-    }
-
-    chips.forEach(c => {
-      c.addEventListener("click", () => {
-        chips.forEach(x => x.classList.remove("active"));
-        c.classList.add("active");
-        currentDays = Number(c.dataset.days);
-        renderPricing();
-      });
-    });
-
-    renderPricing();
-
-    // =========================
-    // Modal logic
-    // =========================
-    const backdrop = document.getElementById("modalBackdrop");
-    const modalClose = document.getElementById("modalClose");
-    const choiceBox = document.getElementById("choiceBox");
-    const discordMainBtn = document.getElementById("discordMainBtn");
-    const discordModalBtn = document.getElementById("discordModalBtn");
-
-    function openModal(plan){
-      const price = plan.prices[currentDays];
-      choiceBox.innerHTML = `
-        <b>Остров: ${sanitizeText(plan.name)}</b>
-        <span>Цена: ${formatWon(price)} / ${currentDays} дней</span>
-      `;
-      backdrop.classList.add("show");
-      backdrop.setAttribute("aria-hidden", "false");
-      document.body.style.overflow = "hidden";
-    }
-
-    function closeModal(){
-      backdrop.classList.remove("show");
-      backdrop.setAttribute("aria-hidden", "true");
-      document.body.style.overflow = "";
-    }
-
-    modalClose.addEventListener("click", closeModal);
-    backdrop.addEventListener("click", (e) => {
-      if(e.target === backdrop) closeModal();
-    });
-    window.addEventListener("keydown", (e) => {
-      if(e.key === "Escape") closeModal();
-    });
-
-    function openDiscord(){
-      window.open(DISCORD_INVITE, "_blank", "noopener,noreferrer");
-    }
-    discordMainBtn.addEventListener("click", openDiscord);
-    discordModalBtn.addEventListener("click", openDiscord);
-
-    // =========================
-    // Smooth reveal on scroll
-    // =========================
-    const revealEls = Array.from(document.querySelectorAll(".reveal"));
-    const io = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if(entry.isIntersecting){
-          entry.target.classList.add("in");
-          io.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.12 });
-
-    revealEls.forEach(el => io.observe(el));
-
-    // =========================
-    // Fancy particles (bottom -> top)
-    // =========================
-    const canvas = document.getElementById("particles");
-    const ctx = canvas.getContext("2d");
-
-    let W = 0, H = 0, DPR = Math.min(window.devicePixelRatio || 1, 2);
-    function resize(){
-      W = canvas.width = Math.floor(window.innerWidth * DPR);
-      H = canvas.height = Math.floor(window.innerHeight * DPR);
-      canvas.style.width = window.innerWidth + "px";
-      canvas.style.height = window.innerHeight + "px";
-    }
-    window.addEventListener("resize", resize);
-    resize();
-
-    const COLORS = [
-      { r: 0,   g: 212, b: 255 }, // cyan
-      { r: 124, g: 58,  b: 237 }, // violet
-      { r: 245, g: 200, b: 66  }  // gold
-    ];
-
-    function rand(min, max){ return Math.random() * (max - min) + min; }
-
-    const particles = [];
-    const COUNT = Math.floor(Math.min(130, Math.max(70, window.innerWidth / 12)));
-
-    function spawnParticle(){
-      const c = COLORS[Math.floor(Math.random() * COLORS.length)];
-      return {
-        x: rand(0, W),
-        y: rand(H * 0.85, H * 1.15),
-        r: rand(1.2, 3.2) * DPR,
-        vy: rand(0.25, 1.15) * DPR,
-        vx: rand(-0.18, 0.18) * DPR,
-        a: rand(0.16, 0.6),
-        tw: rand(0.003, 0.012), // twinkle
-        t: rand(0, 999),
-        c
-      };
-    }
-
-    for(let i=0;i<COUNT;i++) particles.push(spawnParticle());
-
-    function draw(){
-      ctx.clearRect(0,0,W,H);
-
-      // faint vignette
-      const grad = ctx.createRadialGradient(W*0.5, H*0.2, 0, W*0.5, H*0.2, Math.max(W,H)*0.7);
-      grad.addColorStop(0, "rgba(0,212,255,0.05)");
-      grad.addColorStop(0.5, "rgba(124,58,237,0.04)");
-      grad.addColorStop(1, "rgba(0,0,0,0)");
-      ctx.fillStyle = grad;
-      ctx.fillRect(0,0,W,H);
-
-      for(const p of particles){
-        p.t += 1;
-        p.x += p.vx;
-        p.y -= p.vy;
-
-        // wrap
-        if(p.y < -30 * DPR) {
-          p.y = rand(H * 1.05, H * 1.25);
-          p.x = rand(0, W);
-        }
-        if(p.x < -20*DPR) p.x = W + 20*DPR;
-        if(p.x > W + 20*DPR) p.x = -20*DPR;
-
-        const twinkle = 0.55 + 0.45 * Math.sin(p.t * p.tw);
-        const alpha = p.a * twinkle;
-
-        ctx.beginPath();
-        ctx.fillStyle = `rgba(${p.c.r},${p.c.g},${p.c.b},${alpha})`;
-        ctx.shadowBlur = 18 * DPR;
-        ctx.shadowColor = `rgba(${p.c.r},${p.c.g},${p.c.b},${alpha})`;
-        ctx.arc(p.x, p.y, p.r, 0, Math.PI*2);
-        ctx.fill();
-      }
-
-      requestAnimationFrame(draw);
-    }
-    draw();
-  </script>
 </body>
 </html>
