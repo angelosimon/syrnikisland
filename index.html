@@ -1,1307 +1,265 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>🏝️ Сырниковые Острова</title>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SunTrips – Путёвки на Сырниковые Острова</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800;900&display=swap');
-
-    :root{
-      --bg:#070a12;
-      --panel:#0c1220;
-      --panel2:#0e1628;
-      --line:rgba(255,255,255,.08);
-
-      --cyan:#00d4ff;
-      --violet:#7c3aed;
-      --gold:#f5c842;
-
-      --text:#eaf0ff;
-      --muted:#9aaccc;
-
-      --r16:16px;
-      --r22:22px;
-      --r28:28px;
-
-      --shadow: 0 22px 80px rgba(0,0,0,.55);
-      --glowC: 0 0 18px rgba(0,212,255,.35);
-      --glowV: 0 0 18px rgba(124,58,237,.30);
-      --glowG: 0 0 18px rgba(245,200,66,.22);
+    :root {
+      --bg: #eef5ff;
+      --primary: #00d4ff;
+      --secondary: #7c3aed;
+      --gold: #f5c842;
+      --text: #0a0e1a;
+      --card: #ffffff;
+      --radius: 14px;
     }
-
-    *{ box-sizing:border-box; }
-    html{ scroll-behavior:smooth; }
-    body{
-      margin:0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(900px 600px at 20% 10%, rgba(0,212,255,.08), transparent 60%),
-        radial-gradient(850px 600px at 80% 18%, rgba(124,58,237,.10), transparent 60%),
-        radial-gradient(900px 700px at 50% 95%, rgba(245,200,66,.06), transparent 60%),
-        linear-gradient(180deg, #05070f, #070a12);
-      overflow-x:hidden;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
     }
-
-    /* background */
-    #particles{
-      position:fixed; inset:0; width:100%; height:100%;
-      z-index:-2; pointer-events:none;
-      filter: drop-shadow(0 0 10px rgba(0,212,255,.12));
+    body {
+      background: var(--bg);
+      color: var(--text);
     }
-    .fog{
-      position:fixed; inset:-20%;
-      z-index:-3; pointer-events:none;
-      background:
-        radial-gradient(circle at 30% 35%, rgba(255,255,255,.06), transparent 60%),
-        radial-gradient(circle at 70% 20%, rgba(255,255,255,.05), transparent 60%),
-        radial-gradient(circle at 50% 80%, rgba(255,255,255,.04), transparent 60%);
-      filter: blur(22px);
-      opacity:.35;
-      mask-image: radial-gradient(circle at 50% 20%, rgba(0,0,0,1), transparent 70%);
-    }
-
-    .container{
-      width:min(1180px, calc(100% - 40px));
-      margin:0 auto;
-    }
-
-    /* NAV (как на скрине: слева лого, по центру пункты, справа аватар) */
-    header{
-      position:sticky; top:0; z-index:50;
-      background: linear-gradient(180deg, rgba(7,10,18,.78), rgba(7,10,18,.35));
-      backdrop-filter: blur(14px);
-      border-bottom:1px solid var(--line);
-    }
-    .nav{
-      display:grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items:center;
-      padding:14px 0;
-      gap:16px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:12px;
-      text-decoration:none; color:var(--text);
-      justify-self:start;
-    }
-    .logo{
-      width:38px; height:38px; border-radius:14px;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(0,212,255,.35), transparent 55%),
-        radial-gradient(circle at 70% 70%, rgba(124,58,237,.35), transparent 55%),
-        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      border:1px solid rgba(255,255,255,.10);
-      box-shadow: var(--glowC), var(--glowV);
-      display:grid; place-items:center;
-      position:relative; overflow:hidden;
-    }
-    .logo::after{
-      content:"";
-      position:absolute; inset:-60%;
-      background: conic-gradient(from 90deg, transparent, rgba(0,212,255,.20), transparent, rgba(124,58,237,.18), transparent);
-      animation: spin 7s linear infinite;
-      opacity:.75;
-    }
-    .logo span{ position:relative; font-weight:900; letter-spacing:.4px; }
-    .brand b{ font-weight:900; letter-spacing:.2px; }
-
-    .menu{
-      justify-self:center;
-      display:flex; gap:18px;
-      align-items:center;
-      padding:10px 14px;
-      border-radius: 999px;
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(255,255,255,.03);
-      box-shadow: 0 18px 60px rgba(0,0,0,.25);
-    }
-    .menu a{
-      text-decoration:none;
-      color:var(--muted);
-      font-weight:800;
-      font-size:13px;
-      padding:8px 10px;
-      border-radius: 999px;
-      transition:.2s ease;
-      border:1px solid transparent;
-    }
-    .menu a:hover{
-      color:var(--text);
-      border-color: rgba(0,212,255,.18);
-      box-shadow: 0 0 0 4px rgba(0,212,255,.06);
-      transform: translateY(-1px);
-    }
-
-    .profile{
-      justify-self:end;
-      display:flex; align-items:center; gap:10px;
-      color:var(--muted);
-      font-weight:800;
-    }
-    .avatar{
-      width:34px; height:34px; border-radius: 12px;
-      border:1px solid rgba(255,255,255,.12);
-      background:
-        radial-gradient(circle at 30% 30%, rgba(245,200,66,.18), transparent 60%),
-        radial-gradient(circle at 70% 70%, rgba(0,212,255,.12), transparent 60%),
-        linear-gradient(135deg, rgba(255,255,255,.06), rgba(255,255,255,.02));
-      box-shadow: var(--glowG);
-      overflow:hidden;
-    }
-
-    /* Reveal on scroll */
-    .reveal{
-      opacity:0;
-      transform: translateY(16px);
-      transition: .75s cubic-bezier(.2,.9,.2,1);
-    }
-    .reveal.in{
-      opacity:1;
-      transform: translateY(0);
-    }
-
-    /* Section */
-    section{ padding: 36px 0 80px; }
-    .title{
-      margin:0 0 8px;
-      font-size: 34px;
-      font-weight: 900;
-      letter-spacing:-.7px;
-      background: linear-gradient(90deg, var(--cyan), var(--violet), var(--gold));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-      text-shadow: 0 0 18px rgba(0,212,255,.14);
-    }
-    .sub{
-      margin:0 0 22px;
-      color:var(--muted);
-      font-weight:700;
-      max-width: 72ch;
-    }
-
-    /* Layout like screenshot */
-    .main-grid{
-      display:grid;
-      grid-template-columns: 1.7fr 1fr;
-      gap:16px;
-      align-items:stretch;
-    }
-    @media (max-width: 980px){
-      .main-grid{ grid-template-columns: 1fr; }
-      .menu{ display:none; } /* на мобиле по-простому */
-    }
-
-    .card{
-      border-radius: var(--r28);
-      border:1px solid rgba(255,255,255,.10);
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      box-shadow: var(--shadow);
-      overflow:hidden;
-      position:relative;
-      transition:.22s ease;
-      will-change: transform;
-    }
-    .card:hover{
-      transform: translateY(-8px);
-      border-color: rgba(0,212,255,.18);
-      box-shadow: var(--glowC), var(--glowV), 0 26px 90px rgba(0,0,0,.65);
-    }
-
-    /* HERO big card */
-    .hero{
-      min-height: 420px;
-      padding: 26px;
-      display:flex;
-      align-items:flex-end;
-    }
-    .hero::before{
-      content:"";
-      position:absolute; inset:0;
-      background:
-        linear-gradient(90deg, rgba(7,10,18,.86) 0%, rgba(7,10,18,.55) 55%, rgba(7,10,18,.20) 100%),
-        url("https://images.unsplash.com/photo-1561882468-9110e03e0f78?auto=format&fit=crop&w=1600&q=80");
+    header {
+      background-image: url('https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=1600&q=80');
       background-size: cover;
-      background-position:center;
-      filter: saturate(1.1) contrast(1.05);
-      transform: scale(1.02);
+      background-position: center;
+      padding: 120px 20px;
+      text-align: center;
+      color: #fff;
+      position: relative;
     }
-    .hero::after{
-      content:"";
-      position:absolute; inset:0;
-      background:
-        radial-gradient(600px 420px at 40% 40%, rgba(0,212,255,.10), transparent 60%),
-        radial-gradient(520px 420px at 65% 35%, rgba(124,58,237,.10), transparent 60%),
-        radial-gradient(520px 420px at 70% 85%, rgba(245,200,66,.06), transparent 60%);
-      pointer-events:none;
+    header::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, .5);
     }
-    .hero > *{ position:relative; z-index:1; }
-
-    .hero-kicker{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:10px 12px;
-      border-radius: 999px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.25);
-      color:var(--muted);
-      font-weight:800;
-      font-size:13px;
-      margin-bottom: 12px;
-      width: fit-content;
+    header > div {
+      position: relative;
+      z-index: 1;
     }
-    .dot{
-      width:8px;height:8px;border-radius:50%;
-      background: var(--cyan);
-      box-shadow: 0 0 14px rgba(0,212,255,.65);
-    }
-
-    .hero-title{
-      margin:0 0 8px;
-      font-size: clamp(44px, 5.3vw, 72px);
-      font-weight: 1000;
-      letter-spacing:-1.4px;
-      line-height: .95;
-      text-transform: uppercase;
-      background: linear-gradient(90deg, #eaf0ff, #cfe7ff);
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-      text-shadow:
-        0 0 22px rgba(0,0,0,.35),
-        0 0 24px rgba(0,212,255,.10);
-    }
-
-    .hero-sub{
-      margin:0 0 16px;
-      color: rgba(234,240,255,.88);
-      font-weight:800;
-      max-width: 46ch;
-      text-shadow: 0 0 18px rgba(0,0,0,.35);
-    }
-
-    .hero-actions{
-      display:flex; gap:12px; flex-wrap:wrap; align-items:center;
-      margin-top: 8px;
-    }
-
-    .btn{
-      border:none;
-      cursor:pointer;
-      padding: 12px 15px;
-      border-radius: 16px;
-      font-weight: 900;
-      color: var(--text);
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.05);
-      transition:.2s ease;
-      position:relative;
-      overflow:hidden;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      gap:10px;
-      box-shadow: 0 18px 60px rgba(0,0,0,.35);
-    }
-    .btn:hover{ transform: translateY(-2px) scale(1.01); }
-    .btn:active{ transform: translateY(0) scale(.99); }
-
-    .btn.primary{
-      background: linear-gradient(90deg, rgba(0,212,255,.22), rgba(124,58,237,.22));
-      border-color: rgba(0,212,255,.18);
-      box-shadow: var(--glowC), var(--glowV), 0 18px 60px rgba(0,0,0,.35);
-    }
-    .btn.secondary{
-      background: linear-gradient(90deg, rgba(245,200,66,.14), rgba(0,212,255,.10));
-      border-color: rgba(245,200,66,.22);
-      box-shadow: var(--glowG), var(--glowC), 0 18px 60px rgba(0,0,0,.35);
-    }
-    .shimmer::before{
-      content:"";
-      position:absolute;
-      top:-70%;
-      left:-40%;
-      width:60%;
-      height:260%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.28), transparent);
-      transform: rotate(20deg);
-      animation: shimmer 2.6s infinite;
-      opacity:.8;
-    }
-    .price-bubble{
-      display:inline-flex; align-items:center; gap:10px;
-      padding:10px 12px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.12);
-      background: rgba(0,0,0,.25);
-      font-weight:900;
-      color: var(--text);
-      box-shadow: 0 0 18px rgba(0,0,0,.22);
-    }
-    .price-bubble small{ color: var(--muted); font-weight:800; }
-
-    .hero-foot{
-      margin-top: 14px;
-      color: rgba(234,240,255,.78);
-      font-weight:700;
-      font-size: 13px;
-      text-shadow: 0 0 18px rgba(0,0,0,.35);
-    }
-
-    /* hero decor (like pig/cake overlay feeling) */
-    .hero-decor{
-      position:absolute;
-      right:-40px;
-      bottom:-28px;
-      width:min(360px, 46vw);
-      height:auto;
-      opacity:.95;
-      filter: drop-shadow(0 24px 40px rgba(0,0,0,.55)) drop-shadow(0 0 18px rgba(124,58,237,.20));
-      transform: rotate(-2deg);
-      pointer-events:none;
-    }
-    @media (max-width:980px){
-      .hero-decor{ right:-60px; opacity:.75; }
-    }
-
-    /* side cards */
-    .side{
-      display:grid;
-      grid-template-rows: 1fr 1fr;
-      gap:16px;
-    }
-    .feature{
-      padding: 18px;
-      display:grid;
-      grid-template-columns: 1fr;
-      align-content:space-between;
-      min-height: 202px;
-    }
-    .feature h3{
-      margin:0;
-      font-size: 15px;
-      font-weight: 900;
-      color: var(--text);
-      text-shadow: 0 0 14px rgba(0,212,255,.12);
-    }
-    .feature .imgBox{
-      margin-top: 12px;
-      border-radius: 18px;
-      border:1px solid rgba(255,255,255,.10);
-      overflow:hidden;
-      height: 150px;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(0,212,255,.12), transparent 60%),
-        radial-gradient(circle at 70% 60%, rgba(124,58,237,.12), transparent 60%),
-        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
-      position:relative;
-    }
-    .feature .imgBox img{
-      width:100%; height:100%; object-fit:cover;
-      filter: saturate(1.1) contrast(1.05);
-      opacity:.92;
-    }
-    .feature .imgBox::after{
-      content:"";
-      position:absolute; inset:0;
-      background: linear-gradient(180deg, rgba(7,10,18,.05), rgba(7,10,18,.45));
-    }
-
-    /* bottom mini cards like screenshot */
-    .mini-row{
-      margin-top: 16px;
-      display:grid;
-      grid-template-columns: 1fr 1fr 1fr;
-      gap:16px;
-    }
-    @media (max-width:980px){
-      .mini-row{ grid-template-columns: 1fr; }
-    }
-    .mini{
-      padding: 16px;
-      display:flex;
-      align-items:center;
-      justify-content:space-between;
-      gap:12px;
-      min-height: 84px;
-      border-radius: var(--r22);
-    }
-    .mini b{
-      font-size: 13px;
-      font-weight: 900;
-      color: var(--text);
-    }
-    .mini span{
-      color: var(--muted);
-      font-weight:800;
-      font-size: 12px;
-    }
-    .mini .ico{
-      width:38px; height:38px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.12);
-      background: linear-gradient(135deg, rgba(0,212,255,.14), rgba(124,58,237,.12));
-      box-shadow: var(--glowC);
-      display:grid; place-items:center;
-      flex: 0 0 auto;
-    }
-    .mini .ico svg{ width:20px; height:20px; opacity:.95; }
-
-    /* GALLERY (без добавления!) */
-    .gallery-grid{
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:16px;
-      margin-top: 22px;
-    }
-    @media (max-width: 980px){ .gallery-grid{ grid-template-columns: repeat(2, 1fr); } }
-    @media (max-width: 640px){ .gallery-grid{ grid-template-columns: 1fr; } }
-
-    .gcard{
-      border-radius: var(--r22);
-      overflow:hidden;
-      border:1px solid rgba(255,255,255,.10);
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      box-shadow: 0 18px 70px rgba(0,0,0,.45);
-      transition:.22s ease;
-      will-change: transform;
-    }
-    .gcard:hover{
-      transform: translateY(-8px) scale(1.01);
-      border-color: rgba(0,212,255,.18);
-      box-shadow: var(--glowC), var(--glowV), 0 24px 90px rgba(0,0,0,.60);
-    }
-    .gimg{ width:100%; height:180px; object-fit:cover; display:block; filter:saturate(1.1) contrast(1.05); }
-    .gbody{ padding: 14px; }
-    .gbody h4{
-      margin:0 0 6px;
-      font-size: 15px;
-      font-weight: 900;
-      text-shadow: 0 0 12px rgba(0,212,255,.12);
-    }
-    .gbody p{ margin:0; color:var(--muted); font-weight:700; font-size: 13px; line-height: 1.35; }
-
-    /* PRICING */
-    .toggle{
-      display:flex; gap:10px; flex-wrap:wrap;
-      padding:10px;
-      border-radius: 999px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(255,255,255,.03);
-      width: fit-content;
-      box-shadow: 0 18px 60px rgba(0,0,0,.25);
-    }
-    .chip{
-      border:none; cursor:pointer;
-      padding: 10px 12px;
-      border-radius: 999px;
-      color: var(--muted);
-      font-weight: 900;
-      background: rgba(0,0,0,.25);
-      border:1px solid rgba(255,255,255,.08);
-      transition:.2s ease;
-    }
-    .chip:hover{
-      color:var(--text);
-      border-color: rgba(0,212,255,.18);
-      box-shadow: 0 0 0 4px rgba(0,212,255,.06);
-      transform: translateY(-1px);
-    }
-    .chip.active{
-      color:var(--text);
-      border-color: rgba(0,212,255,.22);
-      background: linear-gradient(90deg, rgba(0,212,255,.16), rgba(124,58,237,.14));
-      box-shadow: var(--glowC);
-    }
-
-    .pricing-grid{
-      margin-top: 18px;
-      display:grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap:16px;
-    }
-    @media (max-width:980px){ .pricing-grid{ grid-template-columns: 1fr; } }
-
-    .plan{
-      padding: 18px;
-      border-radius: var(--r28);
-    }
-    .plan:hover{ transform: translateY(-8px); }
-    .plan h3{
-      margin:0;
-      font-size: 16px;
-      font-weight: 900;
-      text-shadow: 0 0 12px rgba(0,212,255,.12);
-    }
-    .planTop{
-      display:flex; justify-content:space-between; align-items:flex-start;
-      gap:12px;
-    }
-    .badge{
-      display:inline-flex; align-items:center; gap:8px;
-      padding:8px 10px;
-      border-radius: 999px;
-      font-size: 12px;
-      font-weight: 900;
-      border:1px solid rgba(124,58,237,.22);
-      background: rgba(124,58,237,.14);
-      box-shadow: var(--glowV);
-      animation: pulse 1.8s infinite;
-      white-space:nowrap;
-    }
-    .badge i{
-      width:8px; height:8px; border-radius:50%;
-      background: var(--violet);
-      box-shadow: 0 0 14px rgba(124,58,237,.65);
-      display:inline-block;
-    }
-
-    .price{
-      margin: 12px 0 10px;
-      display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;
-    }
-    .price b{
-      font-size: 34px;
-      font-weight: 1000;
-      letter-spacing:-.8px;
-      background: linear-gradient(90deg, var(--cyan), var(--violet));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-      text-shadow: 0 0 16px rgba(0,212,255,.12);
-    }
-    .price span{ color:var(--muted); font-weight:900; }
-
-    .features{
-      margin: 12px 0 16px;
-      padding:0;
-      list-style:none;
-      display:grid;
-      gap:10px;
-    }
-    .features li{
-      display:flex; gap:10px; align-items:flex-start;
-      padding: 10px 12px;
-      border-radius: 16px;
-      border:1px solid rgba(255,255,255,.08);
-      background: rgba(0,0,0,.20);
-      color: var(--text);
+    h1 {
+      font-size: 3rem;
       font-weight: 800;
-      transition:.2s ease;
-    }
-    .features li:hover{
-      transform: translateY(-2px);
-      border-color: rgba(245,200,66,.16);
-      box-shadow: var(--glowG);
-    }
-    .tick{
-      width:18px;height:18px;border-radius: 7px;
-      background: linear-gradient(135deg, rgba(245,200,66,.20), rgba(0,212,255,.14));
-      border:1px solid rgba(245,200,66,.18);
-      box-shadow: 0 0 12px rgba(245,200,66,.14);
-      display:grid; place-items:center;
-      flex:0 0 auto;
-      margin-top:1px;
-    }
-    .tick svg{ width:12px; height:12px; }
-
-    .choose{ width:100%; justify-content:center; }
-
-    /* DISCORD section */
-    .discordBox{
-      margin-top: 16px;
-      padding: 24px;
-      border-radius: var(--r28);
-      border:1px solid rgba(255,255,255,.10);
-      background: linear-gradient(180deg, rgba(255,255,255,.04), rgba(255,255,255,.02));
-      box-shadow: var(--shadow);
-      position:relative;
-      overflow:hidden;
-      display:grid;
-      grid-template-columns: 1.1fr .9fr;
-      gap:16px;
-      align-items:center;
-    }
-    @media (max-width: 900px){
-      .discordBox{ grid-template-columns: 1fr; }
-    }
-    .discordBox::before{
-      content:"";
-      position:absolute; inset:-40%;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(124,58,237,.20), transparent 60%),
-        radial-gradient(circle at 70% 60%, rgba(0,212,255,.12), transparent 60%);
-      filter: blur(12px);
-      opacity:.9;
-      pointer-events:none;
-    }
-    .discordBox > *{ position:relative; z-index:1; }
-
-    .discordBtn{
-      width:100%;
-      padding: 16px 18px;
-      border-radius: 22px;
-      border:1px solid rgba(124,58,237,.22);
-      background: linear-gradient(90deg, rgba(124,58,237,.30), rgba(0,212,255,.18));
-      color: var(--text);
-      font-weight: 1000;
-      font-size: 16px;
-      cursor:pointer;
-      transition:.2s ease;
-      position:relative;
-      overflow:hidden;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      gap:12px;
-      box-shadow: var(--glowV), var(--glowC), 0 24px 80px rgba(0,0,0,.45);
-    }
-    .discordBtn:hover{
-      transform: translateY(-3px) scale(1.01);
-      box-shadow: 0 0 22px rgba(124,58,237,.42), 0 0 20px rgba(0,212,255,.32);
-    }
-    .discordBtn::before{
-      content:"";
-      position:absolute;
-      top:-80%;
-      left:-35%;
-      width:55%;
-      height:260%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.30), transparent);
-      transform: rotate(22deg);
-      animation: shimmer 2.2s infinite;
-      opacity:.85;
-    }
-    .dIcon{ width:22px; height:22px; filter: drop-shadow(0 0 10px rgba(124,58,237,.35)); }
-
-    /* MODAL */
-    .backdrop{
-      position:fixed; inset:0;
-      background: rgba(0,0,0,.58);
-      backdrop-filter: blur(10px);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding: 22px;
-      z-index: 999;
-    }
-    .backdrop.show{ display:flex; }
-
-    .modal{
-      width: min(560px, 100%);
-      border-radius: 26px;
-      border:1px solid rgba(255,255,255,.12);
-      background: linear-gradient(180deg, rgba(12,18,32,.92), rgba(7,10,18,.90));
-      box-shadow: 0 28px 120px rgba(0,0,0,.70), var(--glowC), var(--glowV);
-      overflow:hidden;
-      position:relative;
-    }
-    .modal::before{
-      content:"";
-      position:absolute; inset:-35%;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(0,212,255,.22), transparent 60%),
-        radial-gradient(circle at 70% 60%, rgba(124,58,237,.22), transparent 60%),
-        radial-gradient(circle at 50% 90%, rgba(245,200,66,.12), transparent 60%);
-      filter: blur(12px);
-      opacity:.85;
-      pointer-events:none;
-    }
-    .modal > *{ position:relative; z-index:1; }
-
-    .mTop{
-      padding: 18px 18px 10px;
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:14px;
-      border-bottom: 1px solid rgba(255,255,255,.10);
-    }
-    .mTop h3{
-      margin:0;
-      font-size: 20px;
-      font-weight: 1000;
-      background: linear-gradient(90deg, var(--gold), var(--cyan), var(--violet));
-      -webkit-background-clip:text;
-      background-clip:text;
+      background: linear-gradient(45deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text;
       color: transparent;
-      text-shadow: 0 0 18px rgba(245,200,66,.10);
+      margin-bottom: 10px;
+      text-shadow: 0 4px 10px rgba(0, 0, 0, .3);
     }
-    .close{
-      border:none; cursor:pointer;
-      width:38px; height:38px;
-      border-radius: 14px;
-      background: rgba(255,255,255,.06);
-      border:1px solid rgba(255,255,255,.10);
-      color: var(--text);
-      font-weight: 1000;
-      transition:.2s ease;
+    .lead {
+      font-size: 1.2rem;
+      margin-bottom: 25px;
     }
-    .close:hover{
-      transform: translateY(-1px);
-      box-shadow: var(--glowC);
-      border-color: rgba(0,212,255,.18);
+    .btn {
+      display: inline-block;
+      padding: 15px 30px;
+      border-radius: var(--radius);
+      background: var(--gold);
+      color: #000;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, .2);
+      transition: transform .2s;
     }
-    .mBody{
-      padding: 14px 18px 18px;
-      color: var(--muted);
-      font-weight: 750;
-      line-height: 1.5;
+    .btn:hover {
+      transform: translateY(-3px);
     }
-    .choice{
-      margin: 12px 0 14px;
-      padding: 14px;
-      border-radius: 20px;
-      border:1px solid rgba(255,255,255,.10);
-      background: rgba(0,0,0,.22);
-      color: var(--text);
-      box-shadow: 0 18px 55px rgba(0,0,0,.25);
+    section.packages {
+      max-width: 1200px;
+      margin: auto;
+      padding: 60px 20px;
     }
-    .choice b{
-      display:block;
-      font-size: 16px;
-      font-weight: 1000;
-      text-shadow: 0 0 14px rgba(0,212,255,.14);
-      margin-bottom: 4px;
+    section.packages h2 {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 40px;
     }
-    .choice span{ color: var(--muted); font-weight: 900; }
-
-    footer{
-      padding: 34px 0 60px;
-      border-top: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(7,10,18,.15), rgba(7,10,18,.55));
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 30px;
     }
-    .foot{
-      display:flex;
-      justify-content:space-between;
-      gap:18px;
-      flex-wrap:wrap;
-      color: var(--muted);
-      font-weight: 750;
+    .card {
+      background: var(--card);
+      border-radius: var(--radius);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, .08);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
     }
-    .foot b{ color: var(--text); text-shadow: 0 0 10px rgba(0,212,255,.12); }
-
-    @keyframes shimmer{
-      0%{ transform: translateX(-60%) rotate(22deg); }
-      60%{ transform: translateX(220%) rotate(22deg); }
-      100%{ transform: translateX(220%) rotate(22deg); }
+    .card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
     }
-    @keyframes spin{ to{ transform: rotate(360deg); } }
-    @keyframes pulse{
-      0%,100%{ transform: translateY(0); filter: brightness(1); }
-      50%{ transform: translateY(-1px); filter: brightness(1.15); }
+    .card-body {
+      padding: 20px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+    .card-title {
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .card-desc {
+      font-size: .9rem;
+      margin-bottom: 16px;
+      flex: 1;
+    }
+    .price-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: .9rem;
+      margin-bottom: 16px;
+    }
+    .price-table th,
+    .price-table td {
+      border: 1px solid #e2e8f0;
+      padding: 6px;
+      text-align: center;
+    }
+    .price-table th {
+      background: var(--primary);
+      color: #fff;
+    }
+    .card-footer {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    .note {
+      max-width: 800px;
+      margin: 40px auto;
+      padding: 20px;
+      background: var(--secondary);
+      color: #fff;
+      border-radius: var(--radius);
+    }
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 2.2rem;
+      }
+      header {
+        padding: 80px 10px;
+      }
     }
   </style>
 </head>
-
 <body>
-  <canvas id="particles"></canvas>
-  <div class="fog"></div>
-
   <header>
-    <div class="container">
-      <div class="nav">
-        <a class="brand" href="#top">
-          <div class="logo"><span>SO</span></div>
-          <b>Сырниковые Острова</b>
-        </a>
-
-        <nav class="menu" aria-label="Навигация">
-          <a href="#top">Главная</a>
-          <a href="#gallery">Галерея</a>
-          <a href="#pricing">Тарифы</a>
-          <a href="#discord">Discord</a>
-        </nav>
-
-        <div class="profile" title="Профиль">
-          <div class="avatar"></div>
-          <span>Игрок</span>
-          <span style="opacity:.8;">▾</span>
-        </div>
-      </div>
+    <div>
+      <h1>Сырниковые Острова</h1>
+      <p class="lead">Ролевая жизнь на архипелаге сервера SunShield – стань жителем прямо сейчас!</p>
+      <a href="#packages" class="btn">Выбрать остров</a>
     </div>
   </header>
 
-  <main id="top">
-    <section>
-      <div class="container">
-
-        <!-- TOP GRID (как на скрине) -->
-        <div class="main-grid reveal">
-          <!-- HERO BIG -->
-          <div class="card hero">
-            <img class="hero-decor" alt="" aria-hidden="true"
-                 src="https://raw.githubusercontent.com/InventivetalentDev/minecraft-assets/1.20.4/assets/minecraft/textures/entity/pig/pig.png"
-                 onerror="this.style.display='none'">
-
-            <div>
-              <div class="hero-kicker"><span class="dot"></span>Вы ждали — и вот он</div>
-              <h1 class="hero-title">Сырниковые<br/>Острова</h1>
-              <p class="hero-sub">Самый красивый архипелаг в Minecraft</p>
-
-              <div class="hero-actions">
-                <a class="btn primary shimmer" href="#pricing">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7z" stroke="currentColor" stroke-width="2" opacity=".9"/>
-                  </svg>
-                  Выбрать остров
-                </a>
-                <a class="btn secondary shimmer" href="#gallery">
-                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                    <path d="M4 7h16M4 17h16M7 7v10" stroke="currentColor" stroke-width="2" opacity=".9"/>
-                  </svg>
-                  Галерея
-                </a>
-                <div class="price-bubble">
-                  <span>от 70 вон</span>
-                  <small>/ 7 дней</small>
-                </div>
-              </div>
-
-              <div class="hero-foot">
-                Minecraft: Java Edition • Лицензия не обязательна • Доступ по билету
-              </div>
-            </div>
-          </div>
-
-          <!-- RIGHT SIDE STACK -->
-          <div class="side">
-            <div class="card feature">
-              <div>
-                <h3>Красивые острова и виды</h3>
-                <p style="margin:8px 0 0; color:var(--muted); font-weight:750; font-size:13px;">
-                  это рай.
-                </p>
-              </div>
-              <div class="imgBox">
-                <img alt="Minecraft feature"
-                     src="https://media.discordapp.net/attachments/1349125691886538812/1473282164073304210/2026-02-17_13.37.05.png?ex=6995a470&is=699452f0&hm=2bab7e8126259daf31ad9d5022e8c3e5b5eba91456b888e99d591d0f8bef2faf&=&format=webp&quality=lossless&width=1668&height=1022">
-              </div>
-            </div>
-
-            <div class="card feature">
-              <div>
-                <h3>Вкусная еда</h3>
-                <p style="margin:8px 0 0; color:var(--muted); font-weight:750; font-size:13px;">
-                  вкуснее нету.
-                </p>
-              </div>
-              <div class="imgBox">
-                <img alt="Community"
-                     src="https://media.discordapp.net/attachments/1349125691886538812/1473277655217606737/2026-02-17_13.19.08.png?ex=6995a03d&is=69944ebd&hm=b3cf7edcabb45181e4ad877988947f95e3e5fa6c15af64ceaa3485e12694ee14&=&format=webp&quality=lossless&width=1668&height=1022">
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- MINI ROW -->
-        <div class="mini-row reveal">
-          <div class="card mini">
-            <div>
-              <b>Работающая экономика</b><br/>
-              <span>рынок, обмен, честные цены</span>
-            </div>
-            <div class="ico" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M12 1v22M7 6h8a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h8" stroke="currentColor" stroke-width="2" opacity=".95"/>
-              </svg>
-            </div>
-          </div>
-
-          <div class="card mini">
-            <div>
-              <b>Интересные впечатления</b><br/>
-              <span>архипелаг, центр, активности</span>
-            </div>
-            <div class="ico" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M12 2l3 7 7 3-7 3-3 7-3-7-7-3 7-3 3-7z" stroke="currentColor" stroke-width="2" opacity=".95"/>
-              </svg>
-            </div>
-          </div>
-
-          <div class="card mini">
-            <div>
-              <b>24/7 онлайн</b><br/>
-              <span>заходи когда хочешь</span>
-            </div>
-            <div class="ico" aria-hidden="true" style="background:linear-gradient(135deg, rgba(245,200,66,.14), rgba(124,58,237,.12)); box-shadow: var(--glowG);">
-              <svg viewBox="0 0 24 24" fill="none">
-                <path d="M12 8v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" opacity=".95"/>
-                <path d="M12 22a10 10 0 1 0-10-10" stroke="currentColor" stroke-width="2" opacity=".95"/>
-              </svg>
-            </div>
-          </div>
-        </div>
-
-      </div>
-    </section>
-
-    <!-- GALLERY (статичная, без добавления) -->
-    <section id="gallery">
-      <div class="container reveal">
-        <h2 class="title">Галерея островов</h2>
-        <p class="sub">Красивые места архипелага. Тут ничего добавлять не нужно — просто смотри и выбирай вайб 😄</p>
-
-        <div class="gallery-grid">
-          <div class="gcard">
-            <img class="gimg" alt="Остров 1" src="https://media.discordapp.net/attachments/1349125691886538812/1472985501412884676/2026-02-16_17.56.16.png?ex=699538e6&is=6993e766&hm=47a32c15bd8a54bec288131c9217e3708c1ce0d4ea983a8e2b93d1b662d7407f&=&format=webp&quality=lossless&width=605&height=371">
-            <div class="gbody">
-              <h4>Вид на острова</h4>
-              <p>💗</p>
-            </div>
-          </div>
-
-          <div class="gcard">
-            <img class="gimg" alt="Остров 2" src="https://media.discordapp.net/attachments/1349125691886538812/1473275788739477514/2026-02-17_13.09.34.png?ex=69959e80&is=69944d00&hm=f480313e69f60e45b56febd4b64f6c735cff73013e052ddf68988b8159c8cec7&=&format=webp&quality=lossless&width=1635&height=1022">
-            <div class="gbody">
-              <h4>Пляж</h4>
-              <p>песок, пальмы и спокойная вода</p>
-            </div>
-          </div>
-
-          <div class="gcard">
-            <img class="gimg" alt="Остров 3" src="https://media.discordapp.net/attachments/1349125691886538812/1473276356963074078/2026-02-17_13.13.43.png?ex=69959f07&is=69944d87&hm=fefbc6192cc8fd17a760474a5be422fc3b32b06cc453b61261657aad45c9f8dd&=&format=webp&quality=lossless&width=1668&height=1022">
-            <div class="gbody">
-              <h4>Сырник Берг</h4>
-              <p>ресторан на природе</p>
-            </div>
-          </div>
-
-          <div class="gcard">
-            <img class="gimg" alt="Остров 4" src="https://media.discordapp.net/attachments/1349125691886538812/1473276374386081855/2026-02-17_13.14.07.png?ex=69959f0b&is=69944d8b&hm=e66645d7041aad04daf7c127146331e1aba6744965ec0ae9e12c14f9443e3191&=&format=webp&quality=lossless&width=1668&height=1022">
-            <div class="gbody">
-              <h4>Пляжный Сырникец</h4>
-              <p>Невозможный вкус</p>
-            </div>
-          </div>
-
-          <div class="gcard">
-            <img class="gimg" alt="Остров 5" src="https://media.discordapp.net/attachments/1349125691886538812/1473276640439042200/2026-02-17_13.15.10.png?ex=69959f4b&is=69944dcb&hm=fe0d98667b90aaa86e3eb02814b9bf37b67040bc9d8da53967b330bc1f0413e5&=&format=webp&quality=lossless&width=1668&height=1022">
-            <div class="gbody">
-              <h4>Valera Temple</h4>
-              <p>Скрыто</p>
-            </div>
-          </div>
-
-          <div class="gcard">
-            <img class="gimg" alt="Остров 6" src="https://cdn.discordapp.com/attachments/1349125691886538812/1473277034464809063/image.png?ex=69959fa9&is=69944e29&hm=21279f2ce4b6bee1ea244d7be2e4730356c358e83efa5c3f52c227e35d670ced">
-            <div class="gbody">
-              <h4>Вид со спутникаа</h4>
-              <p>Syrnikovye Ostrova</p>
-            </div>
+  <section class="packages" id="packages">
+    <h2>Доступные острова</h2>
+    <div class="cards">
+      <!-- Маленький остров -->
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=800&q=70" alt="Маленький остров" />
+        <div class="card-body">
+          <h3 class="card-title">Маленький остров</h3>
+          <p class="card-desc">Стартовое жильё для одного игрока. Идеально, чтобы начать свой путь на архипелаге.</p>
+          <table class="price-table">
+            <thead>
+              <tr>
+                <th>Длительность</th>
+                <th>Цена, вон</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>7&nbsp;дней</td><td>70</td></tr>
+              <tr><td>14&nbsp;дней</td><td>133</td></tr>
+              <tr><td>30&nbsp;дней</td><td>245</td></tr>
+              <tr><td>60&nbsp;дней</td><td>448</td></tr>
+            </tbody>
+          </table>
+          <div class="card-footer">
+            <a href="#how" class="btn">Оформить путёвку</a>
           </div>
         </div>
       </div>
-    </section>
 
-    <!-- PRICING -->
-    <section id="pricing">
-      <div class="container reveal">
-        <h2 class="title">Тарифы</h2>
-        <p class="sub">Кнопки 7/14/30/60 дней меняют цену. Кнопка “Выбрать остров” открывает popup.</p>
-
-        <div class="toggle" aria-label="Переключение длительности">
-          <button class="chip active" data-days="7">7 дней</button>
-          <button class="chip" data-days="14">14 дней</button>
-          <button class="chip" data-days="30">30 дней</button>
-          <button class="chip" data-days="60">60 дней</button>
-        </div>
-
-        <div class="pricing-grid" id="pricingGrid"></div>
-      </div>
-    </section>
-
-    <!-- DISCORD -->
-    <section id="discord">
-      <div class="container reveal">
-        <h2 class="title">Отзывы в Discord</h2>
-        <p class="sub">Все отзывы и общение на Discord сервере. Там же активация покупки — зашёл и готово 🚀</p>
-
-        <div class="discordBox">
-          <div>
-            <h3 style="margin:0 0 8px; font-size:20px; font-weight:1000; text-shadow:0 0 14px rgba(0,212,255,.12);">
-              Сервер живёт в Discord
-            </h3>
-            <p style="margin:0; color:var(--muted); font-weight:750;">
-              Новости, поддержка, отзывы, ивенты и “а где мой остров?” — всё там.
-            </p>
-            <p style="margin:10px 0 0; color:var(--muted); font-weight:900;">
-              💜 Нажми кнопку — и ты уже на связи.
-            </p>
+      <!-- Средний остров -->
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1502920917128-1aa500764b3a?auto=format&fit=crop&w=800&q=70" alt="Средний остров" />
+        <div class="card-body">
+          <h3 class="card-title">Средний остров</h3>
+          <p class="card-desc">Классическое жильё с просторной территорией. Комфорт для вас и ваших друзей.</p>
+          <table class="price-table">
+            <thead>
+              <tr>
+                <th>Длительность</th>
+                <th>Цена, вон</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>7&nbsp;дней</td><td>165</td></tr>
+              <tr><td>14&nbsp;дней</td><td>314</td></tr>
+              <tr><td>30&nbsp;дней</td><td>578</td></tr>
+              <tr><td>60&nbsp;дней</td><td>1056</td></tr>
+            </tbody>
+          </table>
+          <div class="card-footer">
+            <a href="#how" class="btn">Оформить путёвку</a>
           </div>
-
-          <button class="discordBtn" id="discordMainBtn" type="button">
-            <svg class="dIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-              <path d="M16.5 6.5a10.3 10.3 0 0 0-2.3-.8l-.3.6a9.7 9.7 0 0 0-2.9 0l-.3-.6a10.3 10.3 0 0 0-2.3.8c-1.5 2.2-1.9 4.4-1.7 6.5 1 1.2 2.2 2 3.6 2.5l.8-1.2c-.5-.2-1-.5-1.4-.9l.3-.2c2.7 1.2 5.6 1.2 8.2 0l.3.2c-.4.4-.9.7-1.4.9l.8 1.2c1.4-.5 2.6-1.3 3.6-2.5.2-2.1-.2-4.3-1.7-6.5Z"
-                    stroke="currentColor" stroke-width="2" opacity=".92"/>
-              <path d="M9.2 13.2c.5 0 .9-.5.9-1s-.4-1-.9-1-.9.5-.9 1 .4 1 .9 1Zm5.6 0c.5 0 .9-.5.9-1s-.4-1-.9-1-.9.5-.9 1 .4 1 .9 1Z"
-                    fill="currentColor" opacity=".92"/>
-            </svg>
-            Перейти в Discord
-          </button>
         </div>
       </div>
-    </section>
 
-    <footer>
-      <div class="container">
-        <div class="foot">
-          <div>© <b>Сырниковые Острова</b> • Minecraft Server</div>
-          <div>Неон включён ✨ • one-file HTML</div>
+      <!-- Большой остров -->
+      <div class="card">
+        <img src="https://images.unsplash.com/photo-1493558103817-58b2924bce98?auto=format&fit=crop&w=800&q=70" alt="Большой остров" />
+        <div class="card-body">
+          <h3 class="card-title">Большой остров</h3>
+          <p class="card-desc">Наибольшая площадь для смелых проектов, фермы или целого клана.</p>
+          <table class="price-table">
+            <thead>
+              <tr>
+                <th>Длительность</th>
+                <th>Цена, вон</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>7&nbsp;дней</td><td>240</td></tr>
+              <tr><td>14&nbsp;дней</td><td>456</td></tr>
+              <tr><td>30&nbsp;дней</td><td>840</td></tr>
+              <tr><td>60&nbsp;дней</td><td>1536</td></tr>
+            </tbody>
+          </table>
+          <div class="card-footer">
+            <a href="#how" class="btn">Оформить путёвку</a>
+          </div>
         </div>
-      </div>
-    </footer>
-  </main>
-
-  <!-- POPUP -->
-  <div class="backdrop" id="backdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document">
-      <div class="mTop">
-        <h3>Отличный выбор!</h3>
-        <button class="close" id="closeBtn" aria-label="Закрыть">✕</button>
-      </div>
-      <div class="mBody">
-        <div class="choice" id="choiceBox">
-          <b>Остров: —</b>
-          <span>Цена: —</span>
-        </div>
-
-        <p style="margin:0 0 14px;">
-          Зайди на Discord для активации. Там тебе быстро выдадут доступ, лодку 🛶 и покажут дорогу к центру.
-        </p>
-
-        <button class="discordBtn" id="discordModalBtn" type="button">
-          <svg class="dIcon" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M16.5 6.5a10.3 10.3 0 0 0-2.3-.8l-.3.6a9.7 9.7 0 0 0-2.9 0l-.3-.6a10.3 10.3 0 0 0-2.3.8c-1.5 2.2-1.9 4.4-1.7 6.5 1 1.2 2.2 2 3.6 2.5l.8-1.2c-.5-.2-1-.5-1.4-.9l.3-.2c2.7 1.2 5.6 1.2 8.2 0l.3.2c-.4.4-.9.7-1.4.9l.8 1.2c1.4-.5 2.6-1.3 3.6-2.5.2-2.1-.2-4.3-1.7-6.5Z"
-                  stroke="currentColor" stroke-width="2" opacity=".92"/>
-            <path d="M9.2 13.2c.5 0 .9-.5.9-1s-.4-1-.9-1-.9.5-.9 1 .4 1 .9 1Zm5.6 0c.5 0 .9-.5.9-1s-.4-1-.9-1-.9.5-.9 1 .4 1 .9 1Z"
-                  fill="currentColor" opacity=".92"/>
-          </svg>
-          Открыть Discord
-        </button>
-
-        <p style="margin:14px 0 0; color:var(--muted); font-weight:850;">
-          Вставь свою invite-ссылку в JS переменную <b>DISCORD_INVITE</b>.
-        </p>
       </div>
     </div>
-  </div>
+  </section>
 
-  <script>
-    // =========================
-    // CONFIG
-    // =========================
-    const DISCORD_INVITE = "https://discord.com/"; // <-- сюда вставь свой инвайт
+  <section id="how">
+    <div class="note">
+      <h2 style="margin-bottom:12px;">Как это работает?</h2>
+      <ul style="padding-left:20px; line-height:1.6;">
+        <li>Выбираете подходящий остров и оплачиваете путёвку на SunTrips.</li>
+        <li>Заходите на сервер <strong>SunShield</strong> и открываете тикет в Discord.</li>
+        <li>Администрация регистрирует вас как жителя архипелага и выдаёт личный остров, лодку и доступ в центральный порт.</li>
+        <li>Дальше — стройте дом, ферму, магазин или целый бизнес. Роль в мире ограничена только вашей фантазией!</li>
+      </ul>
+      <p style="margin-top:14px; font-size:.9rem; opacity:.9;">⚠️ Это RP‑территория. Приобретая путёвку, вы соглашаетесь соблюдать правила ролевого отыгрыша сервера и понимаете, что это не обычный донат, а документ на проживание.</p>
+    </div>
+  </section>
 
-    // =========================
-    // Reveal on scroll
-    // =========================
-    const revealEls = [...document.querySelectorAll(".reveal")];
-    const io = new IntersectionObserver((entries) => {
-      for (const e of entries){
-        if(e.isIntersecting){
-          e.target.classList.add("in");
-          io.unobserve(e.target);
-        }
-      }
-    }, { threshold: 0.12 });
-    revealEls.forEach(el => io.observe(el));
-
-    // =========================
-    // Pricing (toggle + popup)
-    // =========================
-    const plans = [
-      { id:"small",  name:"Маленький остров", prices:{7:70, 14:133, 30:245, 60:448},  popular:false },
-      { id:"medium", name:"Средний остров",  prices:{7:165,14:314,30:578,60:1056},  popular:true  },
-      { id:"big",    name:"Большой остров",  prices:{7:240,14:456,30:840,60:1536},  popular:false }
-    ];
-
-    const included = [
-      "Бесплатная лодка 🛶",
-      "Еда в ресторанах бесплатно 🍲",
-      "Доступ к центру по билету ✨"
-    ];
-
-    const pricingGrid = document.getElementById("pricingGrid");
-    const chips = [...document.querySelectorAll(".chip")];
-    let currentDays = 7;
-
-    function won(n){
-      return new Intl.NumberFormat("ru-RU").format(n) + " вон";
-    }
-
-    function planHTML(p){
-      const price = p.prices[currentDays];
-      const badge = p.popular ? `<span class="badge"><i></i>ПОПУЛЯРНЫЙ</span>` : "";
-      const feats = included.map(f => `
-        <li>
-          <span class="tick" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M20 7L10 17l-5-5" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-            </svg>
-          </span>
-          <span>${f}</span>
-        </li>
-      `).join("");
-
-      return `
-        <div class="card plan">
-          <div class="planTop">
-            <h3>${p.name}</h3>
-            ${badge}
-          </div>
-
-          <div class="price">
-            <b>${won(price)}</b>
-            <span>/ ${currentDays} дней</span>
-          </div>
-
-          <ul class="features">${feats}</ul>
-
-          <button class="btn primary shimmer choose" data-plan="${p.id}">
-            Выбрать остров
-          </button>
-        </div>
-      `;
-    }
-
-    function renderPricing(){
-      pricingGrid.innerHTML = plans.map(planHTML).join("");
-      pricingGrid.querySelectorAll(".choose").forEach(btn => {
-        btn.addEventListener("click", () => {
-          const id = btn.dataset.plan;
-          const plan = plans.find(x => x.id === id);
-          openModal(plan);
-        });
-      });
-    }
-
-    chips.forEach(ch => {
-      ch.addEventListener("click", () => {
-        chips.forEach(x => x.classList.remove("active"));
-        ch.classList.add("active");
-        currentDays = Number(ch.dataset.days);
-        renderPricing();
-      });
-    });
-
-    renderPricing();
-
-    // =========================
-    // Modal
-    // =========================
-    const backdrop = document.getElementById("backdrop");
-    const closeBtn = document.getElementById("closeBtn");
-    const choiceBox = document.getElementById("choiceBox");
-    const discordMainBtn = document.getElementById("discordMainBtn");
-    const discordModalBtn = document.getElementById("discordModalBtn");
-
-    function openDiscord(){
-      window.open(DISCORD_INVITE, "_blank", "noopener,noreferrer");
-    }
-    discordMainBtn.addEventListener("click", openDiscord);
-    discordModalBtn.addEventListener("click", openDiscord);
-
-    function openModal(plan){
-      const price = plan.prices[currentDays];
-      choiceBox.innerHTML = `
-        <b>Остров: ${plan.name}</b>
-        <span>Цена: ${won(price)} / ${currentDays} дней</span>
-      `;
-      backdrop.classList.add("show");
-      backdrop.setAttribute("aria-hidden","false");
-      document.body.style.overflow="hidden";
-    }
-    function closeModal(){
-      backdrop.classList.remove("show");
-      backdrop.setAttribute("aria-hidden","true");
-      document.body.style.overflow="";
-    }
-    closeBtn.addEventListener("click", closeModal);
-    backdrop.addEventListener("click", (e)=>{ if(e.target===backdrop) closeModal(); });
-    window.addEventListener("keydown", (e)=>{ if(e.key==="Escape") closeModal(); });
-
-    // =========================
-    // Particles (bottom -> top)
-    // =========================
-    const canvas = document.getElementById("particles");
-    const ctx = canvas.getContext("2d");
-    let W=0,H=0,DPR=Math.min(window.devicePixelRatio||1,2);
-
-    function resize(){
-      W = canvas.width = Math.floor(innerWidth * DPR);
-      H = canvas.height = Math.floor(innerHeight * DPR);
-      canvas.style.width = innerWidth + "px";
-      canvas.style.height = innerHeight + "px";
-    }
-    addEventListener("resize", resize);
-    resize();
-
-    const COLORS = [
-      {r:0,g:212,b:255},
-      {r:124,g:58,b:237},
-      {r:245,g:200,b:66},
-    ];
-    const rand = (a,b)=>Math.random()*(b-a)+a;
-
-    const count = Math.floor(Math.min(140, Math.max(80, innerWidth/10)));
-    const parts = Array.from({length:count}, ()=>spawn());
-
-    function spawn(){
-      const c = COLORS[(Math.random()*COLORS.length)|0];
-      return {
-        x: rand(0,W),
-        y: rand(H*0.85, H*1.2),
-        r: rand(1.1, 3.0)*DPR,
-        vy: rand(0.25, 1.15)*DPR,
-        vx: rand(-0.18, 0.18)*DPR,
-        a: rand(0.14, 0.55),
-        tw: rand(0.003, 0.012),
-        t: rand(0,999),
-        c
-      };
-    }
-
-    function frame(){
-      ctx.clearRect(0,0,W,H);
-
-      // faint vignette
-      const g = ctx.createRadialGradient(W*0.5, H*0.2, 0, W*0.5, H*0.2, Math.max(W,H)*0.7);
-      g.addColorStop(0, "rgba(0,212,255,0.04)");
-      g.addColorStop(0.5, "rgba(124,58,237,0.03)");
-      g.addColorStop(1, "rgba(0,0,0,0)");
-      ctx.fillStyle = g;
-      ctx.fillRect(0,0,W,H);
-
-      for(const p of parts){
-        p.t += 1;
-        p.x += p.vx;
-        p.y -= p.vy;
-
-        if(p.y < -30*DPR){
-          p.y = rand(H*1.05, H*1.25);
-          p.x = rand(0,W);
-        }
-        if(p.x < -20*DPR) p.x = W + 20*DPR;
-        if(p.x > W + 20*DPR) p.x = -20*DPR;
-
-        const tw = 0.55 + 0.45 * Math.sin(p.t * p.tw);
-        const a = p.a * tw;
-
-        ctx.beginPath();
-        ctx.fillStyle = `rgba(${p.c.r},${p.c.g},${p.c.b},${a})`;
-        ctx.shadowBlur = 18*DPR;
-        ctx.shadowColor = `rgba(${p.c.r},${p.c.g},${p.c.b},${a})`;
-        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fill();
-      }
-
-      requestAnimationFrame(frame);
-    }
-    frame();
-  </script>
+  <footer style="text-align:center; padding:40px 20px; font-size:.8rem; opacity:.8;">
+    &copy; 2026 SunTrips · Проект сервера SunShield. Не является официальным продуктом Mojang.
+  </footer>
 </body>
 </html>
