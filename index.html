@@ -1,1457 +1,923 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>SunTrips — путёвки</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VA Hosting</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Syne:wght@700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0a0a0a;
+  --s1:#111;
+  --s2:#181818;
+  --b:#222;
+  --b2:#2e2e2e;
+  --v:#7c3aed;
+  --vl:rgba(124,58,237,.15);
+  --vb:rgba(124,58,237,.35);
+  --w:#fff;
+  --t:#d4d4d4;
+  --g:#666;
+  --g2:#3a3a3a;
+  --red:#f87171;
+  --green:#86efac;
+  --yellow:#fbbf24;
+}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--t);font-family:'Inter',sans-serif;font-size:14px;line-height:1.6;overflow-x:hidden}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-thumb{background:var(--b2);border-radius:2px}
 
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap');
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;height:52px;display:flex;align-items:center;padding:0 28px;gap:32px;background:rgba(10,10,10,.95);backdrop-filter:blur(10px);border-bottom:1px solid var(--b)}
+.logo{font-family:'Syne',sans-serif;font-size:16px;font-weight:800;color:var(--w);cursor:pointer;letter-spacing:-.02em}
+.logo b{color:var(--v)}
+.nl{display:flex;gap:20px}
+.nl a{font-size:13px;color:var(--g);cursor:pointer;text-decoration:none;transition:color .15s}
+.nl a:hover{color:var(--t)}
+.nr{margin-left:auto;display:flex;gap:8px}
+.nb{padding:6px 16px;font-size:12px;font-weight:500;cursor:pointer;font-family:inherit;border-radius:5px;border:none;transition:all .15s}
+.ng{background:none;border:1px solid var(--b2);color:var(--g)}
+.ng:hover{color:var(--t);border-color:var(--b2)}
+.nv{background:var(--v);color:var(--w);font-weight:600}
+.nv:hover{background:#6d28d9}
 
-    :root{
-      /* SunTrips palette: orange + white */
-      --bg1:#fff7ed;     /* warm white */
-      --bg2:#ffffff;
-      --panel: rgba(255,255,255,.72);
-      --panel2: rgba(255,255,255,.58);
-      --line: rgba(15,23,42,.10);
+/* PAGES */
+.pg{display:none;padding-top:52px;min-height:100vh}
+.pg.on{display:block}
 
-      --orange:#ff7a18;
-      --orange2:#ffb703;
-      --peach:#ffd6a5;
+/* HERO */
+.hero{max-width:680px;margin:0 auto;padding:96px 24px 80px;text-align:center}
+.htag{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--v);margin-bottom:20px;font-weight:500}
+.hero h1{font-family:'Syne',sans-serif;font-size:46px;font-weight:800;color:var(--w);line-height:1.08;letter-spacing:-.03em;margin-bottom:16px}
+.hero p{color:var(--g);font-size:15px;line-height:1.75;max-width:420px;margin:0 auto 32px}
+.hbtns{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+.hbp{padding:11px 26px;background:var(--v);color:var(--w);font-size:13px;font-weight:600;border:none;border-radius:6px;cursor:pointer;font-family:inherit;transition:all .15s}
+.hbp:hover{background:#6d28d9;transform:translateY(-1px)}
+.hbg{padding:11px 26px;background:none;color:var(--t);font-size:13px;border:1px solid var(--b2);border-radius:6px;cursor:pointer;font-family:inherit;transition:all .15s}
+.hbg:hover{border-color:var(--b2);color:var(--w)}
+.hnums{display:flex;gap:36px;justify-content:center;margin-top:52px;padding-top:36px;border-top:1px solid var(--b)}
+.hn-n{font-family:'Syne',sans-serif;font-size:24px;font-weight:700;color:var(--w)}
+.hn-l{font-size:11px;color:var(--g);margin-top:2px;text-transform:uppercase;letter-spacing:.06em}
 
-      --text:#0f172a;
-      --muted:#64748b;
+/* SECTION */
+.sec{max-width:800px;margin:0 auto;padding:72px 24px}
+.sl{font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:var(--v);margin-bottom:10px;font-weight:500}
+.st{font-family:'Syne',sans-serif;font-size:28px;font-weight:700;color:var(--w);letter-spacing:-.02em;margin-bottom:8px}
+.ss{color:var(--g);font-size:14px;line-height:1.7}
+.sep{border:none;border-top:1px solid var(--b)}
 
-      --r16:16px;
-      --r22:22px;
-      --r28:28px;
+/* FEATURES — simple list */
+.fl{display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--b);border:1px solid var(--b);margin-top:32px}
+.fi{background:var(--bg);padding:24px 20px}
+.fi:hover{background:var(--s1)}
+.fin{font-size:10px;color:var(--v);font-weight:600;letter-spacing:.1em;margin-bottom:10px}
+.fit{font-size:13px;font-weight:600;color:var(--w);margin-bottom:4px}
+.fid{font-size:12px;color:var(--g);line-height:1.6}
 
-      --shadow: 0 24px 90px rgba(15,23,42,.14);
-      --glowO: 0 0 18px rgba(255,122,24,.22);
-      --glowG: 0 0 18px rgba(255,183,3,.18);
-    }
+/* PLANS */
+.pl{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:32px}
+.pc{background:var(--s1);border:1px solid var(--b);border-radius:8px;padding:24px;position:relative}
+.pc.hot{border-color:var(--v)}
+.pbadge{position:absolute;top:-10px;left:50%;transform:translateX(-50%);background:var(--v);color:#fff;font-size:10px;font-weight:700;padding:2px 12px;border-radius:20px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+.pname{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--g);margin-bottom:10px}
+.pprice{font-family:'Syne',sans-serif;font-size:34px;font-weight:800;color:var(--w);letter-spacing:-.03em;line-height:1}
+.pprice small{font-size:13px;color:var(--g);font-weight:400;font-family:'Inter',sans-serif}
+.pper{font-size:11px;color:var(--g);margin-top:3px;margin-bottom:18px}
+.plist{list-style:none;margin-bottom:20px}
+.plist li{font-size:12px;padding:5px 0;border-bottom:1px solid var(--b);color:var(--t);display:flex;gap:6px}
+.plist li:last-child{border:none}
+.plist li::before{content:'–';color:var(--v);flex-shrink:0}
+.plist li.no{color:var(--g2)}
+.plist li.no::before{color:var(--b2)}
+.pbtn{width:100%;padding:10px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;border:none}
+.pbtn-o{background:none;border:1px solid var(--b2);color:var(--t)}
+.pbtn-o:hover{border-color:var(--b2);color:var(--w)}
+.pbtn-v{background:var(--v);color:#fff}
+.pbtn-v:hover{background:#6d28d9}
 
-    *{ box-sizing:border-box; }
-    html{ scroll-behavior:smooth; }
-    body{
-      margin:0;
-      font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-      color:var(--text);
-      background:
-        radial-gradient(900px 600px at 20% 10%, rgba(255,122,24,.12), transparent 60%),
-        radial-gradient(850px 600px at 80% 18%, rgba(255,183,3,.14), transparent 60%),
-        radial-gradient(900px 700px at 50% 95%, rgba(255,214,165,.18), transparent 60%),
-        linear-gradient(180deg, var(--bg1), var(--bg2));
-      overflow-x:hidden;
-    }
+/* PLUGINS */
+.pflt{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.pfb{padding:4px 12px;font-size:11px;font-weight:500;cursor:pointer;font-family:inherit;border:1px solid var(--b2);background:none;color:var(--g);border-radius:20px;transition:all .12s}
+.pfb:hover,.pfb.on{border-color:var(--v);color:var(--v);background:var(--vl)}
+.pltbl{display:flex;flex-direction:column;gap:1px;background:var(--b);border:1px solid var(--b)}
+.plrow{background:var(--bg);padding:12px 16px;display:flex;align-items:center;gap:12px;transition:background .1s}
+.plrow:hover{background:var(--s1)}
+.pli{flex:1;min-width:0}
+.pln{font-size:13px;font-weight:600;color:var(--w)}
+.pld{font-size:11px;color:var(--g);margin-top:1px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ptag{font-size:10px;padding:1px 7px;border-radius:3px;font-weight:600;letter-spacing:.04em;text-transform:uppercase;flex-shrink:0}
+.te{background:var(--vl);color:#a78bfa}
+.tp{color:#38bdf8;background:rgba(56,189,248,.08)}
+.tec{color:#a78bfa;background:rgba(167,139,250,.08)}
+.tperf{color:#fb923c;background:rgba(251,146,60,.08)}
+.ta{color:#f87171;background:rgba(248,113,113,.08)}
+.tm{color:#94a3b8;background:rgba(148,163,184,.08)}
+.pver{font-family:monospace;font-size:11px;color:var(--g2);flex-shrink:0}
+.pibtn{padding:5px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;border:1px solid var(--b2);background:none;color:var(--g);border-radius:4px;transition:all .12s;white-space:nowrap}
+.pibtn:hover{border-color:var(--v);color:var(--v)}
+.pibtn.inst{border-color:var(--v);color:var(--v);background:var(--vl)}
 
-    /* subtle particles */
-    #particles{
-      position:fixed; inset:0; width:100%; height:100%;
-      z-index:-2; pointer-events:none;
-      filter: drop-shadow(0 0 10px rgba(255,122,24,.10));
-    }
-    .fog{
-      position:fixed; inset:-20%;
-      z-index:-3; pointer-events:none;
-      background:
-        radial-gradient(circle at 30% 35%, rgba(255,255,255,.55), transparent 60%),
-        radial-gradient(circle at 70% 20%, rgba(255,255,255,.45), transparent 60%),
-        radial-gradient(circle at 50% 80%, rgba(255,255,255,.40), transparent 60%);
-      filter: blur(22px);
-      opacity:.55;
-      mask-image: radial-gradient(circle at 50% 20%, rgba(0,0,0,1), transparent 70%);
-    }
+/* DASH */
+.dl{display:grid;grid-template-columns:180px 1fr;min-height:calc(100vh - 52px)}
+.dside{background:var(--s1);border-right:1px solid var(--b);padding:16px 10px}
+.dsi{display:flex;align-items:center;gap:8px;padding:7px 10px;border-radius:5px;font-size:12px;color:var(--g);cursor:pointer;transition:all .1s;margin-bottom:1px}
+.dsi:hover{background:var(--s2);color:var(--t)}
+.dsi.on{background:var(--vl);color:#a78bfa;font-weight:500}
+.dslbl{font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--g2);padding:0 10px;margin:12px 0 5px;font-weight:600}
+.dmain{padding:24px 28px;overflow-y:auto}
+.dt{font-family:'Syne',sans-serif;font-size:20px;font-weight:700;color:var(--w);letter-spacing:-.02em;margin-bottom:3px}
+.ds{font-size:12px;color:var(--g);margin-bottom:20px}
 
-    .container{
-      width:min(1180px, calc(100% - 40px));
-      margin:0 auto;
-    }
+/* SERVER CARDS */
+.scl{display:flex;flex-direction:column;gap:6px}
+.sc{background:var(--s1);border:1px solid var(--b);border-radius:7px;padding:14px 18px;display:flex;align-items:center;gap:14px;cursor:pointer;transition:all .12s}
+.sc:hover{border-color:var(--vb)}
+.sci{flex:1}
+.scn{font-size:13px;font-weight:600;color:var(--w);margin-bottom:2px}
+.scip{font-family:monospace;font-size:11px;color:var(--g)}
+.sctags{display:flex;gap:5px;margin-top:5px}
+.stg{font-size:10px;padding:1px 7px;border-radius:3px;font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.ton{background:rgba(134,239,172,.08);color:var(--green)}
+.toff{background:rgba(248,113,113,.06);color:var(--red)}
+.tst{background:rgba(251,191,36,.06);color:var(--yellow)}
+.tver{background:var(--s2);color:var(--g2)}
+.sbtn{padding:6px 14px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;border-radius:5px;border:none;transition:all .12s;white-space:nowrap}
+.sst{background:var(--v);color:#fff}
+.sst:hover{background:#6d28d9}
+.ssp{background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.15)}
+.ssp:hover{background:rgba(248,113,113,.18)}
 
-    /* Header */
-    header{
-      position:sticky; top:0; z-index:50;
-      background: linear-gradient(180deg, rgba(255,255,255,.75), rgba(255,255,255,.35));
-      backdrop-filter: blur(14px);
-      border-bottom:1px solid var(--line);
-    }
-    .nav{
-      display:grid;
-      grid-template-columns: 1fr auto 1fr;
-      align-items:center;
-      padding:14px 0;
-      gap:16px;
-    }
-    .brand{
-      display:flex; align-items:center; gap:12px;
-      text-decoration:none; color:var(--text);
-      justify-self:start;
-    }
-    .logo{
-      width:38px; height:38px; border-radius:14px;
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,122,24,.35), transparent 55%),
-        radial-gradient(circle at 70% 70%, rgba(255,183,3,.35), transparent 55%),
-        linear-gradient(135deg, rgba(15,23,42,.06), rgba(15,23,42,.02));
-      border:1px solid rgba(15,23,42,.10);
-      box-shadow: var(--glowO), var(--glowG);
-      display:grid; place-items:center;
-      position:relative; overflow:hidden;
-    }
-    .logo::after{
-      content:"";
-      position:absolute; inset:-60%;
-      background: conic-gradient(from 90deg, transparent, rgba(255,122,24,.20), transparent, rgba(255,183,3,.18), transparent);
-      animation: spin 7s linear infinite;
-      opacity:.85;
-    }
-    .logo span{ position:relative; font-weight:900; letter-spacing:.4px; }
-    .brand b{ font-weight:1000; letter-spacing:.2px; }
+/* DETAIL */
+.dh{margin-bottom:20px}
+.dht{display:flex;align-items:flex-start;gap:12px;margin-bottom:14px}
+.dhn{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--w);letter-spacing:-.02em}
+.dhip{font-family:monospace;font-size:11px;color:var(--g);margin-top:2px}
+.dhbtns{display:flex;gap:6px;margin-left:auto;flex-wrap:wrap}
+.dbtn{padding:6px 14px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;border-radius:5px;transition:all .12s}
+.dbs{background:var(--v);color:#fff;border:none}
+.dbs:hover{background:#6d28d9}
+.dbp{background:none;border:1px solid rgba(248,113,113,.25);color:var(--red)}
+.dbp:hover{background:rgba(248,113,113,.08)}
+.dbr{background:none;border:1px solid var(--b2);color:var(--g)}
+.dbr:hover{color:var(--t);border-color:var(--b2)}
+.dbd{background:none;border:1px solid rgba(248,113,113,.15);color:rgba(248,113,113,.5);font-size:10px}
+.dbd:hover{border-color:var(--red);color:var(--red)}
+.dm{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.dmi{background:var(--s2);border:1px solid var(--b);border-radius:5px;padding:10px 12px}
+.dml{font-size:10px;color:var(--g2);text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px}
+.dmv{font-size:14px;font-weight:600;color:var(--w)}
 
-    .menu{
-      justify-self:center;
-      display:flex; gap:10px; align-items:center;
-      padding:10px 12px;
-      border-radius: 999px;
-      border:1px solid rgba(15,23,42,.10);
-      background: rgba(255,255,255,.45);
-      box-shadow: 0 16px 60px rgba(15,23,42,.08);
-    }
-    .menu a{
-      text-decoration:none;
-      color:var(--muted);
-      font-weight:900;
-      font-size:13px;
-      padding:8px 10px;
-      border-radius: 999px;
-      transition:.2s ease;
-      border:1px solid transparent;
-      white-space:nowrap;
-    }
-    .menu a:hover{
-      color:var(--text);
-      border-color: rgba(255,122,24,.22);
-      box-shadow: 0 0 0 4px rgba(255,122,24,.08);
-      transform: translateY(-1px);
-      background: rgba(255,255,255,.55);
-    }
+/* TABS */
+.tabs{display:flex;border-bottom:1px solid var(--b);margin-bottom:16px}
+.tab{padding:8px 16px;font-size:12px;color:var(--g);cursor:pointer;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .12s;background:none;border-top:none;border-left:none;border-right:none;font-family:inherit}
+.tab.on{color:var(--w);border-bottom-color:var(--v);font-weight:500}
 
-    .profile{
-      justify-self:end;
-      display:flex; align-items:center; gap:10px;
-      color:var(--muted);
-      font-weight:900;
-    }
-    .avatar{
-      width:34px; height:34px; border-radius: 12px;
-      border:1px solid rgba(15,23,42,.10);
-      background:
-        radial-gradient(circle at 30% 30%, rgba(255,183,3,.20), transparent 60%),
-        radial-gradient(circle at 70% 70%, rgba(255,122,24,.16), transparent 60%),
-        linear-gradient(135deg, rgba(15,23,42,.05), rgba(15,23,42,.02));
-      box-shadow: var(--glowG);
-    }
+/* CONSOLE */
+.cw{background:#050505;border:1px solid var(--b);border-radius:7px;overflow:hidden}
+.cbar{padding:7px 12px;border-bottom:1px solid var(--b);display:flex;gap:5px;align-items:center}
+.cd{width:8px;height:8px;border-radius:50%}
+.cout{height:280px;overflow-y:auto;padding:12px;font-family:monospace;font-size:11.5px;line-height:1.85}
+.ci{color:#c4b5fd}.cw2{color:#fbbf24}.ce{color:#f87171}.cc{color:#6b7280}
+.cinr{display:flex;align-items:center;gap:7px;padding:9px 12px;border-top:1px solid var(--b)}
+.cinr span{color:var(--v);font-family:monospace;font-size:12px}
+.cin{flex:1;background:none;border:none;color:var(--t);font-family:monospace;font-size:12px;outline:none}
+.csbtn{padding:4px 12px;background:var(--v);color:#fff;border:none;border-radius:4px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit}
+.ccl{padding:4px 8px;background:none;border:1px solid var(--b);color:var(--g);border-radius:4px;font-size:11px;cursor:pointer;font-family:inherit}
 
-    /* Banner */
-    .banner{
-      margin: 18px 0 14px;
-      border-radius: 28px;
-      border:1px solid rgba(15,23,42,.10);
-      overflow:hidden;
-      box-shadow: var(--shadow);
-      position:relative;
-      min-height: 280px;
-      background:
-        linear-gradient(90deg, rgba(255,255,255,.92) 0%, rgba(255,255,255,.68) 55%, rgba(255,255,255,.40) 100%),
-        radial-gradient(900px 400px at 70% 40%, rgba(255,122,24,.22), transparent 60%),
-        radial-gradient(700px 420px at 60% 70%, rgba(255,183,3,.24), transparent 60%),
-        radial-gradient(700px 520px at 80% 90%, rgba(255,214,165,.40), transparent 60%),
-        linear-gradient(135deg, rgba(15,23,42,.05), rgba(15,23,42,.01));
-    }
-    .banner::after{
-      content:"";
-      position:absolute; inset:0;
-      background:
-        radial-gradient(900px 520px at 25% 20%, rgba(255,122,24,.14), transparent 60%),
-        radial-gradient(840px 520px at 30% 80%, rgba(255,183,3,.14), transparent 60%);
-      pointer-events:none;
-    }
-    .bannerInner{
-      position:relative;
-      padding: 26px;
-      display:flex;
-      justify-content:space-between;
-      gap:18px;
-      align-items:flex-end;
-      min-height: 280px;
-    }
-    .bannerTitle{
-      margin:0 0 8px;
-      font-size: clamp(34px, 4.2vw, 56px);
-      font-weight: 1000;
-      letter-spacing:-1px;
-      line-height: 1.0;
-      text-transform: uppercase;
-      background: linear-gradient(90deg, var(--orange), var(--orange2));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-      text-shadow: 0 0 18px rgba(255,122,24,.12);
-    }
-    .bannerSub{
-      margin:0;
-      color: rgba(15,23,42,.80);
-      font-weight:800;
-      max-width: 60ch;
-    }
-    .bannerFacts{
-      display:flex; gap:10px; flex-wrap:wrap;
-      justify-content:flex-end;
-    }
-    .pill{
-      display:inline-flex; gap:8px; align-items:center;
-      padding:10px 12px;
-      border-radius: 999px;
-      border:1px solid rgba(15,23,42,.10);
-      background: rgba(255,255,255,.55);
-      color: var(--muted);
-      font-weight:1000;
-      font-size: 12px;
-      box-shadow: 0 16px 55px rgba(15,23,42,.10);
-      white-space:nowrap;
-    }
-    .pill b{ color:var(--text); }
-    .dot{
-      width:8px;height:8px;border-radius:50%;
-      background: var(--orange);
-      box-shadow: 0 0 14px rgba(255,122,24,.55);
-    }
+/* PROPS */
+.pta{width:100%;height:320px;background:#050505;border:1px solid var(--b);color:#c4b5fd;padding:12px;font-family:monospace;font-size:12px;line-height:1.8;border-radius:7px;outline:none;resize:vertical}
+.pta:focus{border-color:var(--v)}
 
-    /* Search box */
-    .searchBox{
-      margin: -18px auto 18px;
-      padding: 14px;
-      border-radius: 22px;
-      border:1px solid rgba(15,23,42,.10);
-      background: linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.55));
-      box-shadow: 0 24px 90px rgba(15,23,42,.12);
-      display:grid;
-      grid-template-columns: 1.2fr 1fr 1fr auto;
-      gap:10px;
-      align-items:center;
-      position:relative;
-    }
-    @media (max-width: 980px){
-      .searchBox{ grid-template-columns: 1fr; margin-top: 12px; }
-    }
-    .field{
-      border-radius: 18px;
-      border:1px solid rgba(15,23,42,.10);
-      background: rgba(255,255,255,.55);
-      padding: 10px 12px;
-      display:flex;
-      gap:10px;
-      align-items:center;
-      min-height: 48px;
-    }
-    .field label{
-      color: var(--muted);
-      font-weight:1000;
-      font-size: 11px;
-      text-transform: uppercase;
-      letter-spacing:.5px;
-    }
-    .field .value{
-      font-weight:1000;
-      color: var(--text);
-      font-size: 13px;
-      line-height: 1.1;
-    }
-    .field .subv{
-      color: var(--muted);
-      font-weight:800;
-      font-size: 12px;
-      margin-top: 2px;
-    }
-    .fieldText{
-      display:flex;
-      flex-direction:column;
-      gap:2px;
-    }
-    .ico{
-      width:34px;height:34px;border-radius: 14px;
-      border:1px solid rgba(15,23,42,.10);
-      background: linear-gradient(135deg, rgba(255,122,24,.18), rgba(255,183,3,.16));
-      box-shadow: var(--glowO);
-      display:grid; place-items:center;
-      flex:0 0 auto;
-      color: var(--text);
-    }
-    .ico svg{ width:18px; height:18px; opacity:.95; }
+/* MODAL */
+.mbg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);z-index:500;align-items:center;justify-content:center;backdrop-filter:blur(6px)}
+.mbg.on{display:flex}
+.mo{background:var(--s1);border:1px solid var(--b2);border-radius:10px;padding:28px;width:440px;max-width:95vw;max-height:90vh;overflow-y:auto;position:relative}
+.mot{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--w);letter-spacing:-.02em;margin-bottom:4px}
+.mos{font-size:12px;color:var(--g);margin-bottom:20px}
+.fr{margin-bottom:14px}
+.fl2{font-size:11px;font-weight:500;color:var(--t);margin-bottom:5px;display:block}
+.fi2,.fs{width:100%;background:var(--bg);border:1px solid var(--b2);color:var(--t);padding:9px 11px;border-radius:6px;font-family:inherit;font-size:13px;outline:none;transition:border-color .15s}
+.fi2:focus,.fs:focus{border-color:var(--v)}
+.fs option{background:var(--s1)}
+.fhint{font-size:10px;color:var(--g2);margin-top:3px}
+.iprev{font-family:monospace;font-size:11px;color:#a78bfa;background:var(--bg);border:1px solid var(--b);padding:5px 9px;border-radius:4px;display:inline-block;margin-top:4px}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.mbtns{display:flex;gap:8px;margin-top:18px}
+.mbtn2{flex:1;padding:10px;border-radius:6px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;transition:all .15s;border:none}
+.mc{background:none;border:1px solid var(--b2);color:var(--g)}
+.mc:hover{color:var(--t)}
+.mk{background:var(--v);color:#fff}
+.mk:hover{background:#6d28d9}
+.mtabs{display:flex;background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:3px;margin-bottom:18px}
+.mtab{flex:1;padding:6px;text-align:center;font-size:12px;color:var(--g);cursor:pointer;border-radius:4px;transition:all .1s}
+.mtab.on{background:var(--s2);color:var(--w);font-weight:500}
+.merr{font-size:11px;color:var(--red);margin-top:6px;min-height:14px}
+.mok{font-size:11px;color:var(--green);margin-top:6px;min-height:14px}
 
-    .searchBtn{
-      border:none; cursor:pointer;
-      height: 48px;
-      padding: 0 16px;
-      border-radius: 18px;
-      font-weight: 1000;
-      color: #fff;
-      border:1px solid rgba(255,122,24,.30);
-      background: linear-gradient(90deg, rgba(255,122,24,.95), rgba(255,183,3,.92));
-      box-shadow: var(--glowO), var(--glowG), 0 18px 60px rgba(15,23,42,.10);
-      transition:.2s ease;
-      display:flex; align-items:center; justify-content:center; gap:10px;
-    }
-    .searchBtn:hover{ transform: translateY(-2px); }
-    .searchBtn:active{ transform: translateY(0) scale(.99); }
+/* EMPTY */
+.empty{text-align:center;padding:60px 20px}
+.empt{font-family:'Syne',sans-serif;font-size:17px;font-weight:700;color:var(--w);margin-bottom:6px}
+.emps{font-size:12px;color:var(--g);margin-bottom:20px}
 
-    /* page layout */
-    .pageGrid{
-      display:grid;
-      grid-template-columns: 320px 1fr;
-      gap: 16px;
-      align-items:start;
-      padding: 10px 0 50px;
-    }
-    @media (max-width: 980px){
-      .pageGrid{ grid-template-columns: 1fr; }
-    }
+/* TOAST */
+.toast{position:fixed;bottom:18px;right:18px;background:var(--s1);border:1px solid var(--b2);color:var(--t);padding:9px 16px;border-radius:6px;font-size:12px;z-index:9999;opacity:0;transform:translateY(5px);transition:all .2s;pointer-events:none}
+.toast.on{opacity:1;transform:translateY(0)}
 
-    .card{
-      border-radius: var(--r28);
-      border:1px solid rgba(15,23,42,.10);
-      background: linear-gradient(180deg, rgba(255,255,255,.76), rgba(255,255,255,.56));
-      box-shadow: 0 18px 70px rgba(15,23,42,.10);
-      overflow:hidden;
-      position:relative;
-    }
+/* FOOTER */
+footer{border-top:1px solid var(--b);padding:32px 24px}
+.fi3{max-width:800px;margin:0 auto;display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap;margin-bottom:28px}
+.fb{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:var(--w)}
+.fb b{color:var(--v)}
+.fdesc{font-size:12px;color:var(--g);margin-top:5px;max-width:200px;line-height:1.6}
+.fcol h4{font-size:10px;text-transform:uppercase;letter-spacing:.1em;color:var(--g2);margin-bottom:10px;font-weight:600}
+.fcol a{display:block;font-size:12px;color:var(--g);text-decoration:none;margin-bottom:6px;cursor:pointer;transition:color .12s}
+.fcol a:hover{color:var(--t)}
+.fbot{max-width:800px;margin:0 auto;padding-top:18px;border-top:1px solid var(--b);font-size:11px;color:var(--g2)}
 
-    /* Filters */
-    .filters{ padding: 14px; }
-    .filters h3{
-      margin: 4px 0 10px;
-      font-size: 14px;
-      font-weight: 1000;
-      color: var(--text);
-      text-shadow: 0 0 14px rgba(255,122,24,.10);
-    }
-    .block{
-      padding: 12px;
-      border-radius: 18px;
-      border:1px solid rgba(15,23,42,.10);
-      background: rgba(255,255,255,.50);
-      margin-bottom: 12px;
-    }
-    .chips{
-      display:flex; gap:8px; flex-wrap:wrap;
-    }
-    .chip{
-      border:none; cursor:pointer;
-      padding: 10px 12px;
-      border-radius: 999px;
-      color: var(--muted);
-      font-weight: 1000;
-      background: rgba(255,255,255,.60);
-      border:1px solid rgba(15,23,42,.10);
-      transition:.2s ease;
-      font-size: 12px;
-    }
-    .chip:hover{
-      color:var(--text);
-      border-color: rgba(255,122,24,.28);
-      box-shadow: 0 0 0 4px rgba(255,122,24,.10);
-      transform: translateY(-1px);
-    }
-    .chip.active{
-      color:var(--text);
-      border-color: rgba(255,122,24,.35);
-      background: linear-gradient(90deg, rgba(255,122,24,.18), rgba(255,183,3,.16));
-      box-shadow: var(--glowO);
-    }
-
-    .check{
-      display:flex; gap:10px; align-items:center;
-      padding: 10px 10px;
-      border-radius: 14px;
-      border:1px solid rgba(15,23,42,.10);
-      background: rgba(255,255,255,.55);
-      margin-top: 8px;
-    }
-    .check input{ width:18px; height:18px; accent-color: var(--orange); }
-    .check label{
-      font-weight:1000;
-      color: var(--text);
-      font-size: 13px;
-    }
-    .hint{
-      margin-top: 10px;
-      color: var(--muted);
-      font-weight:800;
-      font-size: 12px;
-      line-height: 1.4;
-    }
-
-    /* Results header */
-    .resultsTop{
-      display:flex;
-      justify-content:space-between;
-      align-items:center;
-      gap:12px;
-      margin-bottom: 12px;
-      flex-wrap:wrap;
-    }
-    .title{
-      margin:0;
-      font-size: 20px;
-      font-weight: 1000;
-      letter-spacing:-.4px;
-      background: linear-gradient(90deg, var(--orange), var(--orange2));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-      text-shadow: 0 0 18px rgba(255,122,24,.10);
-    }
-    .sort{
-      display:flex; gap:10px; align-items:center;
-      color: var(--muted);
-      font-weight:900;
-      font-size: 12px;
-    }
-    select{
-      border-radius: 14px;
-      border:1px solid rgba(15,23,42,.10);
-      background: rgba(255,255,255,.70);
-      color: var(--text);
-      padding: 10px 12px;
-      font-weight: 900;
-      outline:none;
-    }
-
-    /* Offer cards */
-    .offer{
-      display:grid;
-      grid-template-columns: 220px 1fr auto;
-      gap:12px;
-      padding: 14px;
-      align-items:stretch;
-      margin-bottom: 12px;
-      transition:.22s ease;
-    }
-    @media (max-width: 980px){
-      .offer{ grid-template-columns: 1fr; }
-    }
-    .thumb{
-      border-radius: 20px;
-      border:1px solid rgba(15,23,42,.10);
-      background:
-        linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.10)),
-        radial-gradient(220px 160px at 30% 30%, rgba(255,122,24,.16), transparent 60%),
-        radial-gradient(240px 180px at 70% 70%, rgba(255,183,3,.18), transparent 60%);
-      box-shadow: 0 18px 70px rgba(15,23,42,.10);
-      min-height: 140px;
-      position:relative;
-      overflow:hidden;
-      background-size: cover;
-      background-position: center;
-    }
-    .thumb::after{
-      content:"";
-      position:absolute; inset:0;
-      background: linear-gradient(180deg, rgba(0,0,0,.10), rgba(0,0,0,.40));
-      pointer-events:none;
-    }
-    .thumbBadge{
-      position:absolute; left:12px; top:12px;
-      padding: 8px 10px;
-      border-radius: 999px;
-      border:1px solid rgba(255,255,255,.22);
-      background: rgba(0,0,0,.28);
-      font-weight:1000;
-      font-size: 12px;
-      color: #fff;
-      box-shadow: var(--glowO);
-      z-index:1;
-    }
-
-    .offerMain{
-      display:flex;
-      flex-direction:column;
-      gap:8px;
-    }
-    .crumb{
-      color: var(--muted);
-      font-weight:900;
-      font-size: 12px;
-    }
-    .offerTitle{
-      margin:0;
-      font-size: 16px;
-      font-weight: 1000;
-      color: var(--text);
-    }
-    .stars{
-      display:flex; gap:3px;
-      filter: drop-shadow(0 0 10px rgba(255,183,3,.18));
-    }
-    .stars span{ color: var(--orange2); font-size: 14px; }
-    .desc{
-      margin:0;
-      color: var(--muted);
-      font-weight:800;
-      font-size: 13px;
-      line-height: 1.35;
-      max-width: 80ch;
-    }
-    .meta{
-      display:flex; gap:8px; flex-wrap:wrap;
-      margin-top: 6px;
-    }
-    .tag{
-      padding: 8px 10px;
-      border-radius: 999px;
-      border:1px solid rgba(15,23,42,.10);
-      background: rgba(255,255,255,.60);
-      color: var(--text);
-      font-weight:900;
-      font-size: 12px;
-    }
-
-    .offerSide{
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
-      align-items:flex-end;
-      gap:12px;
-      min-width: 170px;
-    }
-    @media (max-width: 980px){
-      .offerSide{ align-items:stretch; min-width: auto; }
-    }
-
-    .price{
-      text-align:right;
-    }
-    .price b{
-      display:block;
-      font-size: 22px;
-      font-weight: 1000;
-      background: linear-gradient(90deg, var(--orange), var(--orange2));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-      text-shadow: 0 0 16px rgba(255,122,24,.10);
-    }
-    .price small{
-      color: var(--muted);
-      font-weight: 900;
-      font-size: 12px;
-    }
-
-    .btn{
-      border:none;
-      cursor:pointer;
-      padding: 12px 14px;
-      border-radius: 16px;
-      font-weight: 1000;
-      color: var(--text);
-      border:1px solid rgba(15,23,42,.10);
-      background: rgba(255,255,255,.70);
-      transition:.2s ease;
-      position:relative;
-      overflow:hidden;
-      text-decoration:none;
-      display:inline-flex;
-      align-items:center;
-      justify-content:center;
-      gap:10px;
-      box-shadow: 0 18px 60px rgba(15,23,42,.10);
-      width: 100%;
-      max-width: 170px;
-    }
-    .btn:hover{ transform: translateY(-2px) scale(1.01); }
-    .btn:active{ transform: translateY(0) scale(.99); }
-
-    .btn.primary{
-      color:#fff;
-      background: linear-gradient(90deg, rgba(255,122,24,.95), rgba(255,183,3,.92));
-      border-color: rgba(255,122,24,.30);
-      box-shadow: var(--glowO), var(--glowG), 0 18px 60px rgba(15,23,42,.12);
-    }
-    .btn.secondary{
-      background: linear-gradient(90deg, rgba(255,255,255,.70), rgba(255,214,165,.55));
-      border-color: rgba(255,122,24,.22);
-      box-shadow: var(--glowO), 0 18px 60px rgba(15,23,42,.10);
-    }
-    .shimmer::before{
-      content:"";
-      position:absolute;
-      top:-70%;
-      left:-40%;
-      width:60%;
-      height:260%;
-      background: linear-gradient(90deg, transparent, rgba(255,255,255,.55), transparent);
-      transform: rotate(20deg);
-      animation: shimmer 2.6s infinite;
-      opacity:.9;
-    }
-
-    /* Gallery */
-    .galleryWrap{
-      padding: 10px 0 10px;
-    }
-    .galleryTop{
-      display:flex;
-      justify-content:space-between;
-      align-items:flex-end;
-      gap:12px;
-      flex-wrap:wrap;
-      margin: 10px 0 12px;
-    }
-    .galleryTop p{
-      margin:0;
-      color: var(--muted);
-      font-weight: 800;
-      font-size: 13px;
-      max-width: 70ch;
-    }
-    .gallery{
-      display:grid;
-      grid-template-columns: repeat(12, 1fr);
-      gap: 12px;
-    }
-    .gItem{
-      grid-column: span 4;
-      border-radius: 22px;
-      overflow:hidden;
-      border:1px solid rgba(15,23,42,.10);
-      background: rgba(255,255,255,.70);
-      box-shadow: 0 18px 70px rgba(15,23,42,.10);
-      min-height: 180px;
-      position:relative;
-      cursor:pointer;
-      transition:.2s ease;
-    }
-    .gItem:hover{ transform: translateY(-2px); box-shadow: 0 24px 90px rgba(15,23,42,.14); }
-    .gItem.big{ grid-column: span 8; min-height: 260px; }
-    .gImg{
-      position:absolute; inset:0;
-      background-size: cover;
-      background-position: center;
-      filter: saturate(1.05) contrast(1.03);
-    }
-    .gImg::after{
-      content:"";
-      position:absolute; inset:0;
-      background: linear-gradient(180deg, rgba(0,0,0,.06), rgba(0,0,0,.50));
-    }
-    .gLabel{
-      position:absolute; left:14px; right:14px; bottom:12px;
-      display:flex; justify-content:space-between; align-items:center;
-      gap:10px;
-      color:#fff;
-      font-weight:1000;
-      text-shadow: 0 10px 24px rgba(0,0,0,.35);
-    }
-    .gLabel small{
-      opacity:.9;
-      font-weight:900;
-      background: rgba(0,0,0,.28);
-      border:1px solid rgba(255,255,255,.22);
-      padding:6px 10px;
-      border-radius:999px;
-    }
-    .locked .gImg{ filter: blur(6px) saturate(.9); }
-    .lockBadge{
-      position:absolute; top:14px; left:14px;
-      background: rgba(0,0,0,.35);
-      border:1px solid rgba(255,255,255,.22);
-      color:#fff;
-      padding:8px 10px;
-      border-radius: 999px;
-      font-weight:1000;
-      box-shadow: var(--glowO);
-      z-index:2;
-    }
-
-    /* Modal */
-    .backdrop{
-      position:fixed; inset:0;
-      background: rgba(15,23,42,.35);
-      backdrop-filter: blur(10px);
-      display:none;
-      align-items:center;
-      justify-content:center;
-      padding: 22px;
-      z-index: 999;
-    }
-    .backdrop.show{ display:flex; }
-
-    .modal{
-      width: min(700px, 100%);
-      border-radius: 26px;
-      border:1px solid rgba(15,23,42,.12);
-      background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,255,255,.78));
-      box-shadow: 0 28px 120px rgba(15,23,42,.20), var(--glowO);
-      overflow:hidden;
-      position:relative;
-    }
-    .mTop{
-      padding: 16px 16px 10px;
-      display:flex;
-      align-items:flex-start;
-      justify-content:space-between;
-      gap:14px;
-      border-bottom: 1px solid rgba(15,23,42,.10);
-    }
-    .mTop h3{
-      margin:0;
-      font-size: 18px;
-      font-weight: 1000;
-      background: linear-gradient(90deg, var(--orange), var(--orange2));
-      -webkit-background-clip:text;
-      background-clip:text;
-      color: transparent;
-    }
-    .close{
-      border:none; cursor:pointer;
-      width:38px; height:38px;
-      border-radius: 14px;
-      background: rgba(15,23,42,.05);
-      border:1px solid rgba(15,23,42,.10);
-      color: var(--text);
-      font-weight: 1000;
-      transition:.2s ease;
-    }
-    .close:hover{
-      transform: translateY(-1px);
-      box-shadow: var(--glowO);
-      border-color: rgba(255,122,24,.22);
-    }
-    .mBody{
-      padding: 14px 16px 16px;
-      color: var(--muted);
-      font-weight: 750;
-      line-height: 1.5;
-    }
-    .choice{
-      margin: 12px 0 14px;
-      padding: 14px;
-      border-radius: 20px;
-      border:1px solid rgba(15,23,42,.10);
-      background: rgba(255,255,255,.70);
-      color: var(--text);
-      box-shadow: 0 18px 55px rgba(15,23,42,.10);
-    }
-    .choice b{
-      display:block;
-      font-size: 16px;
-      font-weight: 1000;
-      margin-bottom: 4px;
-    }
-    .choice span{ color: var(--muted); font-weight: 900; }
-
-    /* gallery viewer */
-    .viewer{
-      width: 100%;
-      height: 360px;
-      border-radius: 18px;
-      border:1px solid rgba(15,23,42,.10);
-      background: #fff;
-      overflow:hidden;
-      position:relative;
-      box-shadow: 0 18px 70px rgba(15,23,42,.12);
-    }
-    .viewerImg{
-      position:absolute; inset:0;
-      background-size: cover;
-      background-position:center;
-    }
-    .viewerImg::after{
-      content:"";
-      position:absolute; inset:0;
-      background: linear-gradient(180deg, rgba(0,0,0,.08), rgba(0,0,0,.32));
-    }
-    .viewerCap{
-      position:absolute; left:14px; right:14px; bottom:12px;
-      display:flex; justify-content:space-between; align-items:center;
-      gap:10px;
-      color:#fff;
-      font-weight:1000;
-      text-shadow: 0 10px 24px rgba(0,0,0,.35);
-    }
-    .viewerCap small{
-      opacity:.95;
-      font-weight:900;
-      background: rgba(0,0,0,.28);
-      border:1px solid rgba(255,255,255,.22);
-      padding:6px 10px;
-      border-radius:999px;
-    }
-
-    footer{
-      padding: 28px 0 60px;
-      border-top: 1px solid var(--line);
-      background: linear-gradient(180deg, rgba(255,255,255,.25), rgba(255,255,255,.65));
-    }
-    .foot{
-      display:flex;
-      justify-content:space-between;
-      gap:18px;
-      flex-wrap:wrap;
-      color: var(--muted);
-      font-weight: 800;
-      font-size: 13px;
-    }
-    .foot b{ color: var(--text); text-shadow: 0 0 10px rgba(255,122,24,.10); }
-
-    @keyframes shimmer{
-      0%{ transform: translateX(-60%) rotate(22deg); }
-      60%{ transform: translateX(220%) rotate(22deg); }
-      100%{ transform: translateX(220%) rotate(22deg); }
-    }
-    @keyframes spin{ to{ transform: rotate(360deg); } }
-  </style>
+@media(max-width:700px){
+  .hero h1{font-size:32px}
+  .fl{grid-template-columns:1fr}
+  .pl{grid-template-columns:1fr}
+  .dl{grid-template-columns:1fr}
+  .dside{display:none}
+  .dm{grid-template-columns:1fr 1fr}
+  .fg{grid-template-columns:1fr}
+  nav{padding:0 14px;gap:16px}
+  .nl{display:none}
+}
+</style>
 </head>
-
 <body>
-  <canvas id="particles"></canvas>
-  <div class="fog"></div>
 
-  <header>
-    <div class="container">
-      <div class="nav">
-        <a class="brand" href="#top">
-          <div class="logo"><span>ST</span></div>
-          <b>SunTrips</b>
-        </a>
+<nav>
+  <div class="logo" onclick="go('home')"><b>VA</b> Hosting</div>
+  <div class="nl">
+    <a onclick="go('home')">Главная</a>
+    <a onclick="go('plugins')">Плагины</a>
+    <a onclick="goPlans()">Тарифы</a>
+  </div>
+  <div class="nr">
+    <button class="nb ng" id="nbLogin" onclick="openAuth()">Войти</button>
+    <button class="nb nv" id="nbDash" style="display:none" onclick="go('dash')">Панель</button>
+    <button class="nb ng" id="nbOut" style="display:none" onclick="doLogout()">Выйти</button>
+  </div>
+</nav>
 
-        <nav class="menu" aria-label="Навигация">
-          <a href="#top">Путёвки</a>
-          <a href="#offers">Предложения</a>
-          <a href="#gallery">Галерея</a>
-          <a href="#faq">Инфо</a>
-          <a href="#discord">Discord</a>
-        </nav>
-
-        <div class="profile" title="Профиль">
-          <div class="avatar"></div>
-          <span>Гость</span>
-          <span style="opacity:.8;">▾</span>
-        </div>
-      </div>
+<!-- HOME -->
+<div id="pg-home" class="pg on">
+  <div class="hero">
+    <div class="htag">Бесплатный Minecraft хостинг</div>
+    <h1>Лучший бесплатный<br>Minecraft хостинг</h1>
+    <p>Запустите сервер за минуту без карты. Paper, Spigot, Purpur — бесплатно.</p>
+    <div class="hbtns">
+      <button class="hbp" onclick="openAuth()">Создать сервер</button>
+      <button class="hbg" onclick="goPlans()">Тарифы</button>
     </div>
-  </header>
-
-  <main id="top">
-    <div class="container">
-
-      <!-- Banner -->
-      <div class="banner">
-        <div class="bannerInner">
-          <div>
-            <div class="pill" style="width:fit-content; margin-bottom:10px;">
-              <span class="dot"></span> SunTrips • архипелаг • путёвки
-            </div>
-            <h1 class="bannerTitle">Путёвки на<br/>Сырниковые Острова</h1>
-            <p class="bannerSub">Выбираешь остров → оплачиваешь → заходишь в Discord → получаешь доступ и лодку 🛶</p>
-          </div>
-
-          <div class="bannerFacts" aria-label="Факты">
-            <div class="pill"><b>24/7</b> онлайн</div>
-            <div class="pill"><b>Еда</b> бесплатно</div>
-            <div class="pill"><b>Лодка</b> в подарок</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Search -->
-      <div class="searchBox" aria-label="Поиск тура">
-        <div class="field">
-          <div class="ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M12 22s7-4.4 7-12A7 7 0 1 0 5 10c0 7.6 7 12 7 12Z" stroke="currentColor" stroke-width="2"/>
-              <path d="M12 10.5a2.2 2.2 0 1 0 0-4.4 2.2 2.2 0 0 0 0 4.4Z" fill="currentColor" opacity=".9"/>
-            </svg>
-          </div>
-          <div class="fieldText">
-            <label>Куда</label>
-            <div class="value">Сырниковые Острова</div>
-            <div class="subv">одно место • архипелаг</div>
-          </div>
-        </div>
-
-        <div class="field">
-          <div class="ico" aria-hidden="true" style="background:linear-gradient(135deg, rgba(255,183,3,.18), rgba(255,122,24,.14)); box-shadow: var(--glowG);">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M7 3v3M17 3v3M4 8h16M6 12h4M6 16h7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <div class="fieldText">
-            <label>Даты</label>
-            <div class="value" id="datesValue">Любые</div>
-            <div class="subv">покупка = доступ на срок</div>
-          </div>
-        </div>
-
-        <div class="field">
-          <div class="ico" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none">
-              <path d="M12 2v20M5 6h14M7 10h10M9 14h6M10 18h4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <div class="fieldText">
-            <label>Длительность</label>
-            <div class="value" id="daysValue">7 дней</div>
-            <div class="subv">7 / 14 / 30 / 60</div>
-          </div>
-        </div>
-
-        <button class="searchBtn" id="searchBtn" type="button">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M10.5 18a7.5 7.5 0 1 1 0-15 7.5 7.5 0 0 1 0 15Z" stroke="currentColor" stroke-width="2"/>
-            <path d="M16.5 16.5 21 21" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-          </svg>
-          Найти
-        </button>
-      </div>
-
-      <!-- Main grid -->
-      <div class="pageGrid" id="offers">
-        <!-- Left filters -->
-        <aside class="card filters">
-          <h3>Фильтры</h3>
-
-          <div class="block">
-            <div style="display:flex; justify-content:space-between; align-items:center; gap:10px;">
-              <div style="color:var(--muted); font-weight:1000; font-size:12px; text-transform:uppercase; letter-spacing:.5px;">
-                Длительность
-              </div>
-              <div class="pill" style="padding:8px 10px; font-size:11px;">фикс-цены</div>
-            </div>
-
-            <div class="chips" style="margin-top:10px;">
-              <button class="chip active" data-days="7">7 дней</button>
-              <button class="chip" data-days="14">14 дней</button>
-              <button class="chip" data-days="30">30 дней</button>
-              <button class="chip" data-days="60">60 дней</button>
-            </div>
-          </div>
-
-          <div class="block">
-            <div style="color:var(--muted); font-weight:1000; font-size:12px; text-transform:uppercase; letter-spacing:.5px;">
-              Тип острова
-            </div>
-
-            <div class="check">
-              <input type="checkbox" id="fSmall" checked />
-              <label for="fSmall">Маленький</label>
-            </div>
-            <div class="check">
-              <input type="checkbox" id="fMedium" checked />
-              <label for="fMedium">Средний</label>
-            </div>
-            <div class="check">
-              <input type="checkbox" id="fBig" checked />
-              <label for="fBig">Большой</label>
-            </div>
-
-            <div class="hint">
-              💡 Фильтры реально скрывают/показывают карточки справа.
-            </div>
-          </div>
-
-          <div class="block" id="discord">
-            <div style="color:var(--muted); font-weight:1000; font-size:12px; text-transform:uppercase; letter-spacing:.5px;">
-              Активация
-            </div>
-            <p style="margin:10px 0 12px; color:var(--muted); font-weight:850; font-size:13px; line-height:1.4;">
-              После покупки нужно зайти в Discord — там выдадут доступ, лодку 🛶 и подскажут, куда плыть.
-            </p>
-            <button class="btn secondary shimmer" id="discordBtnAside" type="button" style="max-width:none;">
-              Открыть Discord
-            </button>
-          </div>
-        </aside>
-
-        <!-- Right list -->
-        <section>
-          <div class="resultsTop">
-            <h2 class="title">Предложения</h2>
-            <div class="sort">
-              Сортировать:
-              <select id="sortSel">
-                <option value="cheap">цена: дешёвые</option>
-                <option value="expensive">цена: дорогие</option>
-                <option value="rating">рейтинг</option>
-              </select>
-            </div>
-          </div>
-
-          <div id="list"></div>
-
-          <!-- Gallery -->
-          <div class="galleryWrap" id="gallery">
-            <div class="galleryTop">
-              <h2 class="title" style="margin:0;">Галерея</h2>
-              <p>Тут можно показать локации архипелага. Нажимаешь на карточку — открывается просмотр 🔍</p>
-            </div>
-            <div class="gallery" id="galleryGrid"></div>
-          </div>
-
-          <div class="card" id="faq" style="padding:14px; border-radius:22px; margin-top:12px;">
-            <div style="font-weight:1000; margin-bottom:8px; text-shadow:0 0 12px rgba(255,122,24,.10);">
-              Информация
-            </div>
-            <div style="color:var(--muted); font-weight:850; line-height:1.45; font-size:13px;">
-              • Направление одно: <b style="color:var(--text);">Сырниковые Острова</b><br/>
-              • По билету можно <b style="color:var(--text);">бесплатно есть в любом ресторане</b><br/>
-              • <b style="color:var(--text);">Лодка выдаётся бесплатно</b>, чтобы доплыть до центра<br/>
-              • Покупка = срок доступа (7/14/30/60 дней)
-            </div>
-          </div>
-        </section>
-      </div>
-
+    <div class="hnums">
+      <div><div class="hn-n">47K+</div><div class="hn-l">Серверов</div></div>
+      <div><div class="hn-n">99.9%</div><div class="hn-l">Uptime</div></div>
+      <div><div class="hn-n">100%</div><div class="hn-l">Бесплатно</div></div>
+      <div><div class="hn-n">&lt;60s</div><div class="hn-l">Запуск</div></div>
     </div>
+  </div>
 
-    <footer>
-      <div class="container">
-        <div class="foot">
-          <div>© <b>SunTrips</b> • Путёвки</div>
-          <div>OnCopyright © SunShield 2026. Все права защищены. Сервер SunShield и С.О не относится к Mojang Studios
-ИП Хлусов Михаил Романович</div>
-        </div>
-      </div>
-    </footer>
-  </main>
+  <hr class="sep">
 
-  <!-- Modal -->
-  <div class="backdrop" id="backdrop" role="dialog" aria-modal="true" aria-hidden="true">
-    <div class="modal" role="document">
-      <div class="mTop">
-        <h3 id="modalTitle">Покупка / Просмотр</h3>
-        <button class="close" id="closeBtn" aria-label="Закрыть">✕</button>
+  <div class="sec">
+    <div class="sl">Возможности</div>
+    <div class="st">Всё что нужно</div>
+    <div class="ss">Без скрытых платежей.</div>
+    <div class="fl">
+      <div class="fi"><div class="fin">01</div><div class="fit">Мгновенный запуск</div><div class="fid">Сервер готов за 30 секунд</div></div>
+      <div class="fi"><div class="fin">02</div><div class="fit">Установка плагинов</div><div class="fid">Сотни плагинов в один клик</div></div>
+      <div class="fi"><div class="fin">03</div><div class="fit">DDoS защита</div><div class="fid">Встроенная защита сервера</div></div>
+      <div class="fi"><div class="fin">04</div><div class="fit">Консоль в браузере</div><div class="fid">Полное управление онлайн</div></div>
+      <div class="fi"><div class="fin">05</div><div class="fit">Все ядра</div><div class="fid">Paper, Spigot, Purpur, Forge</div></div>
+      <div class="fi"><div class="fin">06</div><div class="fit">Редактор конфигов</div><div class="fid">server.properties в браузере</div></div>
+    </div>
+  </div>
+
+  <hr class="sep">
+
+  <div class="sec" id="plans">
+    <div class="sl">Тарифы</div>
+    <div class="st">Начни бесплатно</div>
+    <div class="ss">Бесплатный план для большинства нужд. Pro и Ultra — для крупных серверов.</div>
+    <div class="pl">
+      <div class="pc">
+        <div class="pname">Free</div>
+        <div class="pprice">0₽</div>
+        <div class="pper">навсегда</div>
+        <ul class="plist">
+          <li>2 GB оперативной памяти</li>
+          <li>10 GB SSD</li>
+          <li>20 слотов</li>
+          <li>Paper / Spigot / Vanilla</li>
+          <li>Установка плагинов</li>
+          <li>Консоль</li>
+          <li class="no">Автобэкапы</li>
+          <li class="no">Приоритетная поддержка</li>
+        </ul>
+        <button class="pbtn pbtn-o" onclick="openAuth()">Начать бесплатно</button>
       </div>
-      <div class="mBody" id="modalBody">
-        <!-- dynamic -->
+      <div class="pc hot">
+        <div class="pbadge">Популярный</div>
+        <div class="pname">Pro</div>
+        <div class="pprice">199₽<small>/мес</small></div>
+        <div class="pper">оплата ежемесячно</div>
+        <ul class="plist">
+          <li>6 GB оперативной памяти</li>
+          <li>50 GB NVMe</li>
+          <li>100 слотов</li>
+          <li>Все ядра</li>
+          <li>Установка плагинов и модпаков</li>
+          <li>Консоль</li>
+          <li>Ежедневные автобэкапы</li>
+          <li class="no">VIP поддержка</li>
+        </ul>
+        <button class="pbtn pbtn-v" onclick="openPay('Pro','199₽/мес')">Купить Pro</button>
+      </div>
+      <div class="pc">
+        <div class="pname">Ultra</div>
+        <div class="pprice">499₽<small>/мес</small></div>
+        <div class="pper">оплата ежемесячно</div>
+        <ul class="plist">
+          <li>16 GB оперативной памяти</li>
+          <li>200 GB NVMe</li>
+          <li>Неограниченные слоты</li>
+          <li>Все ядра + BungeeCord</li>
+          <li>Установка плагинов и модпаков</li>
+          <li>Консоль</li>
+          <li>Почасовые автобэкапы</li>
+          <li>VIP поддержка 24/7</li>
+        </ul>
+        <button class="pbtn pbtn-o" onclick="openPay('Ultra','499₽/мес')">Купить Ultra</button>
       </div>
     </div>
   </div>
 
-  <script>
-    // =========================
-    // CONFIG
-    // =========================
-    const DISCORD_INVITE = "https://discord.gg/xRsc8snvdj"; // <-- вставь инвайт на свой сервер
+  <footer>
+    <div class="fi3">
+      <div>
+        <div class="fb"><b>VA</b> Hosting</div>
+        <div class="fdesc">Лучший бесплатный Minecraft хостинг.</div>
+      </div>
+      <div class="fcol">
+        <h4>Продукт</h4>
+        <a onclick="go('home')">Главная</a>
+        <a onclick="goPlans()">Тарифы</a>
+        <a onclick="go('plugins')">Плагины</a>
+      </div>
+      <div class="fcol">
+        <h4>Помощь</h4>
+        <a>Документация</a>
+        <a>Discord</a>
+        <a>Поддержка</a>
+      </div>
+    </div>
+    <div class="fbot">© 2025 VA Hosting</div>
+  </footer>
+</div>
 
-    // Можно скрыть Valera temple:
-    const HIDE_SECRET = false; // true = скрыто (замок), false = показывается нормально
+<!-- PLUGINS -->
+<div id="pg-plugins" class="pg">
+  <div class="sec">
+    <div class="sl">Каталог</div>
+    <div class="st">Плагины</div>
+    <div class="ss">Установка в один клик из панели управления.</div>
+    <div class="pflt" style="margin-top:24px" id="plgFlt">
+      <button class="pfb on" onclick="fPlg('all',this)">Все</button>
+      <button class="pfb" onclick="fPlg('e',this)">Основные</button>
+      <button class="pfb" onclick="fPlg('p',this)">Защита</button>
+      <button class="pfb" onclick="fPlg('ec',this)">Экономика</button>
+      <button class="pfb" onclick="fPlg('perf',this)">Производительность</button>
+      <button class="pfb" onclick="fPlg('a',this)">Администрирование</button>
+      <button class="pfb" onclick="fPlg('m',this)">Разное</button>
+    </div>
+    <div id="plgEl"></div>
+  </div>
+</div>
 
-    // Картинки островов (вставь свои ссылки)
-    const OFFER_IMAGES = {
-      small:  "https://media.discordapp.net/attachments/1349125691886538812/1473380309234876671/image.png?ex=6995ffd7&is=6994ae57&hm=35ed201e276e8c8f9e1d12fd6889a5710e1995e22caac9f34fe2c59b36be1cae&=&format=webp&quality=lossless&width=162&height=110",
-      medium: "https://media.discordapp.net/attachments/1349125691886538812/1473380406169567283/image.png?ex=6995ffee&is=6994ae6e&hm=59631a952bd4cd8cf237b16c80d8545477cb4be75e23693706c8298b2badba7f&=&format=webp&quality=lossless&width=176&height=182",
-      big:    "https://media.discordapp.net/attachments/1349125691886538812/1473377210940526612/image.png?ex=6995fcf5&is=6994ab75&hm=9671845fc008859324c0c61f9e565e33e255cb1fa78d51f7bce1b2149a1414e7&=&format=webp&quality=lossless&width=332&height=318"
-    };
+<!-- DASH -->
+<div id="pg-dash" class="pg">
+  <div class="dl">
+    <div class="dside">
+      <div class="dslbl">Серверы</div>
+      <div class="dsi on" onclick="renderDash()">◻ Мои серверы</div>
+      <div class="dsi" onclick="openCreate()">＋ Создать</div>
+      <div class="dslbl">Прочее</div>
+      <div class="dsi" onclick="go('home')">← Главная</div>
+      <div class="dsi" onclick="go('plugins')">◈ Плагины</div>
+    </div>
+    <div class="dmain" id="dmain"></div>
+  </div>
+</div>
 
-    // Галерея (вставь свои ссылки на скрины/картинки)
-    const GALLERY = [
-      { id:"beach",   title:"Пляж", subtitle:"золотой песок", img:"https://media.discordapp.net/attachments/1349125691886538812/1473275788739477514/2026-02-17_13.09.34.png?ex=69959e80&is=69944d00&hm=f480313e69f60e45b56febd4b64f6c735cff73013e052ddf68988b8159c8cec7&=&format=webp&quality=lossless&width=1635&height=1022", big:true },
-      { id:"syrnikberg", title:"Ресторан syrnik-berg на природе", subtitle:"еда + виды", img:"https://media.discordapp.net/attachments/1349125691886538812/1473276356963074078/2026-02-17_13.13.43.png?ex=69959f07&is=69944d87&hm=fefbc6192cc8fd17a760474a5be422fc3b32b06cc453b61261657aad45c9f8dd&=&format=webp&quality=lossless&width=1668&height=1022" },
-      { id:"beachsyrnikec", title:"Ресторан beach-syrnikec", subtitle:"у воды", img:"https://media.discordapp.net/attachments/1349125691886538812/1473276374386081855/2026-02-17_13.14.07.png?ex=69959f0b&is=69944d8b&hm=e66645d7041aad04daf7c127146331e1aba6744965ec0ae9e12c14f9443e3191&=&format=webp&quality=lossless&width=1668&height=1022" },
-      { id:"valera",  title:"Valera temple", subtitle:"Скрыто", img:"https://media.discordapp.net/attachments/1349125691886538812/1473276640439042200/2026-02-17_13.15.10.png?ex=69959f4b&is=69944dcb&hm=fe0d98667b90aaa86e3eb02814b9bf37b67040bc9d8da53967b330bc1f0413e5&=&format=webp&quality=lossless&width=1668&height=1022", secret:false },
-      { id:"sat",     title:"Вид из спутника", subtitle:"архипелаг сверху", img:"https://media.discordapp.net/attachments/1349125691886538812/1473376887786045440/image.png?ex=6995fca8&is=6994ab28&hm=5dcc33ecd0d767b1b84291948bb002ef179a6d6b8cb8eaea5bf27c5a4ee7cfc1&=&format=webp&quality=lossless&width=1271&height=846", big:true },
-    ];
+<!-- AUTH MODAL -->
+<div class="mbg" id="m-auth">
+  <div class="mo">
+    <div class="mtabs">
+      <div class="mtab on" id="at-in" onclick="swAuth('in')">Войти</div>
+      <div class="mtab" id="at-up" onclick="swAuth('up')">Регистрация</div>
+    </div>
+    <div id="av-in">
+      <div class="mot">Войти</div>
+      <div class="mos">Управляйте своими серверами</div>
+      <div class="fr"><label class="fl2">Никнейм</label><input class="fi2" id="li-u" placeholder="username" autocomplete="off"></div>
+      <div class="fr"><label class="fl2">Пароль</label><input class="fi2" id="li-p" type="password" placeholder="••••••••" onkeydown="if(event.key==='Enter')doLogin()"></div>
+      <div class="merr" id="le"></div>
+      <div class="mbtns">
+        <button class="mbtn2 mc" onclick="closeM('auth')">Отмена</button>
+        <button class="mbtn2 mk" onclick="doLogin()">Войти →</button>
+      </div>
+    </div>
+    <div id="av-up" style="display:none">
+      <div class="mot">Создать аккаунт</div>
+      <div class="mos">Бесплатно и без карты</div>
+      <div class="fr"><label class="fl2">Никнейм</label><input class="fi2" id="ru-u" placeholder="username" autocomplete="off"></div>
+      <div class="fr"><label class="fl2">Пароль</label><input class="fi2" id="ru-p" type="password" placeholder="минимум 4 символа"></div>
+      <div class="fr"><label class="fl2">Повтор пароля</label><input class="fi2" id="ru-p2" type="password" placeholder="повторите" onkeydown="if(event.key==='Enter')doReg()"></div>
+      <div class="merr" id="re"></div>
+      <div class="mok" id="rok"></div>
+      <div class="mbtns">
+        <button class="mbtn2 mc" onclick="closeM('auth')">Отмена</button>
+        <button class="mbtn2 mk" onclick="doReg()">Зарегистрироваться →</button>
+      </div>
+    </div>
+  </div>
+</div>
 
-    // base prices for 7 days (from your examples)
-    const base = { small: 70, medium: 165, big: 240 };
+<!-- CREATE MODAL -->
+<div class="mbg" id="m-create">
+  <div class="mo">
+    <div class="mot">Новый сервер</div>
+    <div class="mos">Готов менее чем за минуту</div>
+    <div class="fr">
+      <label class="fl2">Название</label>
+      <input class="fi2" id="cn" placeholder="Мой сервер" oninput="updIP()">
+    </div>
+    <div class="fr">
+      <label class="fl2">Адрес</label>
+      <div class="iprev" id="ciprev">yourserver.hosting.va</div>
+      <div class="fhint">По этому адресу игроки будут подключаться</div>
+    </div>
+    <div class="fg">
+      <div class="fr"><label class="fl2">Версия</label>
+        <select class="fs" id="cv">
+          <option>1.21.4</option><option>1.21.1</option><option>1.20.4</option>
+          <option>1.20.1</option><option>1.19.4</option><option>1.18.2</option>
+          <option>1.16.5</option><option>1.12.2</option><option>1.8.9</option>
+        </select>
+      </div>
+      <div class="fr"><label class="fl2">Ядро</label>
+        <select class="fs" id="cc">
+          <option>Paper</option><option>Spigot</option><option>Purpur</option>
+          <option>Forge</option><option>Fabric</option><option>Vanilla</option>
+        </select>
+      </div>
+      <div class="fr"><label class="fl2">Слоты</label>
+        <select class="fs" id="csl"><option>20</option><option>50</option><option>100</option></select>
+      </div>
+      <div class="fr"><label class="fl2">ОЗУ</label>
+        <select class="fs" id="cr"><option>2 GB</option><option>4 GB</option></select>
+      </div>
+    </div>
+    <div class="merr" id="cerr"></div>
+    <div class="mbtns">
+      <button class="mbtn2 mc" onclick="closeM('create')">Отмена</button>
+      <button class="mbtn2 mk" onclick="doCreate()">Создать →</button>
+    </div>
+  </div>
+</div>
 
-    // multipliers for duration
-    const mult = { 7: 1, 14: 1.9, 30: 3.5, 60: 6.4 };
+<!-- PAY MODAL -->
+<div class="mbg" id="m-pay">
+  <div class="mo" style="width:380px">
+    <div class="mot">Оплата <span id="pname"></span></div>
+    <div class="mos" id="pprice"></div>
+    <div style="background:var(--bg);border:1px solid var(--b);border-radius:6px;padding:14px;margin-bottom:16px;font-size:12px;color:var(--g);line-height:1.7">
+      Оплата картой временно недоступна.<br>Используйте промокод для активации.
+    </div>
+    <div class="fr"><label class="fl2">Промокод</label><input class="fi2" id="promo" placeholder="Введите промокод" onkeydown="if(event.key==='Enter')applyPromo()"></div>
+    <div class="merr" id="perr"></div>
+    <div class="mok" id="pok"></div>
+    <div class="mbtns">
+      <button class="mbtn2 mc" onclick="closeM('pay')">Закрыть</button>
+      <button class="mbtn2 mk" onclick="applyPromo()">Применить</button>
+    </div>
+  </div>
+</div>
 
-    const offers = [
-      {
-        id:"small",
-        name:"Маленький остров",
-        rating: 4.8,
-        desc:"Уютный остров для старта: домик, прогулки, спокойная атмосфера. Идеально чтобы вкатиться в жизнь архипелага.",
-        tags:["старт", "лодка бесплатно", "еда бесплатно"]
-      },
-      {
-        id:"medium",
-        name:"Средний остров",
-        rating: 4.9,
-        desc:"Самый удобный вариант: близко к центру, комфортно, есть где развернуться. Баланс уединения и активности.",
-        tags:["популярный", "центр рядом", "еда бесплатно"]
-      },
-      {
-        id:"big",
-        name:"Большой остров",
-        rating: 5.0,
-        desc:"Максимум пространства и свободы: стройки, фермы, бизнес — всё помещается. Для тех, кто хочет «вау».",
-        tags:["VIP", "много места", "лодка бесплатно"]
-      }
-    ];
+<div class="toast" id="toast"></div>
 
-    // =========================
-    // Helpers
-    // =========================
-    const won = (n) => new Intl.NumberFormat("ru-RU").format(Math.round(n)) + " вон";
-    const calcPrice = (id, days) => base[id] * mult[days];
+<script>
+'use strict';
+// ── DATA ─────────────────────────────────────────────────
+const PLGS=[
+  {id:'ess',n:'EssentialsX',c:'e',cl:'Основные',d:'130+ команд: варпы, телепорт, киты, экономика.',v:'2.21.0'},
+  {id:'lp',n:'LuckPerms',c:'a',cl:'Администрирование',d:'Система прав и рангов с веб-редактором.',v:'5.4.146'},
+  {id:'we',n:'WorldEdit',c:'e',cl:'Основные',d:'Редактор мира: копирование, заливка блоков.',v:'7.3.6'},
+  {id:'wg',n:'WorldGuard',c:'p',cl:'Защита',d:'Защита регионов и флаги зон.',v:'7.0.11'},
+  {id:'vt',n:'Vault',c:'e',cl:'Основные',d:'API-мост между плагинами экономики и прав.',v:'1.7.3'},
+  {id:'cp',n:'CoreProtect',c:'p',cl:'Защита',d:'Логи действий игроков. Откат грифинга.',v:'22.4'},
+  {id:'gp',n:'GriefPrevention',c:'p',cl:'Защита',d:'Защита построек через чанк-клеймы.',v:'17.0.1'},
+  {id:'cs',n:'ChestShop',c:'ec',cl:'Экономика',d:'Магазины через сундуки и знаки.',v:'3.13.1'},
+  {id:'ah',n:'AuctionHouse',c:'ec',cl:'Экономика',d:'Аукционный дом с GUI интерфейсом.',v:'3.2.7'},
+  {id:'dm',n:'Dynmap',c:'m',cl:'Разное',d:'Интерактивная карта сервера в браузере.',v:'3.7'},
+  {id:'sk',n:'Skript',c:'m',cl:'Разное',d:'Создавай плагины без Java на простом языке.',v:'2.9.3'},
+  {id:'sp',n:'Spark',c:'perf',cl:'Производительность',d:'Профилировщик производительности сервера.',v:'1.10.109'},
+  {id:'vv',n:'ViaVersion',c:'m',cl:'Разное',d:'Новые версии клиентов на старом сервере.',v:'5.1.1'},
+  {id:'ph',n:'PlaceholderAPI',c:'e',cl:'Основные',d:'Динамические плейсхолдеры между плагинами.',v:'2.11.6'},
+  {id:'fw',n:'FastAsyncWorldEdit',c:'perf',cl:'Производительность',d:'WorldEdit в 10x быстрее, без лагов.',v:'2.11.2'},
+  {id:'tb',n:'TAB',c:'a',cl:'Администрирование',d:'Настройка таблицы игроков с PlaceholderAPI.',v:'4.1.5'},
+  {id:'ds',n:'DiscordSRV',c:'m',cl:'Разное',d:'Синхронизация чата Minecraft и Discord.',v:'1.28.0'},
+  {id:'mv',n:'Multiverse-Core',c:'m',cl:'Разное',d:'Несколько миров на одном сервере.',v:'4.3.12'},
+];
+const TC={e:'te',p:'tp',ec:'tec',perf:'tperf',a:'ta',m:'tm'};
+const DP=`#Minecraft server properties
+allow-flight=false
+allow-nether=true
+difficulty=normal
+enable-command-block=true
+gamemode=survival
+hardcore=false
+level-name=world
+max-players=20
+motd=Сервер на VA Hosting
+online-mode=true
+pvp=true
+spawn-protection=16
+view-distance=10
+white-list=false`;
 
-    // =========================
-    // UI state
-    // =========================
-    let currentDays = 7;
+// ── STATE ─────────────────────────────────────────────────
+let cu=null,srvs=[],oid=null,upt=null;
+const lg=(k,d)=>{try{const v=localStorage.getItem(k);return v?JSON.parse(v):d;}catch{return d;}};
+const ls=(k,v)=>{try{localStorage.setItem(k,JSON.stringify(v));}catch{}};
+const gU=()=>lg('va_u',{});
+const sU=u=>ls('va_u',u);
+const ldS=()=>{if(cu)srvs=lg('va_s_'+cu.u,[]);};
+const svS=()=>{if(cu)ls('va_s_'+cu.u,srvs);};
+const e=s=>String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+const pad=n=>String(n).padStart(2,'0');
+const slug=s=>s.toLowerCase().replace(/\s+/g,'').replace(/[^a-z0-9]/g,'').substring(0,20)||'server';
 
-    const chips = [...document.querySelectorAll(".chip")];
-    const listEl = document.getElementById("list");
-    const sortSel = document.getElementById("sortSel");
+// ── INIT ─────────────────────────────────────────────────
+(()=>{
+  const s=lg('va_ses',null);
+  if(s&&s.u){const us=gU();if(us[s.u]){cu={u:s.u};ldS();}}
+  updNav();renderPlgPage();
+})();
 
-    const fSmall = document.getElementById("fSmall");
-    const fMedium = document.getElementById("fMedium");
-    const fBig = document.getElementById("fBig");
+// ── NAV ───────────────────────────────────────────────────
+function updNav(){
+  document.getElementById('nbLogin').style.display=cu?'none':'';
+  document.getElementById('nbDash').style.display=cu?'':'none';
+  document.getElementById('nbOut').style.display=cu?'':'none';
+}
 
-    const daysValue = document.getElementById("daysValue");
-    const datesValue = document.getElementById("datesValue");
+// ── PAGES ─────────────────────────────────────────────────
+function go(id){
+  document.querySelectorAll('.pg').forEach(p=>p.classList.remove('on'));
+  document.getElementById('pg-'+id).classList.add('on');
+  window.scrollTo(0,0);
+  if(id==='plugins')renderPlgPage();
+  if(id==='dash'){if(!cu){openAuth();return;}renderDash();}
+}
+function goPlans(){
+  go('home');
+  setTimeout(()=>document.getElementById('plans')?.scrollIntoView({behavior:'smooth'}),80);
+}
 
-    // modal
-    const backdrop = document.getElementById("backdrop");
-    const closeBtn = document.getElementById("closeBtn");
-    const modalTitle = document.getElementById("modalTitle");
-    const modalBody = document.getElementById("modalBody");
+// ── TOAST ─────────────────────────────────────────────────
+function toast(m){const t=document.getElementById('toast');t.textContent=m;t.classList.add('on');setTimeout(()=>t.classList.remove('on'),2400);}
 
-    // gallery
-    const galleryGrid = document.getElementById("galleryGrid");
+// ── MODALS ────────────────────────────────────────────────
+function openM(id){document.getElementById('m-'+id).classList.add('on');}
+function closeM(id){document.getElementById('m-'+id).classList.remove('on');}
+document.querySelectorAll('.mbg').forEach(b=>b.addEventListener('click',e=>{if(e.target===b)b.classList.remove('on');}));
+document.addEventListener('keydown',e=>{if(e.key==='Escape')document.querySelectorAll('.mbg.on').forEach(m=>m.classList.remove('on'));});
 
-    // =========================
-    // Render: offers
-    // =========================
-    function stars(r){
-      const full = Math.round(r);
-      return "★★★★★".slice(0, full).split("").map(s => `<span>${s}</span>`).join("") +
-             "☆☆☆☆☆".slice(0, 5-full).split("").map(s => `<span style="opacity:.25;color:var(--orange2)">${s}</span>`).join("");
-    }
+// ── AUTH ──────────────────────────────────────────────────
+function openAuth(){
+  ['li-u','li-p','ru-u','ru-p','ru-p2'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});
+  ['le','re','rok'].forEach(id=>{const el=document.getElementById(id);if(el)el.textContent='';});
+  openM('auth');
+}
+function swAuth(t){
+  document.getElementById('av-in').style.display=t==='in'?'block':'none';
+  document.getElementById('av-up').style.display=t==='up'?'block':'none';
+  document.getElementById('at-in').classList.toggle('on',t==='in');
+  document.getElementById('at-up').classList.toggle('on',t==='up');
+}
+function doLogin(){
+  const u=document.getElementById('li-u').value.trim();
+  const p=document.getElementById('li-p').value;
+  const err=document.getElementById('le');
+  if(!u||!p){err.textContent='Заполните все поля.';return;}
+  const us=gU();
+  if(!us[u]){err.textContent='Аккаунт не найден.';return;}
+  if(us[u].pw!==btoa(p)){err.textContent='Неверный пароль.';return;}
+  cu={u};ls('va_ses',{u});ldS();updNav();closeM('auth');go('dash');
+}
+function doReg(){
+  const u=document.getElementById('ru-u').value.trim();
+  const p=document.getElementById('ru-p').value;
+  const p2=document.getElementById('ru-p2').value;
+  const err=document.getElementById('re'),ok=document.getElementById('rok');
+  err.textContent='';ok.textContent='';
+  if(!u||!p||!p2){err.textContent='Заполните все поля.';return;}
+  if(u.length<3){err.textContent='Никнейм: мин. 3 символа.';return;}
+  if(!/^[a-zA-Z0-9_]+$/.test(u)){err.textContent='Только буквы, цифры, _.';return;}
+  if(p.length<4){err.textContent='Пароль: мин. 4 символа.';return;}
+  if(p!==p2){err.textContent='Пароли не совпадают.';return;}
+  const us=gU();
+  if(us[u]){err.textContent='Никнейм занят.';return;}
+  us[u]={pw:btoa(p)};sU(us);
+  ok.textContent='Готово! Входим...';
+  setTimeout(()=>{cu={u};ls('va_ses',{u});ldS();updNav();closeM('auth');go('dash');},600);
+}
+function doLogout(){cu=null;srvs=[];ls('va_ses',null);updNav();go('home');}
 
-    function isAllowed(id){
-      if(id==="small") return fSmall.checked;
-      if(id==="medium") return fMedium.checked;
-      if(id==="big") return fBig.checked;
-      return true;
-    }
+// ── CREATE SERVER ─────────────────────────────────────────
+function openCreate(){
+  if(!cu){openAuth();return;}
+  document.getElementById('cn').value='';
+  document.getElementById('cerr').textContent='';
+  updIP();openM('create');
+}
+function updIP(){
+  const n=document.getElementById('cn').value.trim();
+  document.getElementById('ciprev').textContent=(n?slug(n):'yourserver')+'.hosting.va';
+}
+function doCreate(){
+  const name=document.getElementById('cn').value.trim();
+  const err=document.getElementById('cerr');
+  if(!name){err.textContent='Введите название.';return;}
+  if(name.length<2){err.textContent='Мин. 2 символа.';return;}
+  const ip=slug(name)+'.hosting.va';
+  if(srvs.find(s=>s.ip===ip)){err.textContent='Такой сервер уже есть.';return;}
+  const id=Date.now();
+  srvs.push({
+    id,name,ip,
+    ver:document.getElementById('cv').value,
+    core:document.getElementById('cc').value,
+    slots:document.getElementById('csl').value,
+    ram:document.getElementById('cr').value,
+    status:'offline',startedAt:null,plugins:[],props:DP,
+    con:[{t:'i',m:'[Server] Инициализация...'}]
+  });
+  svS();closeM('create');toast('"'+name+'" создан!');renderDash();
+}
 
-    function sorted(arr){
-      const a = [...arr];
-      const mode = sortSel.value;
-      if(mode==="cheap"){
-        a.sort((x,y)=> calcPrice(x.id,currentDays) - calcPrice(y.id,currentDays));
-      } else if(mode==="expensive"){
-        a.sort((x,y)=> calcPrice(y.id,currentDays) - calcPrice(x.id,currentDays));
-      } else if(mode==="rating"){
-        a.sort((x,y)=> y.rating - x.rating);
-      }
-      return a;
-    }
+// ── PAY ───────────────────────────────────────────────────
+const PROM={'VAFREE':'pro','VAULTRA':'ultra'};
+let _payPlan='';
+function openPay(plan,price){
+  _payPlan=plan.toLowerCase();
+  document.getElementById('pname').textContent=plan;
+  document.getElementById('pprice').textContent=price;
+  document.getElementById('promo').value='';
+  document.getElementById('perr').textContent='';
+  document.getElementById('pok').textContent='';
+  openM('pay');
+}
+function applyPromo(){
+  const code=document.getElementById('promo').value.trim().toUpperCase();
+  const err=document.getElementById('perr'),ok=document.getElementById('pok');
+  if(!code){err.textContent='Введите промокод.';return;}
+  if(!PROM[code]){err.textContent='Неверный промокод.';return;}
+  err.textContent='';ok.textContent='Активировано!';
+  toast('Тариф '+_payPlan.toUpperCase()+' активирован!');
+}
 
-    function renderOffers(){
-      daysValue.textContent = `${currentDays} дней`;
-      datesValue.textContent = "Любые";
+// ── DASH ──────────────────────────────────────────────────
+function renderDash(){
+  const el=document.getElementById('dmain');
+  if(!srvs.length){
+    el.innerHTML=`<div class="empty"><div class="empt">Серверов нет</div><div class="emps">Создайте первый сервер бесплатно</div><button class="hbp" onclick="openCreate()">Создать сервер</button></div>`;
+    return;
+  }
+  el.innerHTML=`
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+    <div><div class="dt">Мои серверы</div><div class="ds">${srvs.length} шт.</div></div>
+    <button class="hbp" style="padding:8px 18px;font-size:12px" onclick="openCreate()">+ Создать</button>
+  </div>
+  <div class="scl">${srvs.map(s=>sSCard(s)).join('')}</div>`;
+}
+function sSCard(s){
+  const sc=s.status==='online'?'ton':s.status==='starting'?'tst':'toff';
+  const sl=s.status==='online'?'Online':s.status==='starting'?'Запуск...':'Offline';
+  const btn=s.status==='online'
+    ?`<button class="sbtn ssp" onclick="event.stopPropagation();qStop(${s.id})">Стоп</button>`
+    :s.status==='starting'
+    ?`<button class="sbtn" style="opacity:.4;cursor:default;background:var(--s2);color:var(--g);border:1px solid var(--b)">Запуск...</button>`
+    :`<button class="sbtn sst" onclick="event.stopPropagation();qStart(${s.id})">Запустить</button>`;
+  return `<div class="sc" onclick="openSrv(${s.id})">
+    <div class="sci">
+      <div class="scn">${e(s.name)}</div>
+      <div class="scip">${e(s.ip)}</div>
+      <div class="sctags">
+        <span class="stg ${sc}">${sl}</span>
+        <span class="stg tver">${e(s.ver)}</span>
+        <span class="stg tver">${e(s.core)}</span>
+      </div>
+    </div>
+    ${btn}
+  </div>`;
+}
+function qStart(id){
+  const s=srvs.find(x=>x.id===id);if(!s)return;
+  s.status='starting';svS();renderDash();
+  setTimeout(()=>{const s2=srvs.find(x=>x.id===id);if(s2){s2.status='online';s2.startedAt=Date.now();svS();renderDash();}},2000);
+}
+function qStop(id){
+  const s=srvs.find(x=>x.id===id);if(!s)return;
+  s.status='offline';s.startedAt=null;svS();renderDash();
+}
 
-      const visible = sorted(offers).filter(o => isAllowed(o.id));
+// ── SERVER DETAIL ─────────────────────────────────────────
+function openSrv(id){
+  oid=id;
+  const s=srvs.find(x=>x.id===id);if(!s)return;
+  const el=document.getElementById('dmain');
+  const on=s.status==='online',off=s.status==='offline';
+  const sc=on?'var(--green)':s.status==='starting'?'var(--yellow)':'var(--red)';
+  el.innerHTML=`
+  <button onclick="renderDash()" style="background:none;border:1px solid var(--b2);color:var(--g);padding:5px 12px;border-radius:5px;cursor:pointer;font-family:inherit;font-size:11px;margin-bottom:16px">← Назад</button>
+  <div class="dh">
+    <div class="dht">
+      <div>
+        <div class="dhn">${e(s.name)}</div>
+        <div class="dhip">${e(s.ip)}</div>
+      </div>
+      <div class="dhbtns">
+        ${off?`<button class="dbtn dbs" onclick="dStart()">▶ Запустить</button>`:''}
+        ${on?`<button class="dbtn dbp" onclick="dStop()">■ Стоп</button>`:''}
+        ${on?`<button class="dbtn dbr" onclick="dRestart()">↺</button>`:''}
+        <button class="dbtn dbd" onclick="delSrv(${s.id})">✕ Удалить</button>
+      </div>
+    </div>
+    <div class="dm">
+      <div class="dmi"><div class="dml">Статус</div><div class="dmv" style="color:${sc}">${on?'Online':s.status==='starting'?'Запуск':'Offline'}</div>${on&&s.startedAt?`<div id="uptl" style="font-size:10px;color:var(--g);margin-top:1px"></div>`:''}</div>
+      <div class="dmi"><div class="dml">Версия</div><div class="dmv">${e(s.ver)}</div></div>
+      <div class="dmi"><div class="dml">Ядро</div><div class="dmv">${e(s.core)}</div></div>
+      <div class="dmi"><div class="dml">ОЗУ</div><div class="dmv">${e(s.ram)}</div></div>
+    </div>
+  </div>
+  <div class="tabs">
+    <button class="tab on" id="tb-ov" onclick="sw('ov')">Обзор</button>
+    <button class="tab" id="tb-pl" onclick="sw('pl')">Плагины</button>
+    <button class="tab" id="tb-con" onclick="sw('con')">Консоль</button>
+    <button class="tab" id="tb-cfg" onclick="sw('cfg')">Конфиг</button>
+  </div>
+  <div id="tbd"></div>`;
+  sw('ov');
+  if(on&&s.startedAt)startUpt();
+}
+function startUpt(){
+  if(upt)clearInterval(upt);
+  upt=setInterval(()=>{
+    const s=srvs.find(x=>x.id===oid),el=document.getElementById('uptl');
+    if(s&&s.status==='online'&&s.startedAt&&el){
+      const d=Math.floor((Date.now()-s.startedAt)/1000);
+      el.textContent=pad(Math.floor(d/3600))+'h '+pad(Math.floor((d%3600)/60))+'m '+pad(d%60)+'s';
+    }else{clearInterval(upt);upt=null;}
+  },1000);
+}
+function sw(t){
+  ['ov','pl','con','cfg'].forEach(x=>{const el=document.getElementById('tb-'+x);if(el)el.classList.toggle('on',x===t);});
+  const s=srvs.find(x=>x.id===oid),tb=document.getElementById('tbd');
+  if(!tb||!s)return;
+  if(t==='ov')tb.innerHTML=rOv(s);
+  if(t==='pl')tb.innerHTML=rPl(s);
+  if(t==='con'){tb.innerHTML=rCon(s);setTimeout(()=>{const c=document.getElementById('cout');if(c)c.scrollTop=c.scrollHeight;},20);}
+  if(t==='cfg')tb.innerHTML=rCfg(s);
+}
+function rOv(s){
+  return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+  <div style="background:var(--s1);border:1px solid var(--b);border-radius:6px;padding:16px">
+    <div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--g2);margin-bottom:10px;font-weight:600">Информация</div>
+    ${[['Название',s.name],['IP',s.ip],['Версия',s.ver],['Ядро',s.core],['Слоты',s.slots],['Плагины',s.plugins.length]].map(([l,v])=>`<div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--b);font-size:12px"><span style="color:var(--g)">${l}</span><span style="color:var(--w);font-family:${l==='IP'?'monospace':'inherit'}">${e(String(v))}</span></div>`).join('')}
+  </div>
+  <div style="background:var(--s1);border:1px solid var(--b);border-radius:6px;padding:16px">
+    <div style="font-size:10px;text-transform:uppercase;letter-spacing:.08em;color:var(--g2);margin-bottom:10px;font-weight:600">Подключение</div>
+    <div style="font-size:12px;color:var(--g);margin-bottom:8px">Адрес для Minecraft:</div>
+    <div style="display:flex;align-items:center;gap:6px;background:var(--bg);border:1px solid var(--b);border-radius:5px;padding:8px 10px;margin-bottom:10px">
+      <span style="font-family:monospace;font-size:12px;color:#a78bfa;flex:1">${e(s.ip)}</span>
+      <button onclick="navigator.clipboard.writeText('${e(s.ip)}');toast('Скопировано!')" style="background:none;border:1px solid var(--b2);color:var(--g);padding:2px 8px;border-radius:3px;font-size:10px;cursor:pointer;font-family:inherit">Копировать</button>
+    </div>
+    <div style="font-size:12px;color:var(--g);line-height:1.8">Порт: <span style="color:var(--t)">25565</span></div>
+  </div>
+  </div>`;
+}
+function rPl(s){
+  return `<div class="pflt" id="dpf">
+    ${[['all','Все'],['e','Основные'],['p','Защита'],['ec','Экономика'],['perf','Производительность'],['a','Администрирование'],['m','Разное']].map(([c,l])=>`<button class="pfb${c==='all'?' on':''}" onclick="dfPlg('${c}',this)">${l}</button>`).join('')}
+  </div>
+  <div id="dplist">${rDPl(s,'all')}</div>`;
+}
+function rDPl(s,cat){
+  const list=cat==='all'?PLGS:PLGS.filter(p=>p.c===cat);
+  return `<div class="pltbl">${list.map(p=>{const inst=s.plugins.includes(p.id);return`<div class="plrow">
+    <div class="pli"><div style="display:flex;align-items:center;gap:6px"><span class="pln">${p.n}</span><span class="ptag ${TC[p.c]}">${p.cl}</span></div><div class="pld">${p.d}</div></div>
+    <span class="pver">v${p.v}</span>
+    <button class="pibtn${inst?' inst':''}" onclick="tglPlg('${p.id}',${inst})">${inst?'✓ Установлен':'Установить'}</button>
+  </div>`;}).join('')}</div>`;
+}
+function dfPlg(cat,btn){
+  document.querySelectorAll('#dpf .pfb').forEach(b=>b.classList.remove('on'));btn.classList.add('on');
+  const s=srvs.find(x=>x.id===oid),el=document.getElementById('dplist');
+  if(el&&s)el.innerHTML=rDPl(s,cat);
+}
+function tglPlg(pid,inst){
+  const s=srvs.find(x=>x.id===oid);if(!s)return;
+  inst?s.plugins=s.plugins.filter(x=>x!==pid)&&toast('Плагин удалён')&&true:s.plugins.push(pid)&&toast('Плагин установлен!');
+  if(!inst){s.plugins.push(pid);toast('Плагин установлен!');}
+  else{s.plugins=s.plugins.filter(x=>x!==pid);toast('Удалён');}
+  svS();sw('pl');
+}
+function rCon(s){
+  const lines=(s.con||[]).map(l=>`<div class="c${l.t==='i'?'i':l.t==='w'?'w2':l.t==='e'?'e':'c'}">${e(l.m)}</div>`).join('');
+  return `<div class="cw">
+    <div class="cbar"><div class="cd" style="background:#ff5f57"></div><div class="cd" style="background:#ffbd2e"></div><div class="cd" style="background:#28ca41"></div><span style="margin-left:6px;font-size:10px;color:var(--g2);font-family:monospace">${e(s.ip)}</span></div>
+    <div class="cout" id="cout">${lines}</div>
+    <div class="cinr"><span>›</span><input class="cin" id="cin" placeholder="Команда..." onkeydown="if(event.key==='Enter')sendCmd()"><button class="csbtn" onclick="sendCmd()">↵</button><button class="ccl" onclick="clrCon()">Очистить</button></div>
+    <div style="padding:5px 12px 7px;font-size:10px;color:var(--g2)">/say /list /op /kick /ban /tps /plugins /stop /help</div>
+  </div>`;
+}
+function addLog(t,m){
+  const s=srvs.find(x=>x.id===oid);if(!s)return;
+  const ts=new Date().toLocaleTimeString('ru',{hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  s.con=s.con||[];s.con.push({t,m:`[${ts}] ${m}`});
+  if(s.con.length>200)s.con=s.con.slice(-200);
+  svS();
+  const el=document.getElementById('cout');
+  if(el){el.innerHTML+=`<div class="c${t==='i'?'i':t==='w'?'w2':t==='e'?'e':'c'}">${e(`[${ts}] ${m}`)}</div>`;el.scrollTop=el.scrollHeight;}
+}
+function sendCmd(){
+  const inp=document.getElementById('cin');const raw=inp.value.trim();if(!raw)return;
+  inp.value='';
+  const s=srvs.find(x=>x.id===oid),on=s&&s.status==='online';
+  addLog('c','> '+raw);
+  if(!on){setTimeout(()=>addLog('e','Сервер остановлен.'),100);return;}
+  const cmd=raw.toLowerCase().split(' '),args=raw.split(' ').slice(1);
+  switch(cmd[0]){
+    case'/say':setTimeout(()=>addLog('i','[Server] '+args.join(' ')),80);break;
+    case'/list':setTimeout(()=>addLog('i',`[Server] Онлайн: 0/${s.slots}`),80);break;
+    case'/op':setTimeout(()=>addLog('i',args[0]?'[Server] '+args[0]+' — оператор.':'Использование: /op <ник>'),80);break;
+    case'/kick':setTimeout(()=>addLog('w',args[0]?'[Server] '+args[0]+' кикнут.':'Использование: /kick <ник>'),80);break;
+    case'/ban':setTimeout(()=>addLog('w',args[0]?'[Server] '+args[0]+' забанен.':'Использование: /ban <ник>'),80);break;
+    case'/tps':setTimeout(()=>addLog('i','[Server] TPS: 20.0, 20.0, 20.0'),80);break;
+    case'/plugins':setTimeout(()=>{const inst=s.plugins.map(pid=>PLGS.find(p=>p.id===pid)?.n||pid).join(', ')||'нет';addLog('i',`Плагины (${s.plugins.length}): ${inst}`);},80);break;
+    case'/stop':setTimeout(()=>dStop(),100);break;
+    case'/help':setTimeout(()=>addLog('i','/say /list /op /kick /ban /tps /plugins /stop'),80);break;
+    default:setTimeout(()=>addLog('e','Неизвестная команда. /help'),100);
+  }
+}
+function clrCon(){const s=srvs.find(x=>x.id===oid);if(!s)return;s.con=[];svS();const el=document.getElementById('cout');if(el)el.innerHTML='';}
+function rCfg(s){return `<div style="font-size:12px;color:var(--g);margin-bottom:10px">Применится после рестарта.</div>
+  <textarea class="pta" id="pta">${e(s.props||DP)}</textarea>
+  <div style="display:flex;gap:8px;margin-top:10px">
+    <button onclick="svProp()" style="background:var(--v);color:#fff;border:none;padding:8px 20px;border-radius:6px;cursor:pointer;font-weight:600;font-size:12px;font-family:inherit">Сохранить</button>
+    <button onclick="rstProp()" style="background:none;border:1px solid var(--b2);color:var(--g);padding:8px 14px;border-radius:6px;cursor:pointer;font-size:12px;font-family:inherit">Сбросить</button>
+  </div>
+  <div id="cfgok" style="display:none;font-size:11px;color:var(--green);margin-top:6px">Сохранено</div>`;}
+function svProp(){const s=srvs.find(x=>x.id===oid);if(!s)return;s.props=document.getElementById('pta').value;svS();const el=document.getElementById('cfgok');if(el){el.style.display='block';setTimeout(()=>el.style.display='none',2000);}}
+function rstProp(){if(!confirm('Сбросить?'))return;document.getElementById('pta').value=DP;svProp();}
+function dStart(){
+  const s=srvs.find(x=>x.id===oid);if(!s)return;
+  s.status='starting';svS();openSrv(oid);
+  addLog('i','[Server] Запуск '+s.core+'...');
+  setTimeout(()=>{const s2=srvs.find(x=>x.id===oid);if(s2){s2.status='online';s2.startedAt=Date.now();svS();openSrv(oid);addLog('i','[Server] Онлайн: '+s2.ip);}},2000);
+}
+function dStop(){
+  if(upt){clearInterval(upt);upt=null;}
+  const s=srvs.find(x=>x.id===oid);if(!s)return;
+  addLog('w','[Server] Стоп...');
+  s.status='offline';s.startedAt=null;svS();openSrv(oid);
+}
+function dRestart(){addLog('w','Рестарт...');dStop();setTimeout(dStart,400);}
+function delSrv(id){
+  if(!confirm('Удалить сервер?'))return;
+  if(upt){clearInterval(upt);upt=null;}
+  srvs=srvs.filter(s=>s.id!==id);svS();oid=null;toast('Удалён');renderDash();
+}
 
-      listEl.innerHTML = visible.map(o => {
-        const price = calcPrice(o.id, currentDays);
-        const badge = o.id === "medium" ? `<div class="thumbBadge">ПОПУЛЯРНО</div>` : `<div class="thumbBadge">ОСТРОВ</div>`;
-        const img = OFFER_IMAGES[o.id] || "";
-
-        return `
-          <div class="card offer">
-            <div class="thumb" aria-hidden="true" style="background-image:url('${img}')">
-              ${badge}
-            </div>
-
-            <div class="offerMain">
-              <div class="crumb">SunTrips • Сырниковые Острова • Minecraft</div>
-              <h3 class="offerTitle">${o.name}</h3>
-              <div class="stars" aria-label="Рейтинг">${stars(o.rating)}</div>
-              <p class="desc">${o.desc}</p>
-
-              <div class="meta">
-                <span class="tag">⏱ ${currentDays} дней</span>
-                <span class="tag">🛶 лодка бесплатно</span>
-                <span class="tag">🍲 еда бесплатно</span>
-              </div>
-            </div>
-
-            <div class="offerSide">
-              <div class="price">
-                <b>${won(price)}</b>
-                <small>за ${currentDays} дней</small>
-              </div>
-
-              <button class="btn primary shimmer" data-buy="${o.id}">
-                Купить
-              </button>
-
-              <button class="btn secondary" data-open="${o.id}">
-                Подробнее
-              </button>
-            </div>
-          </div>
-        `;
-      }).join("");
-
-      // bind buttons
-      listEl.querySelectorAll("[data-buy]").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const id = btn.getAttribute("data-buy");
-          const offer = offers.find(x=>x.id===id);
-          openOfferModal(offer, true);
-        });
-      });
-
-      listEl.querySelectorAll("[data-open]").forEach(btn=>{
-        btn.addEventListener("click", ()=>{
-          const id = btn.getAttribute("data-open");
-          const offer = offers.find(x=>x.id===id);
-          openOfferModal(offer, false);
-        });
-      });
-
-      if(visible.length === 0){
-        listEl.innerHTML = `
-          <div class="card" style="padding:16px; border-radius:22px;">
-            <div style="font-weight:1000; margin-bottom:6px;">Ничего не найдено</div>
-            <div style="color:var(--muted); font-weight:850;">Включи хотя бы один тип острова слева — и всё появится.</div>
-          </div>
-        `;
-      }
-    }
-
-    // =========================
-    // Gallery render
-    // =========================
-    function renderGallery(){
-      const items = GALLERY.map(item=>{
-        const locked = item.secret && HIDE_SECRET;
-        const cls = ["gItem", item.big ? "big" : "", locked ? "locked" : ""].join(" ").trim();
-
-        return `
-          <div class="${cls}" data-gid="${item.id}">
-            ${locked ? `<div class="lockBadge">🔒 Скрыто</div>` : ``}
-            <div class="gImg" style="background-image:url('${item.img}')"></div>
-            <div class="gLabel">
-              <div>${item.title}</div>
-              <small>${item.subtitle || "локация"}</small>
-            </div>
-          </div>
-        `;
-      }).join("");
-
-      galleryGrid.innerHTML = items;
-
-      galleryGrid.querySelectorAll("[data-gid]").forEach(el=>{
-        el.addEventListener("click", ()=>{
-          const id = el.getAttribute("data-gid");
-          const item = GALLERY.find(x=>x.id===id);
-          if(item.secret && HIDE_SECRET){
-            openInfoModal("Секретная локация 🔒", `
-              <div class="choice">
-                <b>Valera temple</b>
-                <span>Сейчас скрыто. Чтобы показывалось — поставь <b>HIDE_SECRET = false</b> в JS.</span>
-              </div>
-              <p style="margin:0;">Это чтобы не спойлерить игрокам “храм”, пока не хочешь 😉</p>
-            `);
-            return;
-          }
-          openGalleryModal(item);
-        });
-      });
-    }
-
-    // =========================
-    // Modal logic
-    // =========================
-    function openDiscord(){
-      window.open(DISCORD_INVITE, "_blank", "noopener,noreferrer");
-    }
-
-    function openOfferModal(offer, isBuy){
-      const price = calcPrice(offer.id, currentDays);
-
-      modalTitle.textContent = isBuy ? "Покупка путёвки" : "Подробнее";
-      modalBody.innerHTML = `
-        <div class="choice">
-          <b>${offer.name}</b>
-          <span>${won(price)} • ${currentDays} дней • Сырниковые Острова</span>
-        </div>
-
-        <p style="margin:0 0 14px;">
-          ${isBuy
-            ? "Покупка почти готова. Следующий шаг — Discord (там активация и выдача доступа + лодка 🛶)."
-            : "Коротко: выбираешь срок → покупаешь → заходишь в Discord → получаешь доступ + лодку."
-          }
-        </p>
-
-        <button class="btn primary shimmer" type="button" id="goDiscord" style="max-width:none;">
-          Перейти в Discord
-        </button>
-
-        <p style="margin:14px 0 0; color:var(--muted); font-weight:900; font-size:12px;">
-          sunshield verifed. <b style="color:var(--text);">DISCORD_INVITE</b>.
-        </p>
-      `;
-
-      backdrop.classList.add("show");
-      backdrop.setAttribute("aria-hidden","false");
-      document.body.style.overflow="hidden";
-
-      const go = document.getElementById("goDiscord");
-      if(go) go.addEventListener("click", openDiscord);
-    }
-
-    function openGalleryModal(item){
-      modalTitle.textContent = "Просмотр галереи";
-      modalBody.innerHTML = `
-        <div class="viewer">
-          <div class="viewerImg" style="background-image:url('${item.img}')"></div>
-          <div class="viewerCap">
-            <div>${item.title}</div>
-            <small>${item.subtitle || "локация"}</small>
-          </div>
-        </div>
-
-        <div class="choice" style="margin-top:14px;">
-          <b>${item.title}</b>
-          <span>${item.subtitle || "локация архипелага"}</span>
-        </div>
-
-        <p style="margin:0;">
-          SunShield 2026
-        </p>
-      `;
-
-      backdrop.classList.add("show");
-      backdrop.setAttribute("aria-hidden","false");
-      document.body.style.overflow="hidden";
-    }
-
-    function openInfoModal(title, html){
-      modalTitle.textContent = title;
-      modalBody.innerHTML = html;
-
-      backdrop.classList.add("show");
-      backdrop.setAttribute("aria-hidden","false");
-      document.body.style.overflow="hidden";
-    }
-
-    function closeModal(){
-      backdrop.classList.remove("show");
-      backdrop.setAttribute("aria-hidden","true");
-      document.body.style.overflow="";
-    }
-    closeBtn.addEventListener("click", closeModal);
-    backdrop.addEventListener("click", (e)=>{ if(e.target===backdrop) closeModal(); });
-    window.addEventListener("keydown", (e)=>{ if(e.key==="Escape") closeModal(); });
-
-    // Discord buttons
-    document.getElementById("discordBtnAside").addEventListener("click", openDiscord);
-
-    // =========================
-    // Filters (duration chips)
-    // =========================
-    chips.forEach(ch => {
-      ch.addEventListener("click", () => {
-        chips.forEach(x => x.classList.remove("active"));
-        ch.classList.add("active");
-        currentDays = Number(ch.dataset.days);
-        renderOffers();
-      });
-    });
-
-    [fSmall, fMedium, fBig].forEach(el => el.addEventListener("change", renderOffers));
-    sortSel.addEventListener("change", renderOffers);
-
-    document.getElementById("searchBtn").addEventListener("click", () => {
-      renderOffers();
-      document.getElementById("offers").scrollIntoView({behavior:"smooth", block:"start"});
-    });
-
-    // =========================
-    // Particles
-    // =========================
-    const canvas = document.getElementById("particles");
-    const ctx = canvas.getContext("2d");
-    let W=0,H=0,DPR=Math.min(window.devicePixelRatio||1,2);
-
-    function resize(){
-      W = canvas.width = Math.floor(innerWidth * DPR);
-      H = canvas.height = Math.floor(innerHeight * DPR);
-      canvas.style.width = innerWidth + "px";
-      canvas.style.height = innerHeight + "px";
-    }
-    addEventListener("resize", resize);
-    resize();
-
-    const COLORS = [
-      {r:255,g:122,b:24},   // orange
-      {r:255,g:183,b:3},    // golden
-      {r:255,g:214,b:165},  // peach
-    ];
-    const rand = (a,b)=>Math.random()*(b-a)+a;
-
-    const count = Math.floor(Math.min(120, Math.max(60, innerWidth/12)));
-    const parts = Array.from({length:count}, ()=>spawn());
-
-    function spawn(){
-      const c = COLORS[(Math.random()*COLORS.length)|0];
-      return {
-        x: rand(0,W),
-        y: rand(H*0.85, H*1.2),
-        r: rand(1.1, 2.8)*DPR,
-        vy: rand(0.18, 0.85)*DPR,
-        vx: rand(-0.14, 0.14)*DPR,
-        a: rand(0.10, 0.42),
-        tw: rand(0.003, 0.012),
-        t: rand(0,999),
-        c
-      };
-    }
-
-    function frame(){
-      ctx.clearRect(0,0,W,H);
-
-      for(const p of parts){
-        p.t += 1;
-        p.x += p.vx;
-        p.y -= p.vy;
-
-        if(p.y < -30*DPR){
-          p.y = rand(H*1.05, H*1.25);
-          p.x = rand(0,W);
-        }
-        if(p.x < -20*DPR) p.x = W + 20*DPR;
-        if(p.x > W + 20*DPR) p.x = -20*DPR;
-
-        const tw = 0.55 + 0.45 * Math.sin(p.t * p.tw);
-        const a = p.a * tw;
-
-        ctx.beginPath();
-        ctx.fillStyle = `rgba(${p.c.r},${p.c.g},${p.c.b},${a})`;
-        ctx.shadowBlur = 18*DPR;
-        ctx.shadowColor = `rgba(${p.c.r},${p.c.g},${p.c.b},${a})`;
-        ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-        ctx.fill();
-      }
-
-      requestAnimationFrame(frame);
-    }
-    frame();
-
-    // initial render
-    renderOffers();
-    renderGallery();
-  </script>
+// ── PLUGINS PAGE ──────────────────────────────────────────
+function renderPlgPage(){fPlg('all',document.querySelector('#plgFlt .pfb'));}
+function fPlg(cat,btn){
+  document.querySelectorAll('#plgFlt .pfb').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  const list=cat==='all'?PLGS:PLGS.filter(p=>p.c===cat);
+  document.getElementById('plgEl').innerHTML=`<div class="pltbl">${list.map(p=>`
+  <div class="plrow">
+    <div class="pli"><div style="display:flex;align-items:center;gap:6px"><span class="pln">${p.n}</span><span class="ptag ${TC[p.c]}">${p.cl}</span></div><div class="pld">${p.d}</div></div>
+    <span class="pver">v${p.v}</span>
+    <button class="pibtn" onclick="go('dash')">Установить →</button>
+  </div>`).join('')}</div>`;}
+</script>
 </body>
 </html>
