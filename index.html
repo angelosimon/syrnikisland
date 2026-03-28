@@ -4,67 +4,63 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pillo</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-* { margin:0; padding:0; box-sizing:border-box; }
-body { 
-  font-family: 'Inter', system-ui, sans-serif; 
-  background: #0a0a0a; 
-  color: #e0e0e0; 
-  height: 100vh; 
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Inter', system-ui, sans-serif;
+  background: #0b0b0b;
+  color: #e5e5e5;
+  height: 100vh;
   overflow: hidden;
   display: flex;
 }
 
+/* Sidebar */
 .sidebar {
-  width: 260px;
+  width: 280px;
   background: #111111;
-  border-right: 1px solid #222;
-  display: flex;
-  flex-direction: column;
+  border-right: 1px solid #1f1f1f;
+  padding: 16px 0;
 }
 
-.header {
-  padding: 20px 24px;
-  border-bottom: 1px solid #222;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 22px;
+.sidebar-header {
+  padding: 0 24px 20px;
+  font-size: 26px;
   font-weight: 600;
-  letter-spacing: -0.5px;
+  color: #fff;
 }
 
-.chat-area {
+/* Main Area */
+.main {
   flex: 1;
   display: flex;
   flex-direction: column;
-  background: #0a0a0a;
 }
 
-.top-bar {
+.topbar {
   height: 60px;
+  background: #0f0f0f;
   border-bottom: 1px solid #222;
   display: flex;
   align-items: center;
-  padding: 0 24px;
+  padding: 0 32px;
   justify-content: space-between;
-  background: #111;
 }
 
-.model-selector {
+.model-select {
   background: #1a1a1a;
   border: 1px solid #333;
   border-radius: 9999px;
-  padding: 6px 16px;
-  font-size: 13px;
+  padding: 7px 18px;
+  font-size: 14px;
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 8px;
 }
 
-.main-chat {
+.chat-area {
   flex: 1;
   overflow-y: auto;
   padding: 40px 80px;
@@ -75,39 +71,43 @@ body {
 
 .welcome {
   text-align: center;
-  margin-top: 80px;
+  margin-top: 140px;
 }
 
 .welcome h1 {
-  font-family: 'Space Grotesk', sans-serif;
   font-size: 42px;
   font-weight: 600;
-  margin-bottom: 12px;
-  background: linear-gradient(90deg, #ff9a9e, #fad0c4);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
+  color: #f0f0f0;
 }
 
 .message {
   display: flex;
   gap: 16px;
-  max-width: 720px;
+  max-width: 700px;
 }
 
 .message.user { margin-left: auto; flex-direction: row-reverse; }
-.message.user .bubble { background: #1f1f1f; border-radius: 18px 18px 4px 18px; }
 
 .bubble {
   padding: 14px 20px;
-  background: #1a1a1a;
-  border-radius: 18px 18px 18px 4px;
+  border-radius: 18px;
   line-height: 1.65;
-  font-size: 15.2px;
+  font-size: 15.5px;
+}
+
+.message.user .bubble {
+  background: #1f1f1f;
+  border-bottom-right-radius: 4px;
+}
+
+.message.ai .bubble {
+  background: #1a1a1a;
+  border-bottom-left-radius: 4px;
 }
 
 .input-area {
-  padding: 20px 80px 30px;
-  background: #0a0a0a;
+  padding: 20px 80px 32px;
+  background: #0b0b0b;
 }
 
 .input-box {
@@ -117,7 +117,6 @@ body {
   padding: 12px 24px;
   display: flex;
   align-items: center;
-  gap: 12px;
 }
 
 #msg-input {
@@ -126,9 +125,7 @@ body {
   border: none;
   outline: none;
   color: #eee;
-  font-size: 15.5px;
-  resize: none;
-  max-height: 180px;
+  font-size: 16px;
 }
 
 /* Modals */
@@ -145,51 +142,51 @@ body {
 .modal-content {
   background: #161616;
   border-radius: 16px;
-  width: 380px;
+  width: 400px;
   padding: 28px;
   border: 1px solid #333;
 }
 
 .option {
-  padding: 14px 18px;
+  padding: 16px 20px;
   margin: 8px 0;
   background: #1f1f1f;
   border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s;
 }
 
 .option:hover { background: #2a2a2a; }
-.option.selected { border: 2px solid #a0a0a0; }
+.option.selected { border: 2px solid #999; }
 </style>
 </head>
 <body>
 
 <div class="sidebar">
-  <div class="header">Pillo</div>
+  <div class="sidebar-header">Pillo</div>
 </div>
 
-<div class="chat-area">
-  <div class="top-bar">
+<div class="main">
+  <div class="topbar">
     <div></div>
-    <div class="model-selector" id="model-selector" onclick="openModelModal()">
-      <span id="current-model">KAKAmini</span>
-      <span style="font-size:18px;">▼</span>
+    <div class="model-select" id="model-select" onclick="openModelModal()">
+      <span id="selected-model">KAKAmini</span>
     </div>
-    <div onclick="openStyleModal()" style="cursor:pointer;font-size:13px;color:#aaa;">Стиль: <span id="current-style">Normal</span></div>
+    <div onclick="openStyleModal()" style="cursor:pointer;color:#aaa;">
+      Стиль: <span id="selected-style">Normal</span>
+    </div>
   </div>
 
-  <div class="main-chat" id="main-chat">
+  <div class="chat-area" id="chat-area">
     <div class="welcome" id="welcome">
       <h1>megush returns!</h1>
-      <p style="color:#888;margin-top:12px;">How can I help you today?</p>
+      <p style="margin-top:16px;color:#888;">How can I help you today?</p>
     </div>
   </div>
 
   <div class="input-area">
     <div class="input-box">
-      <textarea id="msg-input" rows="1" placeholder="Сообщение Pillo..."></textarea>
-      <button id="send-btn" style="background:none;border:none;font-size:24px;color:#888;cursor:pointer;">↑</button>
+      <textarea id="msg-input" rows="1" placeholder="Сообщение..."></textarea>
+      <button id="send-btn" style="background:none;border:none;font-size:26px;color:#777;cursor:pointer;">↑</button>
     </div>
   </div>
 </div>
@@ -198,8 +195,8 @@ body {
 <div class="modal" id="style-modal">
   <div class="modal-content">
     <h2 style="margin-bottom:20px;">Стиль общения</h2>
-    <div id="style-list"></div>
-    <button onclick="closeStyleModal()" style="margin-top:20px;width:100%;padding:12px;background:#222;border:none;border-radius:8px;color:white;">Закрыть</button>
+    <div id="style-options"></div>
+    <button onclick="closeStyleModal()" style="margin-top:24px;width:100%;padding:12px;background:#222;border:none;border-radius:8px;color:white;">Готово</button>
   </div>
 </div>
 
@@ -207,8 +204,8 @@ body {
 <div class="modal" id="model-modal">
   <div class="modal-content">
     <h2 style="margin-bottom:20px;">Модель</h2>
-    <div id="model-list"></div>
-    <button onclick="closeModelModal()" style="margin-top:20px;width:100%;padding:12px;background:#222;border:none;border-radius:8px;color:white;">Закрыть</button>
+    <div id="model-options"></div>
+    <button onclick="closeModelModal()" style="margin-top:24px;width:100%;padding:12px;background:#222;border:none;border-radius:8px;color:white;">Готово</button>
   </div>
 </div>
 
@@ -218,7 +215,7 @@ let currentStyle = "normal";
 let currentModel = "kakamini";
 let messageCount = 0;
 
-const MAX_MESSAGES = {
+const MAX_LIMIT = {
   kakamini: Infinity,
   kakao2: 32,
   kakagpt: 12,
@@ -232,108 +229,80 @@ const STYLE_NAMES = {
   pukmini: "PUKmini"
 };
 
-const MODEL_DISPLAY = {
+const MODEL_NAMES = {
   kakamini: "KAKAmini",
   kakao2: "KAKAo2",
   kakagpt: "KAKAGPT-1",
   pukmini: "PUKmini"
 };
 
-// ================== SEND MESSAGE ==================
+// ================== SEND ==================
 async function sendMessage() {
   const input = document.getElementById('msg-input');
   const text = input.value.trim();
   if (!text) return;
 
   messageCount++;
-
-  // Проверка лимита
-  const max = MAX_MESSAGES[currentModel];
-  if (messageCount > max) {
-    addMessage("ai", `Лимит сообщений для ${MODEL_DISPLAY[currentModel]} исчерпан (${max}). Начни новый чат.`);
+  if (messageCount > MAX_LIMIT[currentModel]) {
+    addMessage("ai", `Лимит сообщений для ${MODEL_NAMES[currentModel]} исчерпан.`);
     return;
   }
 
   addMessage("user", text);
   input.value = "";
 
-  // Ответ
-  setTimeout(() => {
-    let reply = "Интересно. Расскажи подробнее.";
+  await new Promise(r => setTimeout(r, 600));
 
-    if (currentStyle === "horrible" && /нахуй|тварь|сука|ебал|пизда|мразь|дебил/i.test(text)) {
-      reply = "Иди нахуй сам, ебаный мудила.";
-    } else if (currentStyle === "horrible") {
-      reply = "Чё надо, блять?";
-    }
+  let reply = "Интересно. Расскажи подробнее.";
 
-    if (currentModel === "pukmini" || currentModel === "kakagpt") {
-      typeMessage(reply);
-    } else {
-      addMessage("ai", reply);
-    }
-  }, 600);
+  if (currentStyle === "horrible" && /нахуй|тварь|сука|ебал|пизда/i.test(text)) {
+    reply = "Иди нахуй сам, ебаный мудила.";
+  }
+
+  addMessage("ai", reply);
 }
 
-function addMessage(role, content) {
-  const chat = document.getElementById('main-chat');
+function addMessage(role, text) {
+  const area = document.getElementById('chat-area');
   const div = document.createElement('div');
   div.className = `message ${role}`;
-  div.innerHTML = `<div class="bubble">${content}</div>`;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-}
-
-async function typeMessage(text) {
-  const chat = document.getElementById('main-chat');
-  const div = document.createElement('div');
-  div.className = 'message ai';
-  div.innerHTML = `<div class="bubble" id="typing"></div>`;
-  chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
-
-  const bubble = document.getElementById('typing');
-  bubble.textContent = '';
-
-  for (let char of text) {
-    bubble.textContent += char;
-    chat.scrollTop = chat.scrollHeight;
-    await new Promise(r => setTimeout(r, currentModel === "pukmini" ? 30 : 12));
-  }
+  div.innerHTML = `<div class="bubble">${text}</div>`;
+  area.appendChild(div);
+  area.scrollTop = area.scrollHeight;
 }
 
 // ================== MODALS ==================
 function openStyleModal() {
-  const list = document.getElementById('style-list');
-  list.innerHTML = '';
+  const container = document.getElementById('style-options');
+  container.innerHTML = '';
   Object.keys(STYLE_NAMES).forEach(key => {
-    const el = document.createElement('div');
-    el.className = `option ${currentStyle === key ? 'selected' : ''}`;
-    el.textContent = STYLE_NAMES[key];
-    el.onclick = () => {
+    const div = document.createElement('div');
+    div.className = `option ${currentStyle === key ? 'selected' : ''}`;
+    div.textContent = STYLE_NAMES[key];
+    div.onclick = () => {
       currentStyle = key;
-      document.getElementById('current-style').textContent = STYLE_NAMES[key];
+      document.getElementById('selected-style').textContent = STYLE_NAMES[key];
       document.getElementById('style-modal').style.display = 'none';
     };
-    list.appendChild(el);
+    container.appendChild(div);
   });
   document.getElementById('style-modal').style.display = 'flex';
 }
 
 function openModelModal() {
-  const list = document.getElementById('model-list');
-  list.innerHTML = '';
-  Object.keys(MODEL_DISPLAY).forEach(key => {
-    const el = document.createElement('div');
-    el.className = `option ${currentModel === key ? 'selected' : ''}`;
-    el.textContent = MODEL_DISPLAY[key];
-    el.onclick = () => {
+  const container = document.getElementById('model-options');
+  container.innerHTML = '';
+  Object.keys(MODEL_NAMES).forEach(key => {
+    const div = document.createElement('div');
+    div.className = `option ${currentModel === key ? 'selected' : ''}`;
+    div.textContent = MODEL_NAMES[key];
+    div.onclick = () => {
       currentModel = key;
       messageCount = 0;
-      document.getElementById('current-model').textContent = MODEL_DISPLAY[key];
+      document.getElementById('selected-model').textContent = MODEL_NAMES[key];
       document.getElementById('model-modal').style.display = 'none';
     };
-    list.appendChild(el);
+    container.appendChild(div);
   });
   document.getElementById('model-modal').style.display = 'flex';
 }
@@ -344,15 +313,14 @@ function closeModelModal() { document.getElementById('model-modal').style.displa
 // ================== INIT ==================
 document.getElementById('send-btn').addEventListener('click', sendMessage);
 document.getElementById('msg-input').addEventListener('keydown', e => {
-  if (e.key === "Enter" && !e.shiftKey) {
+  if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault();
     sendMessage();
   }
 });
 
-// Запуск
-document.getElementById('current-style').textContent = STYLE_NAMES[currentStyle];
-document.getElementById('current-model').textContent = MODEL_DISPLAY[currentModel];
+document.getElementById('selected-style').textContent = STYLE_NAMES[currentStyle];
+document.getElementById('selected-model').textContent = MODEL_NAMES[currentModel];
 </script>
 </body>
 </html>
