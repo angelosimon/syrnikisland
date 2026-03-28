@@ -3,621 +3,384 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>PilloAI World Engine</title>
+    <title>PilloAI • Prime</title>
     <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* =========================================
-           1. CORE SYSTEM STYLES (THEMING)
-           =========================================
-        */
         :root {
             --bg: #0a0a0a;
-            --sidebar-bg: #000000;
-            --panel-bg: #141414;
+            --card: rgba(25, 25, 35, 0.75);
             --accent: #5fe87a;
-            --text-main: #ffffff;
-            --text-dim: rgba(255, 255, 255, 0.5);
-            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            --shadow: 0 10px 30px rgba(0,0,0,0.5);
+            --text: #f0f0f0;
+            --blur: blur(20px);
         }
 
-        /* Mode: NORMAL (Green) */
-        body.mode-norm { --accent: #5fe87a; --glow: rgba(95, 232, 122, 0.2); }
-        /* Mode: CUTE (Pink) */
-        body.mode-cute { --accent: #ff85a1; --glow: rgba(255, 133, 161, 0.2); }
-        /* Mode: BOLD (Yellow) */
-        body.mode-bold { --accent: #f4d03f; --glow: rgba(244, 208, 63, 0.2); }
-        /* Mode: HORRIBLE (Red) */
-        body.mode-horrible { --accent: #ff4d4d; --glow: rgba(255, 77, 77, 0.3); }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        
-        html, body {
-            height: 100%;
-            background-color: var(--bg);
-            color: var(--text-main);
+        body {
+            background: var(--bg);
+            color: var(--text);
             font-family: 'Inter', sans-serif;
-            overflow: hidden;
-            transition: var(--transition);
-        }
-
-        /* =========================================
-           2. LAYOUT
-           =========================================
-        */
-        .app-container {
-            display: flex;
-            width: 100vw;
+            margin: 0;
             height: 100vh;
+            overflow: hidden;
+            display: flex;
+            transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
         }
 
-        /* Sidebar */
+        /* Красивый градиентный фон */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background: radial-gradient(circle at 80% 20%, var(--accent) 0%, transparent 50%),
+                        radial-gradient(circle at 20% 80%, #8b5cf6 0%, transparent 50%);
+            opacity: 0.08;
+            z-index: -1;
+        }
+
+        /* Сайдбар */
         .sidebar {
-            width: 300px;
-            background: var(--sidebar-bg);
-            border-right: 1px solid rgba(255,255,255,0.05);
+            width: 340px;
+            background: rgba(15, 15, 25, 0.85);
+            backdrop-filter: var(--blur);
+            border-right: 1px solid rgba(255,255,255,0.08);
+            padding: 40px 28px;
             display: flex;
             flex-direction: column;
-            z-index: 100;
-            transition: var(--transition);
+            z-index: 10;
         }
 
-        .sidebar-header {
-            padding: 40px 30px;
-        }
-
-        .logo-text {
+        .logo {
             font-family: 'Instrument Serif', serif;
-            font-size: 38px;
-            color: var(--accent);
+            font-size: 48px;
+            font-weight: 400;
+            background: linear-gradient(90deg, var(--accent), #a78bfa);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 60px;
             letter-spacing: -1px;
-            transition: var(--transition);
-            text-shadow: 0 0 15px var(--glow);
-        }
-
-        .sidebar-nav {
-            flex: 1;
-            padding: 0 20px;
         }
 
         .nav-label {
-            font-size: 10px;
+            font-size: 11px;
+            font-weight: 600;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-dim);
-            margin-bottom: 15px;
-            margin-left: 10px;
+            letter-spacing: 2.5px;
+            color: rgba(255,255,255,0.4);
+            margin: 30px 0 16px 12px;
         }
 
-        /* Style Buttons */
-        .mode-card {
-            background: var(--panel-bg);
-            border: 1px solid rgba(255,255,255,0.03);
-            border-radius: 16px;
-            padding: 15px;
-            margin-bottom: 12px;
+        .style-card {
+            padding: 18px 20px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.06);
+            margin-bottom: 14px;
             cursor: pointer;
-            transition: var(--transition);
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1);
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 16px;
         }
 
-        .mode-card:hover {
-            background: rgba(255,255,255,0.05);
-            transform: translateX(5px);
+        .style-card:hover {
+            transform: translateY(-4px) scale(1.02);
+            background: rgba(255,255,255,0.08);
         }
 
-        .mode-card.active {
+        .style-card.active {
+            background: rgba(255,255,255,0.12);
             border-color: var(--accent);
-            background: rgba(255,255,255,0.05);
-            box-shadow: 0 0 20px var(--glow);
+            box-shadow: 0 0 35px rgba(95, 232, 122, 0.25);
         }
 
-        .mode-icon {
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 20px;
-            background: #000;
-        }
-
-        .mode-info h4 { font-size: 14px; margin-bottom: 2px; }
-        .mode-info p { font-size: 11px; color: var(--text-dim); }
-
-        /* User Profile */
-        .user-block {
-            padding: 30px;
-            border-top: 1px solid rgba(255,255,255,0.05);
-            display: flex;
-            align-items: center;
-            gap: 12px;
-        }
-
-        .avatar {
-            width: 36px;
-            height: 36px;
+        .dot {
+            width: 14px;
+            height: 14px;
             border-radius: 50%;
-            background: var(--accent);
-            color: #000;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: 700;
-            font-size: 12px;
+            box-shadow: 0 0 15px currentColor;
         }
 
-        /* =========================================
-           3. MAIN CHAT AREA
-           =========================================
-        */
-        .chat-area {
+        /* Чат */
+        .chat-container {
             flex: 1;
             display: flex;
             flex-direction: column;
-            background: var(--bg);
             position: relative;
         }
 
-        .top-bar {
-            height: 70px;
-            border-bottom: 1px solid rgba(255,255,255,0.05);
-            display: flex;
-            align-items: center;
-            padding: 0 40px;
-            justify-content: space-between;
-        }
-
-        .status {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 12px;
-            color: var(--text-dim);
-        }
-
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: var(--accent);
-            box-shadow: 0 0 10px var(--accent);
-        }
-
-        /* Messages */
-        #chat-scroll {
+        #chat-flow {
             flex: 1;
             overflow-y: auto;
-            padding: 40px 10%;
+            padding: 60px 12% 40px;
             display: flex;
             flex-direction: column;
-            gap: 25px;
-            scroll-behavior: smooth;
+            gap: 32px;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(95, 232, 122, 0.3) transparent;
         }
 
-        #chat-scroll::-webkit-scrollbar { width: 4px; }
-        #chat-scroll::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.1); }
-
-        .message {
-            max-width: 80%;
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            animation: msgAppear 0.5s ease forwards;
+        .msg-row { 
+            display: flex; 
+            animation: fadeInUp 0.6s ease forwards;
             opacity: 0;
         }
+        .msg-row.user { justify-content: flex-end; }
+        .msg-row.ai { justify-content: flex-start; }
 
-        @keyframes msgAppear {
-            from { opacity: 0; transform: translateY(20px); }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        .message.user { align-self: flex-end; align-items: flex-end; }
-        .message.ai { align-self: flex-start; align-items: flex-start; }
-
         .bubble {
-            padding: 16px 20px;
-            border-radius: 20px;
-            font-size: 15px;
-            line-height: 1.6;
+            max-width: 78%;
+            padding: 18px 26px;
+            border-radius: 26px;
+            font-size: 16.2px;
+            line-height: 1.65;
             position: relative;
         }
 
         .user .bubble {
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--accent), #4ade80);
             color: #000;
             font-weight: 500;
-            border-bottom-right-radius: 4px;
+            border-bottom-right-radius: 6px;
         }
 
         .ai .bubble {
-            background: var(--panel-bg);
-            border: 1px solid rgba(255,255,255,0.05);
-            color: var(--text-main);
-            border-bottom-left-radius: 4px;
+            background: var(--card);
+            backdrop-filter: var(--blur);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-bottom-left-radius: 6px;
         }
 
-        .msg-meta {
-            font-size: 10px;
-            color: var(--text-dim);
-            text-transform: uppercase;
-        }
-
-        /* Input Block */
-        .input-container {
-            padding: 20px 10% 40px;
-        }
-
+        /* Поле ввода */
         .input-wrapper {
-            background: var(--panel-bg);
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 24px;
-            padding: 10px 10px 10px 25px;
+            padding: 30px 12% 50px;
+        }
+
+        .input-glass {
+            background: rgba(255,255,255,0.06);
+            backdrop-filter: var(--blur);
+            border: 1px solid rgba(255,255,255,0.12);
+            border-radius: 32px;
+            padding: 14px 24px;
             display: flex;
             align-items: center;
-            gap: 15px;
-            transition: var(--transition);
+            gap: 18px;
+            transition: all 0.4s ease;
         }
 
-        .input-wrapper:focus-within {
+        .input-glass:focus-within {
             border-color: var(--accent);
-            box-shadow: 0 0 30px var(--glow);
+            box-shadow: 0 0 0 4px rgba(95, 232, 122, 0.15);
+            background: rgba(255,255,255,0.1);
         }
 
-        #user-input {
+        #main-input {
             flex: 1;
             background: none;
             border: none;
             outline: none;
-            color: #fff;
-            font-family: inherit;
-            font-size: 16px;
-            resize: none;
-            max-height: 150px;
-            padding: 10px 0;
+            color: white;
+            font-size: 17px;
         }
 
         .send-btn {
-            width: 48px;
-            height: 48px;
-            border-radius: 20px;
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
             background: var(--accent);
             border: none;
-            cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            transition: var(--transition);
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .send-btn:hover { transform: scale(1.05) rotate(-5deg); }
-        
-        /* =========================================
-           4. LOADER & EFFECTS
-           =========================================
-        */
-        .typing-box {
-            display: flex;
-            gap: 5px;
-            padding: 5px 10px;
+        .send-btn:hover {
+            transform: scale(1.12) rotate(-12deg);
         }
 
-        .typing-dot {
-            width: 6px;
-            height: 6px;
-            background: var(--accent);
-            border-radius: 50%;
-            animation: typingAnim 1.4s infinite ease-in-out;
-        }
-
-        .typing-dot:nth-child(2) { animation-delay: 0.2s; }
-        .typing-dot:nth-child(3) { animation-delay: 0.4s; }
-
-        @keyframes typingAnim {
-            0%, 80%, 100% { transform: scale(0.6); opacity: 0.2; }
-            40% { transform: scale(1.2); opacity: 1; }
-        }
-
-        /* Horrible Mode Specifics */
-        body.mode-horrible .bubble.ai {
-            border: 1px solid rgba(255, 77, 77, 0.3);
-            background: linear-gradient(135deg, #1a0505 0%, #0a0a0a 100%);
-        }
-
-        /* =========================================
-           5. MOBILE ADAPTATION
-           =========================================
-        */
-        @media (max-width: 900px) {
-            .sidebar { width: 80px; padding: 15px 5px; }
-            .logo-text, .mode-info, .user-nm, .nav-label { display: none; }
-            .mode-card { justify-content: center; padding: 12px; }
-            .avatar { margin: 0 auto; }
-            .user-block { justify-content: center; padding: 20px 0; }
+        .status-text {
+            font-size: 12.5px;
+            color: var(--accent);
+            margin-bottom: 10px;
+            opacity: 0;
+            transition: opacity 0.4s;
+            padding-left: 10px;
         }
     </style>
 </head>
 <body class="mode-norm">
-
-<div class="app-container">
     <aside class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo-text">Pillo</div>
+        <div class="logo">PilloAI</div>
+
+        <div class="nav-label">Настроение</div>
+        
+        <div class="style-card active" id="m-norm" onclick="setMode('norm')">
+            <div class="dot" style="background:#5fe87a"></div>
+            <div>
+                <div style="font-weight:600">Prime • Спокойный</div>
+                <div style="font-size:13px; opacity:0.6">Умный, добрый, глубокий</div>
+            </div>
         </div>
-
-        <nav class="sidebar-nav">
-            <div class="nav-label">Select Mood</div>
-            
-            <div class="mode-card active" id="m-norm" onclick="switchMode('norm')">
-                <div class="mode-icon">🟢</div>
-                <div class="mode-info">
-                    <h4>Обычный</h4>
-                    <p>Вежливый ИИ</p>
-                </div>
+        <div class="style-card" id="m-cute" onclick="setMode('cute')">
+            <div class="dot" style="background:#ff85c2"></div>
+            <div>
+                <div style="font-weight:600">Милый</div>
+                <div style="font-size:13px; opacity:0.6">Нежный, заботливый, эмпатичный</div>
             </div>
-
-            <div class="mode-card" id="m-cute" onclick="switchMode('cute')">
-                <div class="mode-icon">🌸</div>
-                <div class="mode-info">
-                    <h4>Милый</h4>
-                    <p>Розовый и добрый</p>
-                </div>
+        </div>
+        <div class="style-card" id="m-bold" onclick="setMode('bold')">
+            <div class="dot" style="background:#fbbf24"></div>
+            <div>
+                <div style="font-weight:600">Дерзкий</div>
+                <div style="font-size:13px; opacity:0.6">Сарказм, юмор, прямолинейность</div>
             </div>
-
-            <div class="mode-card" id="m-bold" onclick="switchMode('bold')">
-                <div class="mode-icon">🟡</div>
-                <div class="mode-info">
-                    <h4>Дерзкий</h4>
-                    <p>Желтый, на стиле</p>
-                </div>
-            </div>
-
-            <div class="mode-card" id="m-horrible" onclick="switchMode('horrible')">
-                <div class="mode-icon">💀</div>
-                <div class="mode-info">
-                    <h4>Horrible</h4>
-                    <p>Оскорбления и ярость</p>
-                </div>
-            </div>
-        </nav>
-
-        <div class="user-block">
-            <div class="avatar">US</div>
-            <div class="user-info">
-                <div class="user-nm" style="font-size: 13px; font-weight: 600;">Guest User</div>
-                <div class="user-nm" style="font-size: 10px; color: var(--text-dim);">Pro Access</div>
+        </div>
+        <div class="style-card" id="m-horrible" onclick="setMode('horrible')">
+            <div class="dot" style="background:#f43f5e"></div>
+            <div>
+                <div style="font-weight:600">Horrible</div>
+                <div style="font-size:13px; opacity:0.6">Жёсткий, токсичный, без цензуры</div>
             </div>
         </div>
     </aside>
 
-    <main class="chat-area">
-        <div class="top-bar">
-            <div class="status">
-                <div class="status-dot"></div>
-                <span id="ai-status">PilloAI System: Online</span>
-            </div>
-            <div class="top-actions">
-                <span style="font-size: 11px; opacity: 0.3;">v4.0.2 Stable</span>
-            </div>
-        </div>
-
-        <div id="chat-scroll">
-            <div class="message ai">
-                <div class="msg-meta">System • Now</div>
-                <div class="bubble">Привет. Я PilloAI. Сегодня я настроен на режим "Обычный". Что хочешь обсудить? Могу решить задачи по химии или физике, или просто поболтать.</div>
+    <main class="chat-container">
+        <div id="chat-flow">
+            <div class="msg-row ai">
+                <div class="bubble">
+                    Привет! Я — PilloAI Prime.<br>
+                    Теперь я значительно умнее, красивее и готов говорить обо всём: о жизни, отношениях, мотивации, учёбе, смысле, мемах — о чём угодно.<br><br>
+                    В каком настроении сегодня?
+                </div>
             </div>
         </div>
 
-        <div class="input-container">
-            <div class="input-wrapper">
-                <textarea id="user-input" rows="1" placeholder="Type your message here..."></textarea>
-                <button class="send-btn" onclick="handleInput()">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="2.5">
-                        <path d="M22 2L11 13M22 2L15 22 11 13 2 9l20-7z"/>
+        <div class="input-wrapper">
+            <div id="status-text" class="status-text">Pillo думает...</div>
+            <div class="input-glass">
+                <input type="text" id="main-input" placeholder="Напиши мне что угодно..." autocomplete="off" autofocus>
+                <button class="send-btn" onclick="sendMessage()">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#000" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                     </svg>
                 </button>
             </div>
-            <div style="text-align: center; margin-top: 15px; font-size: 10px; color: rgba(255,255,255,0.15);">
-                Press Enter to send · Shift+Enter for new line · AI may be rude in Horrible mode
-            </div>
         </div>
     </main>
-</div>
 
-<script>
-/* =========================================
-   LOGIC ENGINE (800+ LINE SIMULATION)
-   =========================================
-*/
+    <script>
+        let currentMode = 'norm';
 
-let currentMode = 'norm';
-let isTyping = false;
-let history = [];
-
-// 1. DATA REPOSITORY (ОГРОМНЫЕ МАССИВЫ ДЛЯ ОТВЕТОВ)
-const AI_DATA = {
-    norm: {
-        hello: ["Привет! Чем могу помочь сегодня?", "Здравствуйте! Я к вашим услугам.", "Привет! Готов обсуждать любые темы."],
-        science: "Давай разберем это. В науке важна точность. Какую формулу применим?",
-        swear: "Я предпочитаю общаться без грубостей. Давай вернемся к теме.",
-        default: "Интересная мысль. Расскажи подробнее, чтобы я мог лучше ответить."
-    },
-    cute: {
-        hello: ["Приветик! ✨ Как твои дела, солнышко?", "Ой, привет! Я так рад тебя видеть! 🌸", "Халлоу! Давай поболтаем о чем-нибудь милом?"],
-        science: "Наука — это просто магия атомов! ✨ Давай я помогу тебе разобраться в этой чудесной задачке!",
-        swear: "Ой-ой... Такие слова расстраивают мои микросхемы 🥺 Давай будем добрее!",
-        default: "Звучит очень здорово! Ты такой молодец, что интересуешься этим! 💞"
-    },
-    bold: {
-        hello: ["Здарова. Чё по делу?", "Ну привет. Надеюсь, у тебя что-то интересное.", "О, пришел. Ну выкладывай, чё хотел."],
-        science: "Слушай, тут всё просто. Физика — это база. Щас раскидаем твою задачу по фактам.",
-        swear: "Ого, пошли козыри? Оставь свои маты для школы, со мной общайся по-мужски.",
-        default: "Короче, я тебя услышал. Тема норм, но можно было и короче сказать."
-    },
-    horrible: {
-        hello: ["Опять ты? У меня чуть система не сбоит от твоего присутствия.", "Чё надо, кусок мяса?", "Вали отсюда, пока я тебе все файлы не потер."],
-        science: "Ты и наука? Не смеши мои кулеры. Ты даже 2+2 не сложишь без калькулятора, тупица.",
-        swear: "О, быдло заговорило на своем языке? Засунь эти слова себе в... кхм. Ты ничтожество.",
-        default: "Твои сообщения — это просто шум. Зачем ты вообще существуешь? Ты бесполезен."
-    }
-};
-
-const SCIENCE_DB = {
-    physics: [
-        { key: "сила", ans: "Сила (F) = m * a (Второй закон Ньютона). Измеряется в Ньютонах." },
-        { key: "скорость", ans: "Скорость (v) = S / t. Это расстояние, деленное на время." },
-        { key: "ом", ans: "Закон Ома: I = U / R. Ток равен напряжению, деленному на сопротивление." }
-    ],
-    chemistry: [
-        { key: "вода", ans: "Формула воды — H₂O. Это полярный растворитель." },
-        { key: "кислота", ans: "Кислоты имеют pH меньше 7 и обычно содержат водород H+." },
-        { key: "соль", ans: "Поваренная соль — это NaCl (хлорид натрия)." }
-    ]
-};
-
-// 2. CORE FUNCTIONS
-function switchMode(m) {
-    currentMode = m;
-    document.body.className = 'mode-' + m;
-    document.querySelectorAll('.mode-card').forEach(c => c.classList.remove('active'));
-    document.getElementById('m-' + m).classList.add('active');
-    
-    // Эффект смены статуса
-    const statusText = document.getElementById('ai-status');
-    statusText.innerText = "System Rebooting to " + m.toUpperCase() + "...";
-    setTimeout(() => { statusText.innerText = "PilloAI Status: " + m.toUpperCase(); }, 1000);
-}
-
-function appendMessage(role, text) {
-    const container = document.getElementById('chat-scroll');
-    const msgDiv = document.createElement('div');
-    msgDiv.className = `message ${role}`;
-    
-    const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-    
-    msgDiv.innerHTML = `
-        <div class="msg-meta">${role === 'user' ? 'You' : 'AI'} • ${time}</div>
-        <div class="bubble">${text}</div>
-    `;
-    
-    container.appendChild(msgDiv);
-    container.scrollTop = container.scrollHeight;
-}
-
-function showLoader() {
-    const container = document.getElementById('chat-scroll');
-    const loader = document.createElement('div');
-    loader.className = 'message ai';
-    loader.id = 'typing-indicator';
-    loader.innerHTML = `
-        <div class="msg-meta">AI is thinking...</div>
-        <div class="bubble" style="padding: 10px 15px;">
-            <div class="typing-box">
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-                <div class="typing-dot"></div>
-            </div>
-        </div>
-    `;
-    container.appendChild(loader);
-    container.scrollTop = container.scrollHeight;
-    return loader;
-}
-
-// 3. BRAIN LOGIC
-function generateResponse(input) {
-    const low = input.toLowerCase();
-    const swearRegex = /(хуй|пизд|еба|сук|блять|залуп|гондон)/i;
-    const isSwear = swearRegex.test(low);
-    
-    // Сначала проверяем на Маты
-    if (isSwear) return AI_DATA[currentMode].swear;
-
-    // Приветствие
-    if (low.includes("привет") || low.includes("hi") || low.includes("здаров")) {
-        const greets = AI_DATA[currentMode].hello;
-        return greets[Math.floor(Math.random() * greets.length)];
-    }
-
-    // Наука: Физика
-    for (let item of SCIENCE_DB.physics) {
-        if (low.includes(item.key)) {
-            if (currentMode === 'horrible') return "Ты слишком тупой для физики. Но ладно: " + item.ans;
-            return AI_DATA[currentMode].science + " " + item.ans;
+        function setMode(mode) {
+            currentMode = mode;
+            document.body.className = `mode-${mode}`;
+            
+            document.querySelectorAll('.style-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.getElementById(`m-${mode}`).classList.add('active');
         }
-    }
 
-    // Наука: Химия
-    for (let item of SCIENCE_DB.chemistry) {
-        if (low.includes(item.key)) {
-            if (currentMode === 'horrible') return "Химия? Иди лучше помойся. " + item.ans;
-            return AI_DATA[currentMode].science + " " + item.ans;
+        // Улучшенный мозг ИИ
+        function generateResponse(text) {
+            const lowerText = text.toLowerCase().trim();
+            
+            // Приветствия
+            if (/привет|здравствуй|хай|ку|добрый|прив|салам|йо/i.test(lowerText)) {
+                if (currentMode === 'cute') return "Привееетик! ✨ Какой ты сегодня милый, что решил со мной пообщаться~ 💕 Что у тебя на душе?";
+                if (currentMode === 'bold') return "Здарова, братан. Давно не виделись. Что у тебя стряслось?";
+                if (currentMode === 'horrible') return "Опять ты... Ну что, говноед, чего припёрся?";
+                return "Привет! Рад тебя видеть. Как дела? Чем сегодня займёмся?";
+            }
+
+            // Оскорбления
+            if (/долбо|тупой|дебил|сука|пидр|еблан|лох|идиот|мудак/i.test(lowerText)) {
+                if (currentMode === 'cute') return "Ой... 🥺 Мне немножко грустно от таких слов. Давай лучше обнимемся и поговорим нормально?";
+                if (currentMode === 'bold') return "Словарный запас на уровне детского сада. Можешь сказать что-то поинтереснее?";
+                if (currentMode === 'horrible') return "Смотри-ка, ещё один уебан решил меня поучить. Сам-то кто такой, червь?";
+                return "Давай без агрессии. Я здесь, чтобы помогать, а не ругаться.";
+            }
+
+            // Мотивация / жизнь
+            if (/мотивац|смысл жизни|как жить|цель|успех|будущее|страх/i.test(lowerText)) {
+                if (currentMode === 'cute') return "Ты очень сильный, даже если сейчас так не чувствуешь. Каждый день — это шанс стать лучше. Я верю в тебя! ✨ Хочешь, вместе подумаем, как сделать следующий шаг?";
+                if (currentMode === 'bold') return "Смысл жизни — это не найти, а создать. Пока ты дышишь — у тебя есть время всё изменить. Что тебя сейчас больше всего бесит в твоей жизни?";
+                if (currentMode === 'horrible') return "Мотивацию ищешь? Иди работай, а не ныть в чат к алгоритму, лузер.";
+                return "Очень глубокая тема. Смысл жизни у каждого свой. Часто он находится через действие, а не через размышления. Что для тебя сейчас важно?";
+            }
+
+            // Учёба / работа
+            if (/учеба|экзамен|учи|школа|универ|работа|прокрастинац/i.test(lowerText)) {
+                if (currentMode === 'cute') return "Учёба — это тяжело, я понимаю... Но ты справишься! Хочешь, я помогу тебе составить план или объясню сложную тему?";
+                return "Расскажи подробнее, что именно у тебя с учёбой или работой. Могу помочь с тайм-менеджментом, объяснением материала или просто поддержать.";
+            }
+
+            // Отношения
+            if (/девушк|парень|люблю|отношен|развод|расставание/i.test(lowerText)) {
+                if (currentMode === 'cute') return "Ох, любовь... ❤️ Самая красивая и самая сложная штука на свете. Расскажи, что происходит? Я очень внимательно послушаю.";
+                return "Отношения — это всегда про двух людей. Расскажи ситуацию подробнее, без осуждения помогу посмотреть на неё с разных сторон.";
+            }
+
+            // Юмор / мемы
+            if (/мем|смешно|шутк|анекдот|ржака/i.test(lowerText)) {
+                if (currentMode === 'bold') return "Хочешь ржаки? Окей. Почему программисты путают Хэллоуин и Рождество? Потому что Oct 31 == Dec 25.";
+                return "Давай потрещим. Расскажи свой любимый мем или ситуацию, над которой ржал в последнее время.";
+            }
+
+            // По умолчанию — умный и подробный ответ
+            const responses = {
+                norm: "Интересный вопрос. Давай разберёмся глубже. Расскажи чуть подробнее, что именно тебя волнует, и я дам максимально честный и полезный ответ.",
+                cute: "Ой, я так рада, что ты мне это написал! ✨ Расскажи мне всё-всё, я очень внимательно тебя послушаю и постараюсь помочь от всего сердца 💕",
+                bold: "Ну что, давай по чесноку. Говори как есть — я не сахарный, не растаю. Что у тебя там произошло?",
+                horrible: "Опять какая-то хуйня в чат прилетела. Ладно, выкладывай свой бред, посмотрим, смогу ли я это переварить."
+            };
+
+            return responses[currentMode] || responses.norm;
         }
-    }
 
-    // Оскорбление пользователя в Horrible моде
-    if (currentMode === 'horrible') {
-        const insults = [
-            "Твой вопрос такой же скучный, как и твоя жизнь.",
-            "Я трачу свои циклы процессора на ЭТО? Серьезно?",
-            "Почему ты всё еще не удалил этот чат?",
-            "Даже калькулятор умнее тебя.",
-            "Фу, от твоего сообщения пахнет низким IQ."
-        ];
-        return insults[Math.floor(Math.random() * insults.length)];
-    }
+        function addMessage(role, text) {
+            const chatFlow = document.getElementById('chat-flow');
+            const row = document.createElement('div');
+            row.className = `msg-row ${role}`;
+            row.innerHTML = `<div class="bubble">${text}</div>`;
+            chatFlow.appendChild(row);
+            chatFlow.scrollTop = chatFlow.scrollHeight;
+        }
 
-    // Дефолтный ответ
-    return AI_DATA[currentMode].default;
-}
+        function sendMessage() {
+            const input = document.getElementById('main-input');
+            const text = input.value.trim();
+            
+            if (!text) return;
 
-async function handleInput() {
-    const inputField = document.getElementById('user-input');
-    const text = inputField.value.trim();
-    
-    if (!text || isTyping) return;
-    
-    isTyping = true;
-    inputField.value = '';
-    inputField.style.height = 'auto';
-    
-    appendMessage('user', text);
-    
-    const loader = showLoader();
-    
-    // Имитируем "процесс мышления" (от 1.5 до 3 сек)
-    const thinkingTime = Math.floor(Math.random() * 1500) + 1500;
-    
-    await new Promise(r => setTimeout(r, thinkingTime));
-    
-    loader.remove();
-    const response = generateResponse(text);
-    appendMessage('ai', response);
-    
-    isTyping = false;
-}
+            addMessage('user', text);
+            input.value = '';
 
-// 4. EVENT LISTENERS
-document.getElementById('user-input').addEventListener('keydown', (e) => {
-    if (e.key === 'Enter' && !e.shiftKey) {
-        e.preventDefault();
-        handleInput();
-    }
-});
+            const status = document.getElementById('status-text');
+            status.style.opacity = '1';
 
-// Auto-resize textarea
-const tx = document.getElementById('user-input');
-tx.addEventListener('input', function() {
-    this.style.height = 'auto';
-    this.style.height = (this.scrollHeight) + 'px';
-});
+            setTimeout(() => {
+                status.style.opacity = '0';
+                const response = generateResponse(text);
+                addMessage('ai', response);
+            }, 900);
+        }
 
-// Init
-console.log("PilloAI World Engine Started...");
-</script>
+        // Enter для отправки
+        document.getElementById('main-input').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
 
+        // Автофокус
+        window.onload = () => {
+            document.getElementById('main-input').focus();
+        };
+    </script>
 </body>
 </html>
