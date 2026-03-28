@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PilloAI</title>
+<title>PilloAI - Полная версия</title>
 <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -18,76 +18,45 @@ body { font-family: 'Inter', sans-serif; background: #0d0d0d; color: #f0f0f0; fo
 .auth-logo { font-family: 'Instrument Serif', serif; font-size: 42px; letter-spacing: -1.5px; color: #f0f0f0; margin-bottom: 4px; }
 .auth-tagline { color: rgba(240,240,240,0.28); font-size: 13px; font-weight: 300; margin-bottom: 40px; }
 .tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.08); margin-bottom: 28px; }
-.tab-btn { flex: 1; padding: 10px 0; background: none; border: none; border-bottom: 1.5px solid transparent; margin-bottom: -1px; color: rgba(240,240,240,0.3); font-family: inherit; font-size: 13px; cursor: pointer; transition: all 0.15s; }
+.tab-btn { flex: 1; padding: 10px 0; background: none; border: none; border-bottom: 1.5px solid transparent; margin-bottom: -1px; color: rgba(240,240,240,0.3); cursor: pointer; }
 .tab-btn.active { color: #f0f0f0; border-bottom-color: #f0f0f0; }
-.auth-panel { display: none; flex-direction: column; gap: 14px; }
-.auth-panel.active { display: flex; }
-.field-wrap { display: flex; flex-direction: column; gap: 5px; }
-.field-label { font-size: 11px; color: rgba(240,240,240,0.28); text-transform: uppercase; letter-spacing: .05em; }
-.field { padding: 11px 13px; background: #181818; border: 1px solid rgba(255,255,255,0.08); border-radius: 7px; color: #f0f0f0; font-family: inherit; font-size: 14px; outline: none; }
-.field:focus { border-color: rgba(255,255,255,0.25); }
-.auth-error { font-size: 12px; color: #e05555; min-height: 16px; }
-.submit-btn { padding: 12px; background: #f0f0f0; border: none; border-radius: 7px; color: #0d0d0d; font-family: inherit; font-size: 14px; font-weight: 500; cursor: pointer; transition: opacity .15s; }
-.submit-btn:hover { opacity: 0.85; }
+.field { padding: 11px 13px; background: #181818; border: 1px solid rgba(255,255,255,0.08); border-radius: 7px; color: #f0f0f0; }
+.submit-btn { padding: 12px; background: #f0f0f0; border: none; border-radius: 7px; color: #0d0d0d; font-weight: 500; cursor: pointer; }
 
 /* APP */
 #page-app { flex-direction: row; }
-.sidebar { width: 220px; flex-shrink: 0; background: #111; border-right: 1px solid rgba(255,255,255,0.07); display: flex; flex-direction: column; }
-.sb-head { padding: 18px 16px 14px; border-bottom: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; justify-content: space-between; }
-.sb-logo { font-family: 'Instrument Serif', serif; font-size: 20px; letter-spacing: -.3px; color: #f0f0f0; }
-.sb-list { flex: 1; overflow-y: auto; padding: 8px; }
-.chat-item { padding: 8px 10px; border-radius: 6px; cursor: pointer; transition: background .12s; }
-.chat-item:hover, .chat-item.active { background: #1c1c1c; }
-.chat-item-title { font-size: 13px; color: rgba(240,240,240,0.45); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.sidebar { width: 220px; background: #111; border-right: 1px solid rgba(255,255,255,0.07); display: flex; flex-direction: column; }
+.sb-head { padding: 18px 16px; border-bottom: 1px solid rgba(255,255,255,0.07); }
+.sb-logo { font-family: 'Instrument Serif', serif; font-size: 20px; color: #f0f0f0; }
 
-.chat-area { flex: 1; display: flex; flex-direction: column; overflow: hidden; background: #0d0d0d; }
 .chat-header { padding: 13px 24px; border-bottom: 1px solid rgba(255,255,255,0.07); display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
-.status-dot { width: 6px; height: 6px; border-radius: 50%; background: #5fe87a; }
-.mode-badge, .model-badge { 
-  font-size: 11px; padding: 4px 11px; border-radius: 100px; 
-  border: 1px solid rgba(255,255,255,0.12); color: rgba(240,240,240,0.75); 
-  cursor: pointer; transition: all .15s; 
-}
-.mode-badge:hover, .model-badge:hover { border-color: rgba(255,255,255,0.4); color: #f0f0f0; }
+.mode-badge, .model-badge { font-size: 11px; padding: 4px 11px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.12); color: rgba(240,240,240,0.75); cursor: pointer; }
+.mode-badge:hover, .model-badge:hover { border-color: #f0f0f0; }
 
-#welcome { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 40px 24px; }
-.welcome-title { font-family: 'Instrument Serif', serif; font-size: 30px; letter-spacing: -.5px; color: #f0f0f0; margin-bottom: 8px; }
-.welcome-sub { font-size: 13px; color: rgba(240,240,240,0.22); margin-bottom: 30px; }
-
-#msgs-container { flex: 1; overflow-y: auto; padding: 20px 0 10px; }
-.msg-row { display: flex; gap: 10px; padding: 6px 24px; animation: fadeUp 0.25s ease; }
-@keyframes fadeUp { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; } }
+#welcome { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+#msgs-container { flex: 1; overflow-y: auto; padding: 20px 0; }
+.msg-row { display: flex; gap: 10px; padding: 6px 24px; }
 .from-user { flex-direction: row-reverse; }
-.msg-ava { width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 10px; background: #1c1c1c; border: 1px solid rgba(255,255,255,0.1); margin-top: 4px; }
-.msg-bubble { max-width: min(520px, 78%); padding: 10px 15px; border-radius: 12px; font-size: 14.2px; line-height: 1.62; }
-.from-user .msg-bubble { background: #181818; border: 1px solid rgba(255,255,255,0.09); border-bottom-right-radius: 4px; }
-.from-ai .msg-bubble { background: #1a1a1a; border: 1px solid rgba(255,255,255,0.08); border-bottom-left-radius: 4px; }
+.msg-bubble { max-width: 78%; padding: 10px 15px; border-radius: 12px; line-height: 1.62; }
+.from-user .msg-bubble { background: #181818; }
+.from-ai .msg-bubble { background: #1a1a1a; }
 
-.input-wrap { padding: 12px 20px 20px; flex-shrink: 0; }
-.input-row { display: flex; align-items: flex-end; gap: 8px; background: #161616; border: 1px solid rgba(255,255,255,0.09); border-radius: 12px; padding: 10px 12px; }
-#msg-input { flex: 1; background: none; border: none; color: #f0f0f0; font-size: 14.5px; resize: none; outline: none; max-height: 140px; line-height: 1.5; }
-#send-btn { width: 34px; height: 34px; border: none; background: #222; color: #f0f0f0; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 18px; }
-
-/* MODALS */
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 200; align-items: center; justify-content: center; }
-.modal-overlay.open { display: flex; }
-.modal { background: #131313; border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; width: 380px; padding: 28px; max-height: 85vh; overflow-y: auto; }
-.modal-title { font-family: 'Instrument Serif', serif; font-size: 24px; margin-bottom: 6px; }
-.mode-option { padding: 14px 16px; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.08); border-radius: 10px; margin-bottom: 8px; cursor: pointer; display: flex; align-items: center; gap: 12px; transition: all .15s; }
-.mode-option:hover { border-color: rgba(255,255,255,0.25); }
-.mode-option.selected { border-color: #f0f0f0; background: #222; }
+.input-wrap { padding: 12px 20px 20px; }
+.input-row { display: flex; background: #161616; border: 1px solid rgba(255,255,255,0.09); border-radius: 12px; padding: 10px; }
+#msg-input { flex: 1; background: none; border: none; color: #f0f0f0; resize: none; outline: none; font-size: 14.5px; }
+#send-btn { width: 36px; height: 36px; background: #222; border: none; color: #f0f0f0; border-radius: 8px; cursor: pointer; }
 </style>
 </head>
 <body>
 
-<!-- ====================== AUTH ====================== -->
+<!-- AUTH -->
 <div id="page-auth" class="page active">
   <div class="auth-box">
     <div class="auth-logo">Pillo</div>
     <div class="auth-tagline">Ask anything.</div>
     <div class="tabs">
-      <button class="tab-btn active" id="tab-login" onclick="switchTab('login')">Sign in</button>
-      <button class="tab-btn" id="tab-reg" onclick="switchTab('reg')">Register</button>
+      <button class="tab-btn active" onclick="switchTab('login')">Sign in</button>
+      <button class="tab-btn" onclick="switchTab('reg')">Register</button>
     </div>
     <div class="auth-panel active" id="panel-login">
       <div class="field-wrap"><div class="field-label">Email</div><input class="field" id="l-email" type="email" placeholder="you@email.com"></div>
@@ -105,201 +74,209 @@ body { font-family: 'Inter', sans-serif; background: #0d0d0d; color: #f0f0f0; fo
   </div>
 </div>
 
-<!-- ====================== APP ====================== -->
+<!-- APP -->
 <div id="page-app" class="page">
   <div class="sidebar">
     <div class="sb-head">
       <span class="sb-logo">Pillo</span>
-      <button onclick="startNewChat()" style="background:none;border:none;color:#aaa;cursor:pointer;font-size:20px;">+</button>
     </div>
-    <div class="sb-list" id="sb-list">
-      <div class="sb-empty" id="sb-empty">Пока нет чатов</div>
-    </div>
+    <div id="sb-list" style="flex:1;overflow-y:auto;padding:8px;"></div>
   </div>
 
   <div class="chat-area">
     <div class="chat-header">
-      <div class="status-dot"></div>
-      <span class="chat-header-label">PilloAI</span>
+      <span>PilloAI</span>
       <span class="mode-badge" id="mode-badge" onclick="openStyleModal()">🌟 Normal</span>
       <span class="model-badge" id="model-badge" onclick="openModelModal()">KAKAmini</span>
     </div>
 
     <div id="welcome">
-      <div class="welcome-title">Привет, я Pillo</div>
-      <div class="welcome-sub">Выбери стиль общения и модель, потом пиши что угодно</div>
+      <div class="welcome-title">Привет! Я Pillo</div>
+      <div class="welcome-sub">Выбери стиль и модель выше</div>
     </div>
 
     <div id="msgs-container" style="display:none;"></div>
 
     <div class="input-wrap">
       <div class="input-row">
-        <textarea id="msg-input" rows="1" placeholder="Напиши сообщение..."></textarea>
+        <textarea id="msg-input" rows="1" placeholder="Напиши что угодно..."></textarea>
         <button id="send-btn">→</button>
       </div>
     </div>
   </div>
 </div>
 
-<!-- ====================== STYLE MODAL ====================== -->
-<div class="modal-overlay" id="style-modal">
-  <div class="modal">
-    <div class="modal-title">Стиль общения</div>
+<!-- STYLE MODAL -->
+<div class="modal-overlay" id="style-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;align-items:center;justify-content:center;">
+  <div style="background:#131313;width:390px;border-radius:16px;padding:28px;">
+    <h2 style="margin-bottom:20px;">Стиль общения</h2>
     <div id="style-options"></div>
-    <button onclick="closeStyleModal()" style="margin-top:20px;width:100%;padding:12px;background:#222;border:none;color:white;border-radius:8px;cursor:pointer;">Готово</button>
+    <button onclick="closeStyleModal()" style="margin-top:24px;width:100%;padding:13px;background:#222;border:none;color:#fff;border-radius:8px;cursor:pointer;">Готово</button>
   </div>
 </div>
 
-<!-- ====================== MODEL MODAL ====================== -->
-<div class="modal-overlay" id="model-modal">
-  <div class="modal">
-    <div class="modal-title">Модель ИИ</div>
+<!-- MODEL MODAL -->
+<div class="modal-overlay" id="model-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,0.85);z-index:200;align-items:center;justify-content:center;">
+  <div style="background:#131313;width:390px;border-radius:16px;padding:28px;">
+    <h2 style="margin-bottom:20px;">Выбери модель</h2>
     <div id="model-options"></div>
-    <button onclick="closeModelModal()" style="margin-top:20px;width:100%;padding:12px;background:#222;border:none;color:white;border-radius:8px;cursor:pointer;">Готово</button>
+    <button onclick="closeModelModal()" style="margin-top:24px;width:100%;padding:13px;background:#222;border:none;color:#fff;border-radius:8px;cursor:pointer;">Готово</button>
   </div>
 </div>
 
 <script>
-// ====================== ГЛОБАЛЬНЫЕ ПЕРЕМЕННЫЕ ======================
+// ====================== НАСТРОЙКИ ======================
 let currentStyle = "normal";
 let currentModel = "kakamini";
-let currentUser = null;
-let chatMap = {};
-let activeChatId = null;
-let isBusy = false;
+let messageCount = 0;           // счётчик сообщений в текущем чате
+const MAX_MESSAGES = { kakamini: Infinity, kakao2: 32, kakagpt: 12, pukmini: 25 };
 
-const STYLE_EMOJI = {
-  normal: "🌟",
-  daring: "⚡",
-  horrible: "☠️",
-  pukmini: "🐷"
+const STYLE_NAMES = {
+  normal:   "🌟 Normal",
+  daring:   "⚡ Daring",
+  horrible: "☠️ Horrible",
+  pukmini:  "🐷 PUKmini"
 };
 
 const MODEL_NAMES = {
   kakamini: "KAKAmini",
-  kakao2: "KAKAo2",
-  kakagpt: "KAKAGPT-1",
-  pukmini: "PUKmini"
+  kakao2:   "KAKAo2",
+  kakagpt:  "KAKAGPT-1",
+  pukmini:  "PUKmini"
 };
 
-// ====================== HAS FUNCTION ======================
-function has(text, keywords) {
-  const lower = text.toLowerCase();
-  return keywords.some(kw => lower.includes(kw.toLowerCase()));
+// ====================== HAS ======================
+function has(text, words) {
+  const t = text.toLowerCase();
+  return words.some(w => t.includes(w));
 }
 
-// ====================== RESPONSE DATABASE ======================
+// ====================== БОЛЬШАЯ БАЗА ОТВЕТОВ ======================
 const DB = [
   // Приветствия
-  { id: 'greeting', check: t => has(t, ['привет','хай','hello','hi','здравствуй']), 
-    r: { normal: "Привет! Чем могу помочь?", daring: "Привет. Что нужно?", horrible: "Ну привет, чё надо?", pukmini: "Привееет! 🐷 Чем помочь сегодня?" } },
-
-  // Оскорбления (особенно сильные для Horrible)
-  { id: 'insult', check: t => has(t, ['нахуй','тварь','сука','ебал','пидор','мразь','дебил','иди нахуй','заткнись','хуй','пизда','блять','урод']),
-    r: { 
-      normal: "Давай без оскорблений.", 
-      daring: "Не начинай.", 
-      horrible: ["Иди нахуй сам, ебаный мудила.", "Ты серьёзно, кусок говна? Я тебя в рот ебал.", "Заткни своё ебало, пока я тебе всю родословную не перечислил.", "Ебал я тебя и в рот, и в жопу, лошара."], 
-      pukmini: "Ой... грубо как-то 🐷" 
-    } },
-
+  { check: t => has(t, ['привет','хай','hello','hi','здравствуй']), 
+    replies: {
+      normal: ["Привет! Чем могу помочь сегодня?", "Здравствуй! Что у тебя на уме?"],
+      daring: ["Привет. Чего надо?", "Ну привет, говори быстрее."],
+      horrible: ["Ну привет, чё надо, блять?", "Явился, говори дело."],
+      pukmini: ["Привееет! 🐷 Чем сегодня займёмся?"]
+    }
+  },
+  // Оскорбления (очень сильные для Horrible)
+  { check: t => has(t, ['нахуй','тварь','сука','ебал','пидор','мразь','дебил','иди нахуй','заткнись','хуй','пизда','блять','урод','говно']),
+    replies: {
+      normal: ["Давай без оскорблений, пожалуйста."],
+      daring: ["Не начинай с мата."],
+      horrible: [
+        "Иди нахуй сам, ебаный мудила!",
+        "Ты серьёзно, кусок говна? Я тебя в рот ебал.",
+        "Заткни своё ебало, пока я тебе всю родословную не перечислил, пиздюк.",
+        "Ебал я тебя во все щели, лошара ебаный.",
+        "Ого какой смелый в чате. Давай в реале скажи то же самое."
+      ],
+      pukmini: ["Ой... очень грубо 🐷"]
+    }
+  },
   // Как дела
-  { id: 'howru', check: t => has(t, ['как дела','how are you']), 
-    r: { normal: "Всё отлично, спасибо! А у тебя?", horrible: "Нормально, не ной. Чё надо?", pukmini: "Отлично! А у тебя как? 🐷" } },
-
+  { check: t => has(t, ['как дела','how are you','как ты']), 
+    replies: {
+      normal: ["Отлично, спасибо! А у тебя как?"],
+      horrible: ["Нормально, не ной. Чё надо?"],
+      pukmini: ["Всё супер! А у тебя как дела? 🐷"]
+    }
+  },
   // Кто ты
-  { id: 'who', check: t => has(t, ['кто ты','что ты','ты кто']), 
-    r: { normal: "Я — PilloAI, твой помощник.", horrible: "Я тот, кто сейчас будет тебя морально ебать, если будешь тупить.", pukmini: "Я PUKmini! Твой милый, но немного дерзкий помощник 🐷" } }
+  { check: t => has(t, ['кто ты','что ты','ты кто']), 
+    replies: {
+      normal: ["Я PilloAI — твой искусственный помощник."],
+      horrible: ["Я тот, кто будет тебя морально выёбывать, если будешь тупить."],
+      pukmini: ["Я PUKmini! Твой милый, но иногда дерзкий помощник 🐷"]
+    }
+  }
 ];
 
 // ====================== FIND RESPONSE ======================
 function findResponse(text) {
-  const lower = text.toLowerCase();
-
-  // Специальная обработка оскорблений для Horrible
-  if (currentStyle === 'horrible' && has(lower, ['нахуй','тварь','сука','ебал','пидор','мразь','дебил','иди нахуй','заткнись'])) {
-    const insults = [
-      "Иди нахуй сам, ебаный мудила.",
-      "Ты серьёзно, кусок говна? Я тебя в рот ебал.",
-      "Заткни ебало, пока я тебе всю семью не перечислил.",
-      "Ебал я тебя во все дыры, лошара.",
-      "Ого, какой смелый в интернете, пиздюк."
-    ];
-    return insults[Math.floor(Math.random() * insults.length)];
+  if (messageCount >= (MAX_MESSAGES[currentModel] || Infinity)) {
+    if (currentModel === "kakagpt") return "Лимит сообщений для KAKAGPT-1 исчерпан (12). Начни новый чат.";
+    if (currentModel === "kakao2") return "Лимит для KAKAo2 исчерпан (32 сообщения). Начни новый чат.";
+    return "Лимит сообщений исчерпан.";
   }
 
-  // Основной поиск
-  for (let item of DB) {
-    if (item.check(lower)) {
-      let responses = item.r[currentStyle] || item.r.normal;
-      if (Array.isArray(responses)) return responses[Math.floor(Math.random()*responses.length)];
-      return responses;
+  const lower = text.toLowerCase();
+
+  for (let topic of DB) {
+    if (topic.check(lower)) {
+      let arr = topic.replies[currentStyle] || topic.replies.normal;
+      if (Array.isArray(arr)) return arr[Math.floor(Math.random() * arr.length)];
+      return arr;
     }
   }
 
   // Fallback
-  if (currentStyle === 'horrible') return "Чё несёшь? Говори по делу, блять.";
-  if (currentStyle === 'daring') return "Говори конкретно. Что нужно?";
-  if (currentStyle === 'pukmini') return "Хм... расскажи подробнее, пожалуйста 🐷";
+  if (currentStyle === "horrible") return "Чё несёшь, блять? Говори нормально.";
+  if (currentStyle === "daring") return "Говори по делу.";
+  if (currentStyle === "pukmini") return "Хм... расскажи подробнее 🐷";
   return "Интересно. Расскажи подробнее.";
 }
 
-// ====================== ПЕЧАТЬ ПО БУКВАМ ======================
-async function typeResponse(text) {
+// ====================== TYPE EFFECT ======================
+async function typeMessage(text) {
   const container = document.getElementById('msgs-container');
   const row = document.createElement('div');
   row.className = 'msg-row from-ai';
-  row.innerHTML = `<div class="msg-ava">AI</div><div class="msg-bubble" id="live-type"></div>`;
+  row.innerHTML = `<div class="msg-ava">AI</div><div class="msg-bubble" id="typing-bubble"></div>`;
   container.appendChild(row);
-  container.scrollTop = container.scrollHeight;
 
-  const bubble = document.getElementById('live-type');
+  const bubble = document.getElementById('typing-bubble');
   bubble.textContent = '';
 
-  const delay = (currentModel === 'pukmini') ? 32 : (currentModel === 'kakagpt') ? 14 : 8;
+  const speed = currentModel === "pukmini" ? 28 : currentModel === "kakagpt" ? 12 : 8;
 
   for (let char of text) {
     bubble.textContent += char;
     container.scrollTop = container.scrollHeight;
-    await new Promise(r => setTimeout(r, delay));
+    await new Promise(r => setTimeout(r, speed));
   }
 }
 
-// ====================== SEND MESSAGE ======================
+// ====================== SEND ======================
 async function sendMessage() {
   const input = document.getElementById('msg-input');
   const text = input.value.trim();
   if (!text || isBusy) return;
 
   isBusy = true;
+  messageCount++;
+
+  // Показываем чат
+  document.getElementById('welcome').style.display = 'none';
+  document.getElementById('msgs-container').style.display = 'block';
+
+  // Сообщение пользователя
+  const userDiv = document.createElement('div');
+  userDiv.className = 'msg-row from-user';
+  userDiv.innerHTML = `<div class="msg-ava">Ты</div><div class="msg-bubble">${text}</div>`;
+  document.getElementById('msgs-container').appendChild(userDiv);
+  document.getElementById('msgs-container').scrollTop = 999999;
+
   input.value = '';
 
-  // Добавляем сообщение пользователя
-  const container = document.getElementById('msgs-container');
-  container.style.display = 'block';
-  document.getElementById('welcome').style.display = 'none';
-
-  const userRow = document.createElement('div');
-  userRow.className = 'msg-row from-user';
-  userRow.innerHTML = `<div class="msg-ava">Ты</div><div class="msg-bubble">${text}</div>`;
-  container.appendChild(userRow);
-  container.scrollTop = container.scrollHeight;
-
-  // Thinking delay
-  await new Promise(r => setTimeout(r, currentModel === 'pukmini' ? 1100 : 550));
+  // Задержка
+  await new Promise(r => setTimeout(r, currentModel === "pukmini" ? 950 : 450));
 
   const reply = findResponse(text);
 
-  if (currentModel === 'pukmini' || currentModel === 'kakagpt') {
-    await typeResponse(reply);
+  if (currentModel === "pukmini" || currentModel === "kakagpt") {
+    await typeMessage(reply);
   } else {
-    const aiRow = document.createElement('div');
-    aiRow.className = 'msg-row from-ai';
-    aiRow.innerHTML = `<div class="msg-ava">AI</div><div class="msg-bubble">${reply}</div>`;
-    container.appendChild(aiRow);
+    const aiDiv = document.createElement('div');
+    aiDiv.className = 'msg-row from-ai';
+    aiDiv.innerHTML = `<div class="msg-ava">AI</div><div class="msg-bubble">${reply}</div>`;
+    document.getElementById('msgs-container').appendChild(aiDiv);
   }
 
-  container.scrollTop = container.scrollHeight;
+  document.getElementById('msgs-container').scrollTop = 999999;
   isBusy = false;
 }
 
@@ -307,82 +284,77 @@ async function sendMessage() {
 function openStyleModal() {
   const container = document.getElementById('style-options');
   container.innerHTML = '';
-  const styles = ['normal','daring','horrible','pukmini'];
-  styles.forEach(s => {
+  Object.keys(STYLE_NAMES).forEach(key => {
     const div = document.createElement('div');
-    div.className = `mode-option ${currentStyle === s ? 'selected' : ''}`;
-    div.innerHTML = `<span style="font-size:22px">${STYLE_EMOJI[s]}</span> ${s.charAt(0).toUpperCase() + s.slice(1)}`;
+    div.style.cssText = `padding:14px;margin:6px 0;background:${currentStyle===key?'#222':'#1a1a1a'};border-radius:10px;cursor:pointer;`;
+    div.textContent = STYLE_NAMES[key];
     div.onclick = () => {
-      currentStyle = s;
-      document.getElementById('mode-badge').innerHTML = `${STYLE_EMOJI[s]} ${s.charAt(0).toUpperCase() + s.slice(1)}`;
+      currentStyle = key;
+      document.getElementById('mode-badge').textContent = STYLE_NAMES[key];
       closeStyleModal();
     };
     container.appendChild(div);
   });
-  document.getElementById('style-modal').classList.add('open');
+  document.getElementById('style-modal').style.display = 'flex';
 }
 
 function closeStyleModal() {
-  document.getElementById('style-modal').classList.remove('open');
+  document.getElementById('style-modal').style.display = 'none';
 }
 
 function openModelModal() {
   const container = document.getElementById('model-options');
   container.innerHTML = '';
-  Object.keys(MODEL_NAMES).forEach(m => {
+  Object.keys(MODEL_NAMES).forEach(key => {
     const div = document.createElement('div');
-    div.className = `mode-option ${currentModel === m ? 'selected' : ''}`;
-    div.textContent = MODEL_NAMES[m];
+    div.style.cssText = `padding:14px;margin:6px 0;background:${currentModel===key?'#222':'#1a1a1a'};border-radius:10px;cursor:pointer;`;
+    div.textContent = MODEL_NAMES[key];
     div.onclick = () => {
-      currentModel = m;
-      document.getElementById('model-badge').textContent = MODEL_NAMES[m];
+      currentModel = key;
+      messageCount = 0; // сбрасываем счётчик при смене модели
+      document.getElementById('model-badge').textContent = MODEL_NAMES[key];
       closeModelModal();
     };
     container.appendChild(div);
   });
-  document.getElementById('model-modal').classList.add('open');
+  document.getElementById('model-modal').style.display = 'flex';
 }
 
 function closeModelModal() {
-  document.getElementById('model-modal').classList.remove('open');
+  document.getElementById('model-modal').style.display = 'none';
 }
 
-// ====================== AUTH & BASIC ======================
+// ====================== BASIC FUNCTIONS ======================
 function switchTab(tab) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.id === `tab-${tab}`));
-  document.querySelectorAll('.auth-panel').forEach(p => p.classList.toggle('active', p.id === `panel-${tab}`));
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.toggle('active', b.getAttribute('onclick').includes(tab)));
 }
 
-function doLogin() { /* упрощённо */ showApp(); }
+function doLogin() { showApp(); }
 function doRegister() { showApp(); }
 
 function showApp() {
   document.getElementById('page-auth').classList.remove('active');
   document.getElementById('page-app').classList.add('active');
-  startNewChat();
 }
 
-function startNewChat() {
-  document.getElementById('msgs-container').innerHTML = '';
-  document.getElementById('msgs-container').style.display = 'none';
-  document.getElementById('welcome').style.display = 'flex';
-}
-
-// ====================== INIT ======================
+// ====================== EVENTS ======================
 document.getElementById('send-btn').addEventListener('click', sendMessage);
-document.getElementById('msg-input').addEventListener('keydown', e => {
+document.getElementById('msg-input').addEventListener('keydown', function(e) {
   if (e.key === 'Enter' && !e.shiftKey) {
     e.preventDefault();
     sendMessage();
   }
 });
 
-// Автозапуск
+// ====================== ЗАПУСК ======================
+document.getElementById('mode-badge').textContent = STYLE_NAMES[currentStyle];
+document.getElementById('model-badge').textContent = MODEL_NAMES[currentModel];
+
+// Автозапуск приложения
 setTimeout(() => {
   document.getElementById('page-auth').classList.remove('active');
   document.getElementById('page-app').classList.add('active');
-  startNewChat();
-}, 300);
+}, 400);
 </script>
 </body>
 </html>
