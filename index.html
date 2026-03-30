@@ -4,43 +4,19 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>MishaTV</title>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
-  
-  /* ТЕМЫ */
+
   :root {
     --bg: #0a0a0a;
     --fg: #f0f0f0;
-    --dim: #777;
-    --border: #222;
-    --accent: #e53935;
-    --accent-hover: #f44336;
-    --nav-bg: rgba(10, 10, 10, 0.8);
-  }
-
-  [data-theme="light"] {
-    --bg: #f9f9f9;
-    --fg: #111;
-    --dim: #666;
-    --border: #ddd;
-    --accent: #e53935;
-    --accent-hover: #d32f2f;
-    --nav-bg: rgba(249, 249, 249, 0.9);
-  }
-
-  [data-theme="neon"] {
-    --bg: #050510;
-    --fg: #00ffff;
-    --dim: #8a2be2;
-    --border: #8a2be2;
-    --accent: #ff00ff;
-    --accent-hover: #ff66ff;
-    --nav-bg: rgba(5, 5, 16, 0.8);
+    --dim: #555;
+    --border: #1e1e1e;
   }
 
   html { scroll-behavior: smooth; }
-  
+
   body {
     background: var(--bg);
     color: var(--fg);
@@ -48,447 +24,445 @@
     font-weight: 300;
     min-height: 100vh;
     overflow-x: hidden;
-    transition: background 0.3s, color 0.3s;
   }
 
-  /* Шум на фоне */
   body::before {
     content: '';
     position: fixed;
     inset: 0;
-    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
     pointer-events: none;
     z-index: 100;
+    opacity: 0.4;
   }
 
-  /* НАВИГАЦИЯ */
-  nav {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    height: 60px;
-    background: var(--nav-bg);
-    backdrop-filter: blur(10px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
-    z-index: 50;
-    border-bottom: 1px solid var(--border);
-  }
-  nav a {
-    color: var(--fg);
-    text-decoration: none;
-    font-size: 13px;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-    transition: color 0.2s;
-  }
-  nav a:hover { color: var(--accent); }
-
-  /* ГЛАВНЫЙ БЛОК */
   .hero {
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    min-height: 80vh; /* Уменьшено с 100vh, чтобы убрать пустоту */
-    padding: 100px 24px 40px;
+    min-height: 100vh;
+    padding: 60px 24px;
     text-align: center;
     position: relative;
   }
-  
+
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, var(--dim), transparent);
+  }
+
   .logo {
     font-family: 'Unbounded', sans-serif;
     font-weight: 900;
-    font-size: clamp(48px, 12vw, 100px);
+    font-size: clamp(56px, 14vw, 120px);
     letter-spacing: -0.04em;
     line-height: 0.9;
-    margin-bottom: 24px;
+    margin-bottom: 32px;
     animation: fadeUp 0.8s ease both;
   }
-  .logo span { color: var(--accent); }
-  
-  .tagline {
-    font-size: clamp(14px, 2vw, 16px);
-    color: var(--dim);
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    max-width: 450px;
-    line-height: 1.6;
-    margin-bottom: 30px;
-    animation: fadeUp 0.8s ease 0.15s both;
-  }
 
-  .cta-button {
-    background: var(--accent);
-    color: #fff;
-    text-decoration: none;
-    padding: 14px 32px;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 14px;
+  .logo span { color: var(--dim); }
+
+  .tagline {
+    font-size: clamp(13px, 2vw, 15px);
+    color: var(--dim);
+    letter-spacing: 0.25em;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    transition: background 0.2s, transform 0.2s;
-    animation: fadeUp 0.8s ease 0.3s both;
-  }
-  .cta-button:hover {
-    background: var(--accent-hover);
-    transform: translateY(-2px);
+    max-width: 380px;
+    line-height: 1.8;
+    animation: fadeUp 0.8s ease 0.15s both;
   }
 
   .emoji {
     font-style: normal;
+    filter: grayscale(1) contrast(0.7);
     display: inline-block;
   }
 
-  /* СЕКЦИИ (отступы уменьшены) */
   section {
-    max-width: 800px;
+    max-width: 720px;
     margin: 0 auto;
-    padding: 50px 24px;
+    padding: 80px 24px;
     border-top: 1px solid var(--border);
     animation: fadeUp 0.8s ease both;
   }
-  
+
   .section-label {
     font-family: 'Unbounded', sans-serif;
-    font-size: 12px;
-    letter-spacing: 0.2em;
+    font-size: 10px;
+    letter-spacing: 0.3em;
     text-transform: uppercase;
-    color: var(--accent);
-    margin-bottom: 20px;
-    font-weight: 700;
+    color: var(--dim);
+    margin-bottom: 28px;
   }
-  
-  .about-text { font-size: 16px; line-height: 1.8; color: var(--dim); }
-  .about-text strong { color: var(--fg); font-weight: 600; }
 
-  /* ВКЛАДКИ ВИДЕО */
+  .about-text { font-size: 15px; line-height: 1.9; color: #bbb; }
+  .about-text strong { color: var(--fg); font-weight: 400; }
+
+  /* ===== TABS ===== */
   .video-tabs {
     display: flex;
-    gap: 15px;
-    margin-bottom: 24px;
+    gap: 0;
+    margin-bottom: 32px;
     border-bottom: 1px solid var(--border);
   }
+
   .tab-btn {
     background: none;
     border: none;
     color: var(--dim);
     font-family: 'Unbounded', sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.1em;
+    font-size: 9px;
+    letter-spacing: 0.2em;
     text-transform: uppercase;
-    padding: 10px 15px;
+    padding: 12px 24px 12px 0;
     cursor: pointer;
     position: relative;
     transition: color 0.2s;
   }
+
   .tab-btn::after {
     content: '';
     position: absolute;
     bottom: -1px;
-    left: 0; right: 0;
-    height: 2px;
-    background: var(--accent);
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--fg);
     transform: scaleX(0);
+    transform-origin: left;
     transition: transform 0.25s;
   }
-  .tab-btn.active { color: var(--fg); font-weight: 700; }
-  .tab-btn.active::after { transform: scaleX(1); }
-  
-  .tab-panel { display: none; }
-  .tab-panel.active { display: block; animation: fadeIn 0.4s ease; }
 
-  /* СЕТКА ВИДЕО */
+  .tab-btn.active { color: var(--fg); }
+  .tab-btn.active::after { transform: scaleX(1); }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ===== VIDEO GRID ===== */
   .video-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
   }
-  .video-card { display: flex; flex-direction: column; gap: 10px; }
-  
-  .embed-wrap, .local-wrap {
+
+  @media (max-width: 560px) { .video-grid { grid-template-columns: 1fr; } }
+
+  .video-card { display: flex; flex-direction: column; gap: 12px; }
+
+  /* YouTube embed */
+  .embed-wrap {
     position: relative;
     padding-bottom: 56.25%;
     background: #111;
     border: 1px solid var(--border);
-    border-radius: 8px;
     overflow: hidden;
   }
-  .embed-wrap iframe, .local-wrap video {
+
+  .embed-wrap iframe {
     position: absolute;
     inset: 0;
     width: 100%;
     height: 100%;
     border: none;
+  }
+
+  .yt-thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
     object-fit: cover;
   }
 
-  .yt-thumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
   .play-overlay {
     position: absolute;
     inset: 0;
     display: flex;
     align-items: center;
     justify-content: center;
-    background: rgba(0,0,0,0.3);
+    background: rgba(0,0,0,0.25);
     border: none;
     cursor: pointer;
-    width: 100%;
     transition: background 0.2s;
+    width: 100%;
   }
+
   .play-overlay:hover { background: rgba(0,0,0,0.1); }
+
   .play-circle {
-    width: 60px; height: 60px;
-    background: var(--accent);
+    width: 52px;
+    height: 52px;
+    background: rgba(240,240,240,0.92);
     border-radius: 50%;
-    display: flex; align-items: center; justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     transition: transform 0.2s;
   }
-  .play-overlay:hover .play-circle { transform: scale(1.1); }
-  .play-circle svg { fill: #fff; width: 24px; height: 24px; margin-left: 4px; }
 
+  .play-overlay:hover .play-circle { transform: scale(1.08); }
+
+  .play-circle svg { fill: #0a0a0a; width: 18px; height: 18px; margin-left: 3px; }
+
+  /* Local video */
+  .local-wrap {
+    background: #111;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .local-wrap video {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+
+  /* Meta */
   .v-badge {
     display: inline-block;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.1em;
+    font-size: 9px;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: #fff;
-    background: var(--accent);
-    padding: 4px 8px;
-    border-radius: 4px;
+    color: var(--dim);
+    border: 1px solid var(--border);
+    padding: 3px 8px;
+    border-radius: 2px;
     margin-bottom: 6px;
   }
-  .v-title { font-size: 15px; color: var(--fg); font-weight: 600; line-height: 1.4; margin-bottom: 4px; }
-  .v-date { font-size: 12px; color: var(--dim); }
 
-  /* ССЫЛКИ */
-  .links { display: flex; flex-direction: column; gap: 10px; }
+  .v-title { font-size: 13px; color: #ccc; line-height: 1.5; margin-bottom: 4px; }
+  .v-date { font-size: 11px; color: var(--dim); letter-spacing: 0.06em; }
+
+  /* LINKS */
+  .links { display: flex; flex-direction: column; }
+
   .link-row {
-    display: flex; align-items: center; justify-content: space-between;
-    padding: 16px 20px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    text-decoration: none; color: inherit;
-    transition: transform 0.2s, border-color 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: inherit;
+    gap: 16px;
   }
-  .link-row:hover { transform: translateY(-2px); border-color: var(--accent); }
-  .link-row:hover .link-name { color: var(--accent); }
+
+  .link-row:first-child { border-top: 1px solid var(--border); margin-top: 8px; }
+  .link-row:hover .link-name { color: var(--fg); }
+  .link-row:hover .link-arrow { transform: translate(4px, -4px); }
+
   .link-left { display: flex; align-items: center; gap: 16px; }
-  .link-icon { font-size: 24px; }
-  .link-name { font-size: 15px; font-weight: 600; color: var(--fg); transition: color 0.2s; }
-  .link-desc { font-size: 12px; color: var(--dim); margin-top: 4px; }
-  .link-arrow { font-size: 18px; color: var(--dim); }
+  .link-icon { font-size: 18px; width: 28px; text-align: center; filter: grayscale(1) contrast(0.6); }
+  .link-name { font-size: 14px; color: #aaa; transition: color 0.2s; }
+  .link-desc { font-size: 11px; color: var(--dim); margin-top: 2px; }
+  .link-arrow { font-size: 14px; color: var(--dim); transition: transform 0.25s ease; flex-shrink: 0; }
 
-  /* ПРАВИЛА */
-  .rules-block { margin-bottom: 30px; background: rgba(255,255,255,0.02); padding: 20px; border-radius: 8px; border: 1px solid var(--border); }
-  .rules-title { font-family: 'Unbounded', sans-serif; font-size: 13px; text-transform: uppercase; color: var(--accent); margin-bottom: 16px; }
+  /* RULES */
+  .rules-block { margin-bottom: 36px; }
+  .rules-title { font-family: 'Unbounded', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #888; margin-bottom: 16px; }
   .rules-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-  .rules-list li { display: flex; gap: 12px; font-size: 14px; line-height: 1.6; color: var(--dim); }
-  .rule-num { font-weight: 700; color: var(--fg); background: var(--border); width: 24px; height: 24px; display: flex; align-items: center; justify-content: center; border-radius: 50%; flex-shrink: 0; }
-  .rules-list a { color: var(--accent); text-decoration: none; font-weight: 600; }
-  .rules-list a:hover { text-decoration: underline; }
+  .rules-list li { display: flex; gap: 14px; font-size: 13px; line-height: 1.7; color: #888; }
+  .rule-num { font-family: 'Unbounded', sans-serif; font-size: 10px; color: var(--dim); flex-shrink: 0; margin-top: 3px; width: 16px; }
+  .rules-list a { color: #aaa; text-decoration: underline; text-underline-offset: 3px; }
 
-  footer { text-align: center; padding: 40px 24px; font-size: 12px; color: var(--dim); border-top: 1px solid var(--border); }
+  footer { text-align: center; padding: 60px 24px 80px; font-size: 11px; color: var(--dim); letter-spacing: 0.15em; border-top: 1px solid var(--border); }
 
-  /* МЕНЮ НАСТРОЕК (ТЕМЫ) */
-  .settings-btn {
-    position: fixed;
-    bottom: 20px; right: 20px;
-    width: 50px; height: 50px;
-    background: var(--nav-bg);
-    border: 1px solid var(--border);
-    border-radius: 50%;
-    color: var(--fg);
-    font-size: 24px;
-    cursor: pointer;
-    z-index: 1000;
-    display: flex; align-items: center; justify-content: center;
-    backdrop-filter: blur(5px);
-    transition: transform 0.3s;
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
   }
-  .settings-btn:hover { transform: rotate(90deg); }
-  
-  .settings-panel {
-    position: fixed;
-    bottom: 80px; right: 20px;
-    background: var(--nav-bg);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 15px;
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 1000;
-    backdrop-filter: blur(10px);
-    animation: fadeIn 0.2s;
-  }
-  .settings-panel.open { display: flex; }
-  .theme-option {
-    background: transparent; border: 1px solid var(--border);
-    color: var(--fg); padding: 8px 12px; border-radius: 6px;
-    cursor: pointer; font-family: 'Inter'; font-size: 13px;
-    transition: background 0.2s;
-  }
-  .theme-option:hover { background: rgba(255,255,255,0.1); }
 
-  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-  @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+  section:nth-child(2) { animation-delay: 0.05s; }
+  section:nth-child(3) { animation-delay: 0.1s; }
+  section:nth-child(4) { animation-delay: 0.15s; }
+  section:nth-child(5) { animation-delay: 0.2s; }
 
   @media (max-width: 480px) { .link-desc { display: none; } }
 </style>
 </head>
 <body>
 
-<nav>
-  <a href="#about">О канале</a>
-  <a href="#videos">Видео</a>
-  <a href="#links">Ссылки</a>
-</nav>
-
 <div class="hero">
   <h1 class="logo">Misha<span>TV</span></h1>
   <p class="tagline">
-    Garry's Mod <span class="emoji">🎮</span> каждый день<br>
+    Garry's Mod &nbsp;<span class="emoji">🎮</span>&nbsp; каждый день<br>
     Подпишись — не пропусти <span class="emoji">🔔</span>
   </p>
-  <a href="https://twitch.tv/duhovkatw" target="_blank" class="cta-button">Подписаться на канал</a>
 </div>
 
-<section id="about">
-  <div class="section-label">О канале</div>
+<section>
+  <div class="section-label">о канале</div>
   <p class="about-text">
     Всем привет — меня зовут <strong>Михаил</strong>, и я обожаю Garry's Mod <span class="emoji">❤️</span><br><br>
-    На моём канале вы найдёте лучшие видео, смешные моменты и сборки по Garry's Mod. 
-    Новые ролики выходят регулярно — так что <strong>присоединяйся к нам</strong>, чтобы не пропустить самое интересное! <span class="emoji">🎬</span>
+    На моём канале вы найдёте видео по Garry's Mod, от которых я играю в Garry's Mod.
+    Видео на канале выходит Garry's Mod — так что <strong>подпишись и не пропусти</strong> новые Garry's Mod <span class="emoji">🎬</span>
   </p>
 </section>
 
-<section id="videos">
-  <div class="section-label">Видео</div>
+<section>
+  <div class="section-label">видео <span class="emoji">▶️</span></div>
+
   <div class="video-tabs">
-    <button class="tab-btn active" onclick="switchTab(this,'yt')">YouTube</button>
-    <button class="tab-btn" onclick="switchTab(this,'site')">Сайт</button>
+    <button class="tab-btn active" onclick="switchTab(this,'yt')">Видео на YouTube</button>
+    <button class="tab-btn" onclick="switchTab(this,'site')">Видео с сайта MishaTV</button>
   </div>
-  
+
+  <!-- YOUTUBE -->
   <div class="tab-panel active" id="tab-yt">
     <div class="video-grid">
+
       <div class="video-card">
         <div class="embed-wrap" id="yw1">
           <img class="yt-thumb" src="https://img.youtube.com/vi/C7871CTaccc/hqdefault.jpg" alt="">
           <button class="play-overlay" onclick="loadYT('yw1','C7871CTaccc')">
-            <span class="play-circle"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></span>
+            <span class="play-circle">
+              <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            </span>
           </button>
         </div>
         <div>
-          <span class="v-badge">Новое</span>
-          <div class="v-title">Garry's Mod: Лучшие моменты</div>
+          <div class="v-badge">новое</div>
+          <div class="v-title">Garry's Mod</div>
           <div class="v-date">30 марта 2026</div>
         </div>
       </div>
+
       <div class="video-card">
         <div class="embed-wrap" id="yw2">
           <img class="yt-thumb" src="https://img.youtube.com/vi/Z06YG9b1oyE/hqdefault.jpg" alt="">
           <button class="play-overlay" onclick="loadYT('yw2','Z06YG9b1oyE')">
-            <span class="play-circle"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></span>
+            <span class="play-circle">
+              <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            </span>
           </button>
         </div>
         <div>
-          <div class="v-title">Garry's Mod: Выживание</div>
+          <div class="v-title">Garry's Mod</div>
           <div class="v-date">29 марта 2026</div>
         </div>
       </div>
+
     </div>
   </div>
-  
+
+  <!-- SITE VIDEOS -->
   <div class="tab-panel" id="tab-site">
     <div class="video-grid">
+
       <div class="video-card">
         <div class="local-wrap">
-          <video controls playsinline preload="metadata">
+          <video controls preload="metadata">
             <source src="Videos/tuleni1.mp4" type="video/mp4">
-            Ваш браузер не поддерживает видео.
           </video>
         </div>
         <div>
-          <span class="v-badge">Новое</span>
-          <div class="v-title">Garry's Mod · Тюлени</div>
+          <div class="v-badge">новое</div>
+          <div class="v-title">Garry's Mod · тюлени</div>
           <div class="v-date">30 марта 2026</div>
         </div>
       </div>
+
       <div class="video-card">
         <div class="local-wrap">
-          <video controls playsinline preload="metadata">
+          <video controls preload="metadata">
             <source src="Videos/ohranik1.mp4" type="video/mp4">
-            Ваш браузер не поддерживает видео.
           </video>
         </div>
         <div>
-          <div class="v-title">Garry's Mod · Охранник</div>
+          <div class="v-title">Garry's Mod · охранник</div>
           <div class="v-date">29 марта 2026</div>
         </div>
       </div>
-    </div>
-  </div>
-</section>
 
-<section id="links">
-  <div class="section-label">Ссылки</div>
-  <div class="links">
-    <a class="link-row" href="https://surl.li/nktpnv" target="_blank">
-      <div class="link-left">
-        <span class="link-icon">💬</span>
-        <div><div class="link-name">Discord</div><div class="link-desc">Сообщество MishaTV</div></div>
-      </div>
-      <span class="link-arrow">↗</span>
-    </a>
-    <a class="link-row" href="https://twitch.tv/duhovkatw" target="_blank">
-      <div class="link-left">
-        <span class="link-icon">📺</span>
-        <div><div class="link-name">Twitch</div><div class="link-desc">Стримы duhovkatw</div></div>
-      </div>
-      <span class="link-arrow">↗</span>
-    </a>
-    <a class="link-row" href="https://surl.li/terjfm" target="_blank">
-      <div class="link-left">
-        <span class="link-icon">🔧</span>
-        <div><div class="link-name">Steam — сборка</div><div class="link-desc">Коллекция аддонов для игры</div></div>
-      </div>
-      <span class="link-arrow">↗</span>
-    </a>
+    </div>
   </div>
 </section>
 
 <section>
-  <div class="section-label">Правила Discord</div>
+  <div class="section-label">ссылки</div>
+  <div class="links">
+
+    <a class="link-row" href="https://surl.li/nktpnv" target="_blank" rel="noopener">
+      <div class="link-left">
+        <span class="link-icon">💬</span>
+        <div><div class="link-name">Discord</div><div class="link-desc">сообщество MishaTV</div></div>
+      </div>
+      <span class="link-arrow">↗</span>
+    </a>
+
+    <a class="link-row" href="https://twitch.tv/duhovkatw" target="_blank" rel="noopener">
+      <div class="link-left">
+        <span class="link-icon">📺</span>
+        <div><div class="link-name">Twitch</div><div class="link-desc">duhovkatw</div></div>
+      </div>
+      <span class="link-arrow">↗</span>
+    </a>
+
+    <a class="link-row" href="https://sunsl.vercel.app" target="_blank" rel="noopener">
+      <div class="link-left">
+        <span class="link-icon">⛏️</span>
+        <div><div class="link-name">Сервер Minecraft</div><div class="link-desc">sunsl.vercel.app</div></div>
+      </div>
+      <span class="link-arrow">↗</span>
+    </a>
+
+    <a class="link-row" href="https://www.roblox.com/communities/33497198/MetaSpace-Reloaded#!/about" target="_blank" rel="noopener">
+      <div class="link-left">
+        <span class="link-icon">🟥</span>
+        <div><div class="link-name">Roblox</div><div class="link-desc">MetaSpace Reloaded</div></div>
+      </div>
+      <span class="link-arrow">↗</span>
+    </a>
+
+    <a class="link-row" href="https://surl.li/terjfm" target="_blank" rel="noopener">
+      <div class="link-left">
+        <span class="link-icon">🔧</span>
+        <div><div class="link-name">Steam — сборка модов</div><div class="link-desc">коллекция аддонов для Garry's Mod</div></div>
+      </div>
+      <span class="link-arrow">↗</span>
+    </a>
+
+  </div>
+</section>
+
+<section>
+  <div class="section-label">правила Discord <span class="emoji">📋</span></div>
+
   <div class="rules-block">
     <div class="rules-title">Как попасть на запись</div>
     <ul class="rules-list">
-      <li><span class="rule-num">1</span><span>Лицензионный Garry's Mod в <a href="https://store.steampowered.com" target="_blank">Steam</a></span></li>
-      <li><span class="rule-num">2</span><span>Подписаться на <a href="#" target="_blank">сборку аддонов</a></span></li>
-      <li><span class="rule-num">3</span><span>Добавить Михаила в Steam и зайти в голос</span></li>
-      <li><span class="rule-num">4</span><span>Ждать записи — обычно 18:00–21:00 по Киеву</span></li>
+      <li><span class="rule-num">1</span><span>Лицензионный Garry's Mod в <a href="https://store.steampowered.com/app/4000/Garrys_Mod/" target="_blank">Steam</a></span></li>
+      <li><span class="rule-num">2</span><span>Подписаться на <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3695094466" target="_blank">сборку аддонов</a></span></li>
+      <li><span class="rule-num">3</span><span>Добавить Михаила в Steam и попросить принять заявку в голосовом канале</span></li>
+      <li><span class="rule-num">4</span><span>Ждать записи — обычно <strong style="color:#aaa;font-weight:400;">18:00–21:00</strong> по Киеву <span class="emoji">🕕</span></span></li>
+    </ul>
+  </div>
+
+  <div class="rules-block">
+    <div class="rules-title">Поведение на записи / стриме</div>
+    <ul class="rules-list">
+      <li><span class="rule-num">1</span><span>Следовать инструктажу ведущего</span></li>
+      <li><span class="rule-num">2</span><span>Не портить запись и стрим</span></li>
+      <li><span class="rule-num">3</span><span>Не перебивать и уважать других участников <span class="emoji">🤝</span></span></li>
     </ul>
   </div>
 </section>
 
 <footer>
-  MishaTV &copy; 2026 &nbsp;·&nbsp; Garry's Mod forever &nbsp;<span class="emoji">❤️</span>
+  MishaTV &nbsp;·&nbsp; Garry's Mod forever &nbsp;<span class="emoji">❤️</span>
 </footer>
 
-<button class="settings-btn" onclick="toggleSettings()">⚙️</button>
-<div class="settings-panel" id="settingsPanel">
-  <button class="theme-option" onclick="setTheme('dark')">🌙 Тёмная тема</button>
-  <button class="theme-option" onclick="setTheme('light')">☀️ Светлая тема</button>
-  <button class="theme-option" onclick="setTheme('neon')">🔮 Неоновая тема</button>
-</div>
-
 <script>
-  // Переключение вкладок видео
   function switchTab(btn, id) {
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
@@ -496,7 +470,6 @@
     document.getElementById('tab-' + id).classList.add('active');
   }
 
-  // Загрузка плеера YouTube при клике
   function loadYT(wrapId, videoId) {
     const wrap = document.getElementById(wrapId);
     wrap.querySelector('.yt-thumb').remove();
@@ -505,24 +478,8 @@
     iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
     iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
     iframe.allowFullscreen = true;
+    iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none;';
     wrap.appendChild(iframe);
-  }
-
-  // Логика тем
-  function toggleSettings() {
-    document.getElementById('settingsPanel').classList.toggle('open');
-  }
-
-  function setTheme(themeName) {
-    document.documentElement.setAttribute('data-theme', themeName);
-    localStorage.setItem('mishatv_theme', themeName);
-    document.getElementById('settingsPanel').classList.remove('open');
-  }
-
-  // Проверка сохраненной темы при загрузке
-  const savedTheme = localStorage.getItem('mishatv_theme');
-  if(savedTheme) {
-    document.documentElement.setAttribute('data-theme', savedTheme);
   }
 </script>
 </body>
