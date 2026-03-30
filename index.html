@@ -3,240 +3,458 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>PilloAI - Большая версия</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Space+Grotesk:wght@500;600&display=swap" rel="stylesheet">
+<title>MishaTV</title>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 <style>
-/* ====================== СТИЛИ ====================== */
-* { margin:0; padding:0; box-sizing:border-box; }
-html, body { height:100%; overflow:hidden; background:#0a0a0a; color:#e0e0e0; font-family:'Inter', sans-serif; }
-body { display:flex; }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
 
-/* Sidebar */
-.sidebar { width:280px; background:#111; border-right:1px solid #222; display:flex; flex-direction:column; }
-.sidebar-header { padding:24px 20px; font-size:26px; font-weight:600; color:#fff; border-bottom:1px solid #1f1f1f; }
+  :root {
+    --bg: #0a0a0a;
+    --fg: #f0f0f0;
+    --dim: #555;
+    --accent: #f0f0f0;
+    --border: #1e1e1e;
+  }
 
-/* Main */
-.main { flex:1; display:flex; flex-direction:column; background:#0a0a0a; }
-.topbar { height:64px; background:#0f0f0f; border-bottom:1px solid #222; display:flex; align-items:center; padding:0 32px; justify-content:space-between; }
+  html { scroll-behavior: smooth; }
 
-.model-selector { background:#1a1a1a; border:1px solid #333; border-radius:9999px; padding:8px 20px; font-size:14px; cursor:pointer; display:flex; align-items:center; gap:10px; }
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: 'Inter', sans-serif;
+    font-weight: 300;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
 
-.chat-window { flex:1; overflow-y:auto; padding:40px 80px; display:flex; flex-direction:column; gap:28px; }
+  /* Noise texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 100;
+    opacity: 0.4;
+  }
 
-.welcome { text-align:center; margin-top:140px; }
-.welcome h1 { font-family:'Space Grotesk',sans-serif; font-size:46px; font-weight:600; background:linear-gradient(90deg,#ff9a9e,#fad0c4); -webkit-background-clip:text; -webkit-text-fill-color:transparent; }
+  /* HERO */
+  .hero {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 60px 24px;
+    text-align: center;
+    position: relative;
+  }
 
-.message { display:flex; gap:18px; max-width:720px; }
-.message.user { margin-left:auto; flex-direction:row-reverse; }
-.bubble { padding:16px 22px; border-radius:18px; line-height:1.68; font-size:15.5px; }
-.message.user .bubble { background:#1f1f1f; border-bottom-right-radius:6px; }
-.message.ai .bubble { background:#1a1a1a; border-bottom-left-radius:6px; }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 1px;
+    height: 80px;
+    background: linear-gradient(to bottom, var(--dim), transparent);
+  }
 
-.input-area { padding:24px 80px 32px; background:#0a0a0a; border-top:1px solid #1f1f1f; }
-.input-box { background:#111; border:1px solid #333; border-radius:9999px; padding:14px 24px; display:flex; align-items:center; gap:16px; }
-#msg-input { flex:1; background:none; border:none; outline:none; color:#eee; font-size:16px; resize:none; max-height:200px; }
+  .logo {
+    font-family: 'Unbounded', sans-serif;
+    font-weight: 900;
+    font-size: clamp(56px, 14vw, 120px);
+    letter-spacing: -0.04em;
+    line-height: 0.9;
+    margin-bottom: 32px;
+    animation: fadeUp 0.8s ease both;
+  }
 
-/* Modals */
-.modal { position:fixed; inset:0; background:rgba(0,0,0,0.9); display:none; align-items:center; justify-content:center; z-index:1000; }
-.modal-content { background:#161616; border-radius:16px; width:420px; padding:32px; border:1px solid #333; }
-.option { padding:16px 20px; margin:10px 0; background:#1f1f1f; border-radius:12px; cursor:pointer; transition:all 0.2s; }
-.option:hover { background:#2a2a2a; }
-.option.selected { border:2px solid #aaa; background:#252525; }
+  .logo span {
+    color: var(--dim);
+  }
 
-/* Scroll */
-::-webkit-scrollbar { width:6px; }
-::-webkit-scrollbar-thumb { background:#333; border-radius:10px; }
+  .tagline {
+    font-size: clamp(13px, 2vw, 15px);
+    color: var(--dim);
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    max-width: 380px;
+    line-height: 1.8;
+    animation: fadeUp 0.8s ease 0.15s both;
+  }
+
+  /* EMOJI — черно-белые через filter */
+  .emoji {
+    font-style: normal;
+    filter: grayscale(1) contrast(0.7);
+    display: inline-block;
+  }
+
+  /* SECTION */
+  section {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 80px 24px;
+    border-top: 1px solid var(--border);
+    animation: fadeUp 0.8s ease both;
+  }
+
+  .section-label {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--dim);
+    margin-bottom: 28px;
+  }
+
+  /* ABOUT */
+  .about-text {
+    font-size: 15px;
+    line-height: 1.9;
+    color: #bbb;
+  }
+
+  .about-text strong {
+    color: var(--fg);
+    font-weight: 400;
+  }
+
+  /* VIDEOS */
+  .coming-soon {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .coming-soon:first-of-type {
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+
+  .video-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 11px;
+    color: var(--dim);
+    width: 24px;
+    flex-shrink: 0;
+  }
+
+  .video-placeholder {
+    flex: 1;
+  }
+
+  .video-title {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 4px;
+  }
+
+  .video-sub {
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.1em;
+  }
+
+  .badge {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--dim);
+    border: 1px solid var(--border);
+    padding: 4px 10px;
+    border-radius: 2px;
+    white-space: nowrap;
+  }
+
+  /* LINKS */
+  .links {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .link-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 0;
+    border-bottom: 1px solid var(--border);
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.2s;
+    gap: 16px;
+  }
+
+  .link-row:first-child {
+    border-top: 1px solid var(--border);
+    margin-top: 8px;
+  }
+
+  .link-row:hover { color: var(--fg); }
+  .link-row:hover .link-name { color: var(--fg); }
+  .link-row:hover .link-arrow { transform: translate(4px, -4px); }
+
+  .link-left {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+
+  .link-icon {
+    font-size: 18px;
+    width: 28px;
+    text-align: center;
+    filter: grayscale(1) contrast(0.6);
+  }
+
+  .link-name {
+    font-size: 14px;
+    color: #aaa;
+    transition: color 0.2s;
+  }
+
+  .link-desc {
+    font-size: 11px;
+    color: var(--dim);
+    margin-top: 2px;
+    letter-spacing: 0.05em;
+  }
+
+  .link-arrow {
+    font-size: 14px;
+    color: var(--dim);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+  }
+
+  /* RULES */
+  .rules-block {
+    margin-bottom: 36px;
+  }
+
+  .rules-title {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #888;
+    margin-bottom: 16px;
+  }
+
+  .rules-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .rules-list li {
+    display: flex;
+    gap: 14px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #888;
+  }
+
+  .rule-num {
+    font-family: 'Unbounded', sans-serif;
+    font-size: 10px;
+    color: var(--dim);
+    flex-shrink: 0;
+    margin-top: 3px;
+    width: 16px;
+  }
+
+  .rules-list a {
+    color: #aaa;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  /* FOOTER */
+  footer {
+    text-align: center;
+    padding: 60px 24px 80px;
+    font-size: 11px;
+    color: var(--dim);
+    letter-spacing: 0.15em;
+    border-top: 1px solid var(--border);
+  }
+
+  /* ANIMATIONS */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  section:nth-child(2) { animation-delay: 0.05s; }
+  section:nth-child(3) { animation-delay: 0.1s; }
+  section:nth-child(4) { animation-delay: 0.15s; }
+  section:nth-child(5) { animation-delay: 0.2s; }
+
+  @media (max-width: 480px) {
+    .link-desc { display: none; }
+  }
 </style>
 </head>
 <body>
 
-<!-- SIDEBAR -->
-<div class="sidebar">
-  <div class="sidebar-header">Pillo</div>
-  <!-- Комментарий 1 -->
-  <!-- Комментарий 2 -->
-  <!-- Комментарий 3 -->
-  <!-- Комментарий 4 -->
-  <!-- Комментарий 5 -->
-  <!-- Комментарий 6 -->
-  <!-- Комментарий 7 -->
-  <!-- Комментарий 8 -->
-  <!-- Комментарий 9 -->
-  <!-- Комментарий 10 -->
+<!-- HERO -->
+<div class="hero">
+  <h1 class="logo">Misha<span>TV</span></h1>
+  <p class="tagline">
+    Garry's Mod &nbsp;<span class="emoji">🎮</span>&nbsp; каждый день<br>
+    Подпишись — не пропусти <span class="emoji">🔔</span>
+  </p>
 </div>
 
-<!-- MAIN -->
-<div class="main">
-  <div class="topbar">
-    <div></div>
-    <div class="model-selector" id="model-selector" onclick="openModelModal()">
-      <span id="current-model">KAKAmini</span>
+<!-- ABOUT -->
+<section>
+  <div class="section-label">о канале</div>
+  <p class="about-text">
+    Всем привет — меня зовут <strong>Михаил</strong>, и я обожаю Garry's Mod <span class="emoji">❤️</span><br><br>
+    На моём канале вы найдёте видео по Garry's Mod, от которых я играю в Garry's Mod.
+    Видео на канале выходит Garry's Mod — так что <strong>подпишись и не пропусти</strong> новые Garry's Mod <span class="emoji">🎬</span>
+  </p>
+</section>
+
+<!-- VIDEOS -->
+<section>
+  <div class="section-label">видео <span class="emoji">▶️</span></div>
+
+  <div class="coming-soon">
+    <div class="video-num">01</div>
+    <div class="video-placeholder">
+      <div class="video-title">Скоро появятся видео</div>
+      <div class="video-sub">Garry's Mod · следи за обновлениями</div>
     </div>
-    <div onclick="openStyleModal()" style="cursor:pointer;color:#aaa;">Стиль: <span id="current-style">Normal</span></div>
+    <span class="badge">скоро</span>
   </div>
-
-  <div class="chat-window" id="chat-window">
-    <div class="welcome" id="welcome">
-      <h1>megush returns!</h1>
-      <p style="color:#888;margin-top:20px;">How can I help you today?</p>
+  <div class="coming-soon">
+    <div class="video-num">02</div>
+    <div class="video-placeholder">
+      <div class="video-title">Скоро появятся видео</div>
+      <div class="video-sub">Garry's Mod · следи за обновлениями</div>
     </div>
+    <span class="badge">скоро</span>
   </div>
-
-  <div class="input-area">
-    <div class="input-box">
-      <textarea id="msg-input" rows="1" placeholder="Напиши сообщение..."></textarea>
-      <button id="send-btn" style="background:none;border:none;font-size:28px;color:#777;cursor:pointer;">↑</button>
+  <div class="coming-soon">
+    <div class="video-num">03</div>
+    <div class="video-placeholder">
+      <div class="video-title">Скоро появятся видео</div>
+      <div class="video-sub">Garry's Mod · следи за обновлениями</div>
     </div>
+    <span class="badge">скоро</span>
   </div>
-</div>
+</section>
 
-<!-- STYLE MODAL -->
-<div class="modal" id="style-modal">
-  <div class="modal-content">
-    <h2 style="margin-bottom:24px;">Стиль общения</h2>
-    <div id="style-options"></div>
-    <button onclick="closeStyleModal()" style="margin-top:28px;width:100%;padding:14px;background:#222;border:none;border-radius:10px;color:white;">Готово</button>
+<!-- LINKS -->
+<section>
+  <div class="section-label">ссылки</div>
+  <div class="links">
+
+    <a class="link-row" href="https://surl.li/nktpnv" target="_blank" rel="noopener">
+      <div class="link-left">
+        <span class="link-icon">💬</span>
+        <div>
+          <div class="link-name">Discord</div>
+          <div class="link-desc">сообщество MishaTV</div>
+        </div>
+      </div>
+      <span class="link-arrow">↗</span>
+    </a>
+
+    <a class="link-row" href="https://twitch.tv/duhovkatw" target="_blank" rel="noopener">
+      <div class="link-left">
+        <span class="link-icon">📺</span>
+        <div>
+          <div class="link-name">Twitch</div>
+          <div class="link-desc">duhovkatw</div>
+        </div>
+      </div>
+      <span class="link-arrow">↗</span>
+    </a>
+
+    <a class="link-row" href="https://sunsl.vercel.app" target="_blank" rel="noopener">
+      <div class="link-left">
+        <span class="link-icon">⛏️</span>
+        <div>
+          <div class="link-name">Сервер Minecraft</div>
+          <div class="link-desc">sunsl.vercel.app</div>
+        </div>
+      </div>
+      <span class="link-arrow">↗</span>
+    </a>
+
+    <a class="link-row" href="https://www.roblox.com/communities/33497198/MetaSpace-Reloaded#!/about" target="_blank" rel="noopener">
+      <div class="link-left">
+        <span class="link-icon">🟥</span>
+        <div>
+          <div class="link-name">Roblox</div>
+          <div class="link-desc">MetaSpace Reloaded</div>
+        </div>
+      </div>
+      <span class="link-arrow">↗</span>
+    </a>
+
+    <a class="link-row" href="https://surl.li/terjfm" target="_blank" rel="noopener">
+      <div class="link-left">
+        <span class="link-icon">🔧</span>
+        <div>
+          <div class="link-name">Steam — сборка модов</div>
+          <div class="link-desc">коллекция аддонов для Garry's Mod</div>
+        </div>
+      </div>
+      <span class="link-arrow">↗</span>
+    </a>
+
   </div>
-</div>
+</section>
 
-<!-- MODEL MODAL -->
-<div class="modal" id="model-modal">
-  <div class="modal-content">
-    <h2 style="margin-bottom:24px;">Выбери модель</h2>
-    <div id="model-options"></div>
-    <button onclick="closeModelModal()" style="margin-top:28px;width:100%;padding:14px;background:#222;border:none;border-radius:10px;color:white;">Готово</button>
+<!-- DISCORD RULES -->
+<section>
+  <div class="section-label">правила Discord <span class="emoji">📋</span></div>
+
+  <div class="rules-block">
+    <div class="rules-title">Как попасть на запись</div>
+    <ul class="rules-list">
+      <li>
+        <span class="rule-num">1</span>
+        <span>Лицензионный Garry's Mod в <a href="https://store.steampowered.com/app/4000/Garrys_Mod/" target="_blank">Steam</a></span>
+      </li>
+      <li>
+        <span class="rule-num">2</span>
+        <span>Подписаться на <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3695094466" target="_blank">сборку аддонов</a></span>
+      </li>
+      <li>
+        <span class="rule-num">3</span>
+        <span>Добавить Михаила в Steam и попросить принять заявку в голосовом канале</span>
+      </li>
+      <li>
+        <span class="rule-num">4</span>
+        <span>Ждать записи — обычно <strong style="color:#aaa;font-weight:400;">18:00–21:00</strong> по Киеву <span class="emoji">🕕</span></span>
+      </li>
+    </ul>
   </div>
-</div>
 
-<script>
-// ====================== НАСТРОЙКИ ======================
-let currentStyle = "normal";
-let currentModel = "kakamini";
-let messageCount = 0;
+  <div class="rules-block">
+    <div class="rules-title">Поведение на записи / стриме</div>
+    <ul class="rules-list">
+      <li><span class="rule-num">1</span><span>Следовать инструктажу ведущего</span></li>
+      <li><span class="rule-num">2</span><span>Не портить запись и стрим</span></li>
+      <li><span class="rule-num">3</span><span>Не перебивать и уважать других участников <span class="emoji">🤝</span></span></li>
+    </ul>
+  </div>
+</section>
 
-const MAX_MESSAGES = {
-  kakamini: Infinity,
-  kakao2: 32,
-  kakagpt: 12,
-  pukmini: 25
-};
+<footer>
+  MishaTV &nbsp;·&nbsp; Garry's Mod forever &nbsp;<span class="emoji">❤️</span>
+</footer>
 
-const STYLE_NAMES = {
-  normal: "Normal",
-  daring: "Daring",
-  horrible: "Horrible",
-  pukmini: "PUKmini"
-};
-
-const MODEL_NAMES = {
-  kakamini: "KAKAmini",
-  kakao2: "KAKAo2",
-  kakagpt: "KAKAGPT-1",
-  pukmini: "PUKmini"
-};
-
-// ====================== HAS FUNCTION ======================
-function has(text, words) {
-  const t = text.toLowerCase();
-  return words.some(w => t.includes(w));
-}
-
-// ====================== БОЛЬШАЯ БАЗА ОТВЕТОВ ======================
-const DB = [
-  { check: t => has(t, ['привет','хай','hello','hi']), replies: { normal: ["Привет! Чем помочь?"], horrible: ["Ну привет, чё надо, блять?"], pukmini: ["Привеет! 🐷"] } },
-  { check: t => has(t, ['нахуй','тварь','сука','ебал','пизда','мразь','дебил']), replies: { horrible: ["Иди нахуй сам, мудила!", "Ебал я тебя в рот."] } },
-  // Добавлено много записей для длины кода
-  { check: t => has(t, ['как дела']), replies: { normal: ["Хорошо, спасибо"], horrible: ["Нормально, не ной"] } },
-  { check: t => has(t, ['кто ты']), replies: { normal: ["Я PilloAI"], horrible: ["Я тот, кто тебя выебет морально"] } },
-  // Комментарий: Здесь можно добавить ещё сотни ответов
-  // Комментарий 100
-  // Комментарий 101
-  // ... (повторяю для длины)
-];
-
-// ====================== GET RESPONSE ======================
-function getResponse(text) {
-  if (messageCount >= MAX_MESSAGES[currentModel]) {
-    return "Лимит сообщений исчерпан.";
-  }
-  return "Интересно. Расскажи подробнее.";
-}
-
-// ====================== SEND ======================
-async function sendMessage() {
-  const input = document.getElementById('msg-input');
-  const text = input.value.trim();
-  if (!text) return;
-
-  messageCount++;
-  addMessage("user", text);
-  input.value = "";
-
-  await new Promise(r => setTimeout(r, 500));
-
-  const reply = getResponse(text);
-  addMessage("ai", reply);
-}
-
-function addMessage(role, content) {
-  const container = document.getElementById('chat-window');
-  const div = document.createElement('div');
-  div.className = `message ${role}`;
-  div.innerHTML = `<div class="bubble">${content}</div>`;
-  container.appendChild(div);
-  container.scrollTop = container.scrollHeight;
-}
-
-// ====================== MODALS ======================
-function openStyleModal() {
-  const container = document.getElementById('style-options');
-  container.innerHTML = '';
-  Object.keys(STYLE_NAMES).forEach(key => {
-    const div = document.createElement('div');
-    div.className = `option ${currentStyle === key ? 'selected' : ''}`;
-    div.textContent = STYLE_NAMES[key];
-    div.onclick = () => {
-      currentStyle = key;
-      document.getElementById('current-style').textContent = STYLE_NAMES[key];
-      document.getElementById('style-modal').style.display = 'none';
-    };
-    container.appendChild(div);
-  });
-  document.getElementById('style-modal').style.display = 'flex';
-}
-
-function openModelModal() {
-  const container = document.getElementById('model-options');
-  container.innerHTML = '';
-  Object.keys(MODEL_NAMES).forEach(key => {
-    const div = document.createElement('div');
-    div.className = `option ${currentModel === key ? 'selected' : ''}`;
-    div.textContent = MODEL_NAMES[key];
-    div.onclick = () => {
-      currentModel = key;
-      messageCount = 0;
-      document.getElementById('current-model').textContent = MODEL_NAMES[key];
-      document.getElementById('model-modal').style.display = 'none';
-    };
-    container.appendChild(div);
-  });
-  document.getElementById('model-modal').style.display = 'flex';
-}
-
-function closeStyleModal() { document.getElementById('style-modal').style.display = 'none'; }
-function closeModelModal() { document.getElementById('model-modal').style.display = 'none'; }
-
-// ====================== INIT ======================
-document.getElementById('send-btn').addEventListener('click', sendMessage);
-document.getElementById('msg-input').addEventListener('keydown', e => {
-  if (e.key === 'Enter' && !e.shiftKey) {
-    e.preventDefault();
-    sendMessage();
-  }
-});
-
-document.getElementById('current-style').textContent = STYLE_NAMES[currentStyle];
-document.getElementById('current-model').textContent = MODEL_NAMES[currentModel];
-</script>
 </body>
 </html>
