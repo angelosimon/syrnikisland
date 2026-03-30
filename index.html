@@ -6,194 +6,153 @@
 <title>MishaTV</title>
 <link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@400;700;900&family=Inter:wght@300;400&display=swap" rel="stylesheet">
 <style>
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
   body {
-    background: var(--bg, #0a0a0a);
-    color: var(--fg, #f0f0f0);
-    font-family: 'Inter', sans-serif;
-    font-weight: 300;
-    min-height: 100vh;
-    overflow-x: hidden;
-    transition: background 0.3s, color 0.3s;
+    font-family:'Inter', sans-serif; font-weight:300;
+    background:#0a0a0a; color:#f0f0f0; min-height:100vh; overflow-x:hidden;
   }
 
-  /* ===== HERO ===== */
+  :root {
+    --bg:#0a0a0a;
+    --fg:#f0f0f0;
+    --dim:#555;
+    --accent:#ff3c3c;
+    --border:#1e1e1e;
+  }
+
+  /* ===== Hero ===== */
   .hero {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 100vh;
-    text-align: center;
-    padding: 40px 20px;
-    position: relative;
-    animation: fadeUp 1s ease forwards;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    min-height:100vh; padding:60px 24px; text-align:center; position:relative;
+    overflow:hidden;
   }
+  .logo { 
+    font-family:'Unbounded', sans-serif; font-weight:900; font-size:clamp(56px,14vw,120px);
+    letter-spacing:-0.04em; margin-bottom:32px; color:var(--fg);
+    animation:fadeUp 0.8s ease both;
+  }
+  .logo span { color:var(--accent); }
+  .tagline { font-size:clamp(13px,2vw,16px); color:var(--dim); letter-spacing:0.25em; text-transform:uppercase; max-width:400px; line-height:1.8; animation:fadeUp 0.8s ease 0.15s both; }
 
-  .logo {
-    font-family: 'Unbounded', sans-serif;
-    font-weight: 900;
-    font-size: clamp(56px, 12vw, 120px);
-    letter-spacing: -0.03em;
-    margin-bottom: 16px;
-    color: #ff4f70;
-  }
-  .logo span { color: #ffd670; }
+  /* ===== Sections ===== */
+  section { max-width:800px; margin:0 auto; padding:80px 24px; border-top:1px solid var(--border); animation:fadeUp 0.8s ease both; }
+  .section-label { font-family:'Unbounded', sans-serif; font-size:10px; letter-spacing:0.3em; text-transform:uppercase; color:var(--dim); margin-bottom:28px; }
 
-  .tagline {
-    font-size: clamp(14px, 2vw, 18px);
-    color: #ccc;
-    line-height: 1.6;
-    letter-spacing: 0.1em;
-  }
+  .about-text { font-size:15px; line-height:1.9; color:#bbb; }
+  .about-text strong { color:var(--fg); }
 
-  /* ===== SECTIONS ===== */
-  section {
-    max-width: 900px;
-    margin: 0 auto;
-    padding: 60px 20px;
-    border-top: 1px solid #222;
-    animation: fadeUp 0.8s ease forwards;
-  }
-  .section-label {
-    font-family: 'Unbounded', sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #888;
-    margin-bottom: 24px;
-  }
-  .about-text { font-size: 16px; line-height: 1.8; color: #bbb; }
-  .about-text strong { color: #fff; }
-
-  /* ===== VIDEO TABS ===== */
-  .video-tabs { display: flex; gap: 10px; margin-bottom: 24px; }
+  /* ===== Tabs ===== */
+  .video-tabs { display:flex; gap:0; margin-bottom:32px; border-bottom:1px solid var(--border); }
   .tab-btn {
-    padding: 10px 16px;
-    background: #111;
-    border: 1px solid #333;
-    border-radius: 6px;
-    color: #aaa;
-    font-family: 'Unbounded', sans-serif;
-    font-size: 12px;
-    cursor: pointer;
-    transition: all 0.3s;
+    background:none; border:none; color:var(--dim); font-family:'Unbounded', sans-serif;
+    font-size:10px; letter-spacing:0.2em; text-transform:uppercase; padding:12px 24px 12px 0;
+    cursor:pointer; position:relative; transition:color 0.2s;
   }
-  .tab-btn.active {
-    background: #ff4f70;
-    color: #fff;
-    border-color: #ff4f70;
+  .tab-btn.active { color:var(--accent); }
+  .tab-btn::after {
+    content:''; position:absolute; bottom:-1px; left:0; right:0; height:2px; background:var(--accent);
+    transform:scaleX(0); transform-origin:left; transition:transform 0.25s;
   }
+  .tab-btn.active::after { transform:scaleX(1); }
 
-  .tab-panel { display: none; }
-  .tab-panel.active { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
+  .tab-panel { display:none; animation:fadeUp 0.5s ease both; }
+  .tab-panel.active { display:grid; grid-template-columns:1fr 1fr; gap:24px; }
+  @media(max-width:560px) { .tab-panel.active { grid-template-columns:1fr; } }
 
-  .video-card {
-    background: #111;
-    border: 1px solid #222;
-    border-radius: 8px;
-    overflow: hidden;
-    transition: transform 0.3s, box-shadow 0.3s;
-  }
-  .video-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(255,79,112,0.4); }
+  .video-card { display:flex; flex-direction:column; gap:12px; background:#111; border-radius:10px; overflow:hidden; box-shadow:0 4px 12px rgba(0,0,0,0.6); transition:transform 0.2s; }
+  .video-card:hover { transform:scale(1.02); }
 
-  .local-wrap video {
-    width: 100%;
-    height: auto;
-    display: block;
-  }
+  .embed-wrap, .local-wrap { position:relative; padding-bottom:56.25%; overflow:hidden; }
+  .embed-wrap iframe, .local-wrap video { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; border:none; }
 
-  .v-badge { background: #ff4f70; color: #fff; font-size: 10px; padding: 2px 6px; border-radius: 4px; display: inline-block; margin: 6px; }
-  .v-title { font-size: 14px; color: #fff; margin: 6px; font-weight: 500; }
-  .v-date { font-size: 12px; color: #aaa; margin: 0 6px 10px; }
+  .yt-thumb { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
+  .play-overlay { position:absolute; inset:0; display:flex; align-items:center; justify-content:center; background:rgba(0,0,0,0.3); cursor:pointer; transition:background 0.2s; }
+  .play-overlay:hover { background:rgba(0,0,0,0.1); }
+  .play-circle { width:52px; height:52px; background:var(--fg); border-radius:50%; display:flex; align-items:center; justify-content:center; transition:transform 0.2s; }
+  .play-overlay:hover .play-circle { transform:scale(1.1); }
+  .play-circle svg { fill:var(--bg); width:20px; height:20px; margin-left:2px; }
 
-  /* ===== SETTINGS PANEL ===== */
+  .v-badge { font-size:9px; letter-spacing:0.15em; color:var(--accent); border:1px solid var(--accent); padding:3px 8px; border-radius:4px; margin-bottom:6px; display:inline-block; }
+  .v-title { font-size:14px; color:#ccc; line-height:1.5; margin-bottom:4px; }
+  .v-date { font-size:11px; color:var(--dim); letter-spacing:0.06em; }
+
+  /* ===== Settings Button ===== */
   .settings-btn {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: #ff4f70;
-    border: none;
-    padding: 12px 16px;
-    color: #fff;
-    font-size: 16px;
-    border-radius: 50%;
-    cursor: pointer;
-    z-index: 1000;
-    transition: transform 0.2s;
+    position:fixed; top:20px; right:20px; padding:10px 16px; background:var(--accent); border:none; color:#0a0a0a; font-weight:700; border-radius:6px; cursor:pointer;
+    transition:transform 0.2s, background 0.2s; z-index:999;
   }
-  .settings-btn:hover { transform: scale(1.1); }
+  .settings-btn:hover { transform:scale(1.1); background:#ff1a1a; }
 
-  .settings-panel {
-    position: fixed;
-    bottom: 80px;
-    right: 30px;
-    background: #111;
-    border: 1px solid #222;
-    border-radius: 10px;
-    padding: 16px;
-    display: none;
-    flex-direction: column;
-    gap: 10px;
-    z-index: 1000;
-  }
-  .settings-panel.active { display: flex; }
+  /* ===== Animations ===== */
+  @keyframes fadeUp { from{opacity:0; transform:translateY(20px);} to{opacity:1; transform:translateY(0);} }
 
-  .theme-btn {
-    padding: 6px 10px;
-    border: 1px solid #333;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 12px;
-    color: #aaa;
-    transition: all 0.3s;
-  }
-  .theme-btn:hover { background: #ff4f70; color: #fff; border-color: #ff4f70; }
-
-  footer {
-    text-align: center;
-    padding: 60px 20px;
-    font-size: 12px;
-    color: #888;
-    border-top: 1px solid #222;
-  }
-
-  @keyframes fadeUp { from {opacity:0; transform:translateY(20px);} to {opacity:1; transform:translateY(0);} }
 </style>
 </head>
 <body>
 
 <div class="hero">
   <h1 class="logo">Misha<span>TV</span></h1>
-  <p class="tagline">Видео каждый день 🎮<br>Не пропусти новые выпуски 🔔</p>
+  <p class="tagline">Garry's Mod &nbsp;<span>🎮</span>&nbsp; каждый день<br>Подпишись — не пропусти <span>🔔</span></p>
 </div>
 
 <section>
   <div class="section-label">о канале</div>
   <p class="about-text">
-    Привет! Меня зовут <strong>Михаил</strong>. Я люблю Garry's Mod ❤️<br>
-    Здесь вы найдете видео по Garry's Mod, смешные моменты и геймплей. <strong>Подписывайся!</strong>
+    Всем привет — меня зовут <strong>Михаил</strong> <span>❤️</span><br>
+    На моём канале вы найдёте видео по Garry's Mod, от которых хочется играть ещё больше!<br>
+    Подпишись, чтобы не пропустить новые видео <span>🎬</span>
   </p>
 </section>
 
 <section>
-  <div class="section-label">видео</div>
+  <div class="section-label">видео <span>▶️</span></div>
   <div class="video-tabs">
-    <button class="tab-btn active" onclick="switchTab(this,'site')">Видео с сайта</button>
-    <button class="tab-btn" onclick="switchTab(this,'yt')">Видео на YouTube</button>
+    <button class="tab-btn active" onclick="switchTab(this,'yt')">YouTube</button>
+    <button class="tab-btn" onclick="switchTab(this,'site')">С сайта</button>
   </div>
 
-  <div class="tab-panel active" id="tab-site">
+  <div class="tab-panel active" id="tab-yt">
+    <div class="video-card">
+      <div class="embed-wrap" id="yw1">
+        <img class="yt-thumb" src="https://img.youtube.com/vi/C7871CTaccc/hqdefault.jpg" alt="">
+        <button class="play-overlay" onclick="loadYT('yw1','C7871CTaccc')">
+          <span class="play-circle"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></span>
+        </button>
+      </div>
+      <div>
+        <div class="v-badge">новое</div>
+        <div class="v-title">Garry's Mod</div>
+        <div class="v-date">30 марта 2026</div>
+      </div>
+    </div>
+
+    <div class="video-card">
+      <div class="embed-wrap" id="yw2">
+        <img class="yt-thumb" src="https://img.youtube.com/vi/Z06YG9b1oyE/hqdefault.jpg" alt="">
+        <button class="play-overlay" onclick="loadYT('yw2','Z06YG9b1oyE')">
+          <span class="play-circle"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></span>
+        </button>
+      </div>
+      <div>
+        <div class="v-title">Garry's Mod</div>
+        <div class="v-date">29 марта 2026</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tab-panel" id="tab-site">
     <div class="video-card">
       <div class="local-wrap">
         <video controls preload="metadata">
           <source src="Videos/tuleni1.mp4" type="video/mp4">
         </video>
       </div>
-      <div class="v-badge">новое</div>
-      <div class="v-title">Тюлени</div>
-      <div class="v-date">30 марта 2026</div>
+      <div>
+        <div class="v-badge">новое</div>
+        <div class="v-title">Garry's Mod · тюлени</div>
+        <div class="v-date">30 марта 2026</div>
+      </div>
     </div>
 
     <div class="video-card">
@@ -202,39 +161,15 @@
           <source src="Videos/ohranik1.mp4" type="video/mp4">
         </video>
       </div>
-      <div class="v-title">Охранник</div>
-      <div class="v-date">29 марта 2026</div>
-    </div>
-  </div>
-
-  <div class="tab-panel" id="tab-yt">
-    <div class="video-card">
-      <div class="local-wrap">
-        <iframe src="https://www.youtube.com/embed/C7871CTaccc" allowfullscreen></iframe>
+      <div>
+        <div class="v-title">Garry's Mod · охранник</div>
+        <div class="v-date">29 марта 2026</div>
       </div>
-      <div class="v-badge">новое</div>
-      <div class="v-title">Garry's Mod</div>
-      <div class="v-date">30 марта 2026</div>
-    </div>
-    <div class="video-card">
-      <div class="local-wrap">
-        <iframe src="https://www.youtube.com/embed/Z06YG9b1oyE" allowfullscreen></iframe>
-      </div>
-      <div class="v-title">Garry's Mod</div>
-      <div class="v-date">29 марта 2026</div>
     </div>
   </div>
 </section>
 
-<button class="settings-btn" onclick="document.querySelector('.settings-panel').classList.toggle('active')">⚙️</button>
-<div class="settings-panel">
-  <div>Тема:</div>
-  <button class="theme-btn" onclick="setTheme('dark')">Темная</button>
-  <button class="theme-btn" onclick="setTheme('light')">Светлая</button>
-  <button class="theme-btn" onclick="setTheme('pink')">Розовая</button>
-</div>
-
-<footer>MishaTV · Garry's Mod forever ❤️</footer>
+<button class="settings-btn" onclick="alert('Настройки пока в разработке 😎')">⚙️ Настройки</button>
 
 <script>
 function switchTab(btn,id){
@@ -244,18 +179,17 @@ function switchTab(btn,id){
   document.getElementById('tab-'+id).classList.add('active');
 }
 
-function setTheme(theme){
-  if(theme==='dark'){
-    document.documentElement.style.setProperty('--bg','#0a0a0a');
-    document.documentElement.style.setProperty('--fg','#f0f0f0');
-  } else if(theme==='light'){
-    document.documentElement.style.setProperty('--bg','#f0f0f0');
-    document.documentElement.style.setProperty('--fg','#111');
-  } else if(theme==='pink'){
-    document.documentElement.style.setProperty('--bg','#1b001b');
-    document.documentElement.style.setProperty('--fg','#ffccff');
-  }
+function loadYT(wrapId,videoId){
+  const wrap=document.getElementById(wrapId);
+  wrap.querySelector('.yt-thumb')?.remove();
+  wrap.querySelector('.play-overlay')?.remove();
+  const iframe=document.createElement('iframe');
+  iframe.src='https://www.youtube.com/embed/'+videoId+'?autoplay=1';
+  iframe.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+  iframe.allowFullscreen=true;
+  wrap.appendChild(iframe);
 }
 </script>
+
 </body>
 </html>
