@@ -12,7 +12,6 @@
     --bg: #0a0a0a;
     --fg: #f0f0f0;
     --dim: #555;
-    --accent: #f0f0f0;
     --border: #1e1e1e;
   }
 
@@ -27,7 +26,6 @@
     overflow-x: hidden;
   }
 
-  /* Noise texture overlay */
   body::before {
     content: '';
     position: fixed;
@@ -38,7 +36,6 @@
     opacity: 0.4;
   }
 
-  /* HERO */
   .hero {
     display: flex;
     flex-direction: column;
@@ -71,9 +68,7 @@
     animation: fadeUp 0.8s ease both;
   }
 
-  .logo span {
-    color: var(--dim);
-  }
+  .logo span { color: var(--dim); }
 
   .tagline {
     font-size: clamp(13px, 2vw, 15px);
@@ -85,16 +80,14 @@
     animation: fadeUp 0.8s ease 0.15s both;
   }
 
-  /* EMOJI — черно-белые через filter */
   .emoji {
     font-style: normal;
     filter: grayscale(1) contrast(0.7);
     display: inline-block;
   }
 
-  /* SECTION */
   section {
-    max-width: 640px;
+    max-width: 720px;
     margin: 0 auto;
     padding: 80px 24px;
     border-top: 1px solid var(--border);
@@ -110,73 +103,148 @@
     margin-bottom: 28px;
   }
 
-  /* ABOUT */
-  .about-text {
-    font-size: 15px;
-    line-height: 1.9;
-    color: #bbb;
-  }
+  .about-text { font-size: 15px; line-height: 1.9; color: #bbb; }
+  .about-text strong { color: var(--fg); font-weight: 400; }
 
-  .about-text strong {
-    color: var(--fg);
-    font-weight: 400;
-  }
-
-  /* VIDEOS */
-  .coming-soon {
+  /* ===== TABS ===== */
+  .video-tabs {
     display: flex;
-    align-items: center;
-    gap: 16px;
-    padding: 28px 0;
+    gap: 0;
+    margin-bottom: 32px;
     border-bottom: 1px solid var(--border);
   }
 
-  .coming-soon:first-of-type {
-    border-top: 1px solid var(--border);
-    margin-top: 8px;
-  }
-
-  .video-num {
+  .tab-btn {
+    background: none;
+    border: none;
+    color: var(--dim);
     font-family: 'Unbounded', sans-serif;
-    font-size: 11px;
-    color: var(--dim);
-    width: 24px;
-    flex-shrink: 0;
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 12px 24px 12px 0;
+    cursor: pointer;
+    position: relative;
+    transition: color 0.2s;
   }
 
-  .video-placeholder {
-    flex: 1;
+  .tab-btn::after {
+    content: '';
+    position: absolute;
+    bottom: -1px;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: var(--fg);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.25s;
   }
 
-  .video-title {
-    font-size: 14px;
-    color: #888;
-    margin-bottom: 4px;
+  .tab-btn.active { color: var(--fg); }
+  .tab-btn.active::after { transform: scaleX(1); }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  /* ===== VIDEO GRID ===== */
+  .video-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
   }
 
-  .video-sub {
-    font-size: 11px;
-    color: var(--dim);
-    letter-spacing: 0.1em;
+  @media (max-width: 560px) { .video-grid { grid-template-columns: 1fr; } }
+
+  .video-card { display: flex; flex-direction: column; gap: 12px; }
+
+  /* YouTube embed */
+  .embed-wrap {
+    position: relative;
+    padding-bottom: 56.25%;
+    background: #111;
+    border: 1px solid var(--border);
+    overflow: hidden;
   }
 
-  .badge {
-    font-size: 10px;
+  .embed-wrap iframe {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
+
+  .yt-thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .play-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0,0,0,0.25);
+    border: none;
+    cursor: pointer;
+    transition: background 0.2s;
+    width: 100%;
+  }
+
+  .play-overlay:hover { background: rgba(0,0,0,0.1); }
+
+  .play-circle {
+    width: 52px;
+    height: 52px;
+    background: rgba(240,240,240,0.92);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s;
+  }
+
+  .play-overlay:hover .play-circle { transform: scale(1.08); }
+
+  .play-circle svg { fill: #0a0a0a; width: 18px; height: 18px; margin-left: 3px; }
+
+  /* Local video */
+  .local-wrap {
+    background: #111;
+    border: 1px solid var(--border);
+    overflow: hidden;
+  }
+
+  .local-wrap video {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16/9;
+    object-fit: cover;
+  }
+
+  /* Meta */
+  .v-badge {
+    display: inline-block;
+    font-size: 9px;
     letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--dim);
     border: 1px solid var(--border);
-    padding: 4px 10px;
+    padding: 3px 8px;
     border-radius: 2px;
-    white-space: nowrap;
+    margin-bottom: 6px;
   }
 
+  .v-title { font-size: 13px; color: #ccc; line-height: 1.5; margin-bottom: 4px; }
+  .v-date { font-size: 11px; color: var(--dim); letter-spacing: 0.06em; }
+
   /* LINKS */
-  .links {
-    display: flex;
-    flex-direction: column;
-    gap: 0;
-  }
+  .links { display: flex; flex-direction: column; }
 
   .link-row {
     display: flex;
@@ -186,107 +254,29 @@
     border-bottom: 1px solid var(--border);
     text-decoration: none;
     color: inherit;
-    transition: color 0.2s;
     gap: 16px;
   }
 
-  .link-row:first-child {
-    border-top: 1px solid var(--border);
-    margin-top: 8px;
-  }
-
-  .link-row:hover { color: var(--fg); }
+  .link-row:first-child { border-top: 1px solid var(--border); margin-top: 8px; }
   .link-row:hover .link-name { color: var(--fg); }
   .link-row:hover .link-arrow { transform: translate(4px, -4px); }
 
-  .link-left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .link-icon {
-    font-size: 18px;
-    width: 28px;
-    text-align: center;
-    filter: grayscale(1) contrast(0.6);
-  }
-
-  .link-name {
-    font-size: 14px;
-    color: #aaa;
-    transition: color 0.2s;
-  }
-
-  .link-desc {
-    font-size: 11px;
-    color: var(--dim);
-    margin-top: 2px;
-    letter-spacing: 0.05em;
-  }
-
-  .link-arrow {
-    font-size: 14px;
-    color: var(--dim);
-    transition: transform 0.25s ease;
-    flex-shrink: 0;
-  }
+  .link-left { display: flex; align-items: center; gap: 16px; }
+  .link-icon { font-size: 18px; width: 28px; text-align: center; filter: grayscale(1) contrast(0.6); }
+  .link-name { font-size: 14px; color: #aaa; transition: color 0.2s; }
+  .link-desc { font-size: 11px; color: var(--dim); margin-top: 2px; }
+  .link-arrow { font-size: 14px; color: var(--dim); transition: transform 0.25s ease; flex-shrink: 0; }
 
   /* RULES */
-  .rules-block {
-    margin-bottom: 36px;
-  }
+  .rules-block { margin-bottom: 36px; }
+  .rules-title { font-family: 'Unbounded', sans-serif; font-size: 11px; letter-spacing: 0.2em; text-transform: uppercase; color: #888; margin-bottom: 16px; }
+  .rules-list { list-style: none; display: flex; flex-direction: column; gap: 12px; }
+  .rules-list li { display: flex; gap: 14px; font-size: 13px; line-height: 1.7; color: #888; }
+  .rule-num { font-family: 'Unbounded', sans-serif; font-size: 10px; color: var(--dim); flex-shrink: 0; margin-top: 3px; width: 16px; }
+  .rules-list a { color: #aaa; text-decoration: underline; text-underline-offset: 3px; }
 
-  .rules-title {
-    font-family: 'Unbounded', sans-serif;
-    font-size: 11px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: #888;
-    margin-bottom: 16px;
-  }
+  footer { text-align: center; padding: 60px 24px 80px; font-size: 11px; color: var(--dim); letter-spacing: 0.15em; border-top: 1px solid var(--border); }
 
-  .rules-list {
-    list-style: none;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .rules-list li {
-    display: flex;
-    gap: 14px;
-    font-size: 13px;
-    line-height: 1.7;
-    color: #888;
-  }
-
-  .rule-num {
-    font-family: 'Unbounded', sans-serif;
-    font-size: 10px;
-    color: var(--dim);
-    flex-shrink: 0;
-    margin-top: 3px;
-    width: 16px;
-  }
-
-  .rules-list a {
-    color: #aaa;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-  }
-
-  /* FOOTER */
-  footer {
-    text-align: center;
-    padding: 60px 24px 80px;
-    font-size: 11px;
-    color: var(--dim);
-    letter-spacing: 0.15em;
-    border-top: 1px solid var(--border);
-  }
-
-  /* ANIMATIONS */
   @keyframes fadeUp {
     from { opacity: 0; transform: translateY(20px); }
     to   { opacity: 1; transform: translateY(0); }
@@ -297,14 +287,11 @@
   section:nth-child(4) { animation-delay: 0.15s; }
   section:nth-child(5) { animation-delay: 0.2s; }
 
-  @media (max-width: 480px) {
-    .link-desc { display: none; }
-  }
+  @media (max-width: 480px) { .link-desc { display: none; } }
 </style>
 </head>
 <body>
 
-<!-- HERO -->
 <div class="hero">
   <h1 class="logo">Misha<span>TV</span></h1>
   <p class="tagline">
@@ -313,7 +300,6 @@
   </p>
 </div>
 
-<!-- ABOUT -->
 <section>
   <div class="section-label">о канале</div>
   <p class="about-text">
@@ -323,37 +309,85 @@
   </p>
 </section>
 
-<!-- VIDEOS -->
 <section>
   <div class="section-label">видео <span class="emoji">▶️</span></div>
 
-  <div class="coming-soon">
-    <div class="video-num">01</div>
-    <div class="video-placeholder">
-      <div class="video-title">Скоро появятся видео</div>
-      <div class="video-sub">Garry's Mod · следи за обновлениями</div>
-    </div>
-    <span class="badge">скоро</span>
+  <div class="video-tabs">
+    <button class="tab-btn active" onclick="switchTab(this,'yt')">Видео на YouTube</button>
+    <button class="tab-btn" onclick="switchTab(this,'site')">Видео с сайта MishaTV</button>
   </div>
-  <div class="coming-soon">
-    <div class="video-num">02</div>
-    <div class="video-placeholder">
-      <div class="video-title">Скоро появятся видео</div>
-      <div class="video-sub">Garry's Mod · следи за обновлениями</div>
+
+  <!-- YOUTUBE -->
+  <div class="tab-panel active" id="tab-yt">
+    <div class="video-grid">
+
+      <div class="video-card">
+        <div class="embed-wrap" id="yw1">
+          <img class="yt-thumb" src="https://img.youtube.com/vi/C7871CTaccc/hqdefault.jpg" alt="">
+          <button class="play-overlay" onclick="loadYT('yw1','C7871CTaccc')">
+            <span class="play-circle">
+              <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            </span>
+          </button>
+        </div>
+        <div>
+          <div class="v-badge">новое</div>
+          <div class="v-title">Garry's Mod</div>
+          <div class="v-date">30 марта 2026</div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="embed-wrap" id="yw2">
+          <img class="yt-thumb" src="https://img.youtube.com/vi/Z06YG9b1oyE/hqdefault.jpg" alt="">
+          <button class="play-overlay" onclick="loadYT('yw2','Z06YG9b1oyE')">
+            <span class="play-circle">
+              <svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg>
+            </span>
+          </button>
+        </div>
+        <div>
+          <div class="v-title">Garry's Mod</div>
+          <div class="v-date">29 марта 2026</div>
+        </div>
+      </div>
+
     </div>
-    <span class="badge">скоро</span>
   </div>
-  <div class="coming-soon">
-    <div class="video-num">03</div>
-    <div class="video-placeholder">
-      <div class="video-title">Скоро появятся видео</div>
-      <div class="video-sub">Garry's Mod · следи за обновлениями</div>
+
+  <!-- SITE VIDEOS -->
+  <div class="tab-panel" id="tab-site">
+    <div class="video-grid">
+
+      <div class="video-card">
+        <div class="local-wrap">
+          <video controls preload="metadata">
+            <source src="Videos/tuleni1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div>
+          <div class="v-badge">новое</div>
+          <div class="v-title">Garry's Mod · тюлени</div>
+          <div class="v-date">30 марта 2026</div>
+        </div>
+      </div>
+
+      <div class="video-card">
+        <div class="local-wrap">
+          <video controls preload="metadata">
+            <source src="Videos/ohranik1.mp4" type="video/mp4">
+          </video>
+        </div>
+        <div>
+          <div class="v-title">Garry's Mod · охранник</div>
+          <div class="v-date">29 марта 2026</div>
+        </div>
+      </div>
+
     </div>
-    <span class="badge">скоро</span>
   </div>
 </section>
 
-<!-- LINKS -->
 <section>
   <div class="section-label">ссылки</div>
   <div class="links">
@@ -361,10 +395,7 @@
     <a class="link-row" href="https://surl.li/nktpnv" target="_blank" rel="noopener">
       <div class="link-left">
         <span class="link-icon">💬</span>
-        <div>
-          <div class="link-name">Discord</div>
-          <div class="link-desc">сообщество MishaTV</div>
-        </div>
+        <div><div class="link-name">Discord</div><div class="link-desc">сообщество MishaTV</div></div>
       </div>
       <span class="link-arrow">↗</span>
     </a>
@@ -372,10 +403,7 @@
     <a class="link-row" href="https://twitch.tv/duhovkatw" target="_blank" rel="noopener">
       <div class="link-left">
         <span class="link-icon">📺</span>
-        <div>
-          <div class="link-name">Twitch</div>
-          <div class="link-desc">duhovkatw</div>
-        </div>
+        <div><div class="link-name">Twitch</div><div class="link-desc">duhovkatw</div></div>
       </div>
       <span class="link-arrow">↗</span>
     </a>
@@ -383,10 +411,7 @@
     <a class="link-row" href="https://sunsl.vercel.app" target="_blank" rel="noopener">
       <div class="link-left">
         <span class="link-icon">⛏️</span>
-        <div>
-          <div class="link-name">Сервер Minecraft</div>
-          <div class="link-desc">sunsl.vercel.app</div>
-        </div>
+        <div><div class="link-name">Сервер Minecraft</div><div class="link-desc">sunsl.vercel.app</div></div>
       </div>
       <span class="link-arrow">↗</span>
     </a>
@@ -394,10 +419,7 @@
     <a class="link-row" href="https://www.roblox.com/communities/33497198/MetaSpace-Reloaded#!/about" target="_blank" rel="noopener">
       <div class="link-left">
         <span class="link-icon">🟥</span>
-        <div>
-          <div class="link-name">Roblox</div>
-          <div class="link-desc">MetaSpace Reloaded</div>
-        </div>
+        <div><div class="link-name">Roblox</div><div class="link-desc">MetaSpace Reloaded</div></div>
       </div>
       <span class="link-arrow">↗</span>
     </a>
@@ -405,10 +427,7 @@
     <a class="link-row" href="https://surl.li/terjfm" target="_blank" rel="noopener">
       <div class="link-left">
         <span class="link-icon">🔧</span>
-        <div>
-          <div class="link-name">Steam — сборка модов</div>
-          <div class="link-desc">коллекция аддонов для Garry's Mod</div>
-        </div>
+        <div><div class="link-name">Steam — сборка модов</div><div class="link-desc">коллекция аддонов для Garry's Mod</div></div>
       </div>
       <span class="link-arrow">↗</span>
     </a>
@@ -416,29 +435,16 @@
   </div>
 </section>
 
-<!-- DISCORD RULES -->
 <section>
   <div class="section-label">правила Discord <span class="emoji">📋</span></div>
 
   <div class="rules-block">
     <div class="rules-title">Как попасть на запись</div>
     <ul class="rules-list">
-      <li>
-        <span class="rule-num">1</span>
-        <span>Лицензионный Garry's Mod в <a href="https://store.steampowered.com/app/4000/Garrys_Mod/" target="_blank">Steam</a></span>
-      </li>
-      <li>
-        <span class="rule-num">2</span>
-        <span>Подписаться на <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3695094466" target="_blank">сборку аддонов</a></span>
-      </li>
-      <li>
-        <span class="rule-num">3</span>
-        <span>Добавить Михаила в Steam и попросить принять заявку в голосовом канале</span>
-      </li>
-      <li>
-        <span class="rule-num">4</span>
-        <span>Ждать записи — обычно <strong style="color:#aaa;font-weight:400;">18:00–21:00</strong> по Киеву <span class="emoji">🕕</span></span>
-      </li>
+      <li><span class="rule-num">1</span><span>Лицензионный Garry's Mod в <a href="https://store.steampowered.com/app/4000/Garrys_Mod/" target="_blank">Steam</a></span></li>
+      <li><span class="rule-num">2</span><span>Подписаться на <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3695094466" target="_blank">сборку аддонов</a></span></li>
+      <li><span class="rule-num">3</span><span>Добавить Михаила в Steam и попросить принять заявку в голосовом канале</span></li>
+      <li><span class="rule-num">4</span><span>Ждать записи — обычно <strong style="color:#aaa;font-weight:400;">18:00–21:00</strong> по Киеву <span class="emoji">🕕</span></span></li>
     </ul>
   </div>
 
@@ -456,5 +462,25 @@
   MishaTV &nbsp;·&nbsp; Garry's Mod forever &nbsp;<span class="emoji">❤️</span>
 </footer>
 
+<script>
+  function switchTab(btn, id) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + id).classList.add('active');
+  }
+
+  function loadYT(wrapId, videoId) {
+    const wrap = document.getElementById(wrapId);
+    wrap.querySelector('.yt-thumb').remove();
+    wrap.querySelector('.play-overlay').remove();
+    const iframe = document.createElement('iframe');
+    iframe.src = 'https://www.youtube.com/embed/' + videoId + '?autoplay=1';
+    iframe.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    iframe.allowFullscreen = true;
+    iframe.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none;';
+    wrap.appendChild(iframe);
+  }
+</script>
 </body>
 </html>
