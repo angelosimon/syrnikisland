@@ -1,528 +1,488 @@
 <!DOCTYPE html>
-<html lang="ru" data-theme="dark">
+<html lang="ru">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MishaTV</title>
-<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@700;900&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<title>Durev VPN</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
-* { margin: 0; padding: 0; box-sizing: border-box; }
+  :root {
+    --bg-dark-blue: #000066;
+    --bg-light-blue: #004b9b;
+    --btn-green: #00ff00;
+    --text-white: #ffffff;
+    --text-black: #000000;
+    --pixel-font: 'Press Start 2P', monospace;
+    --main-font: 'Roboto', sans-serif;
+  }
 
-[data-theme="dark"] {
-  --bg: #0e0e12;
-  --bg2: #16161e;
-  --fg: #e8e8f0;
-  --fg2: #7878a0;
-  --dim: #303048;
-  --border: #1e1e2c;
-  --accent: #a78bfa;
-  --glow: rgba(167,139,250,0.1);
-  --ov: linear-gradient(to bottom, rgba(14,14,18,0.1) 0%, rgba(14,14,18,0.65) 50%, #0e0e12 100%);
-}
-[data-theme="light"] {
-  --bg: #f4f3fc;
-  --bg2: #eceaf8;
-  --fg: #18182a;
-  --fg2: #6060a0;
-  --dim: #c0c0e0;
-  --border: #d8d6f0;
-  --accent: #7c3aed;
-  --glow: rgba(124,58,237,0.08);
-  --ov: linear-gradient(to bottom, rgba(244,243,252,0.05) 0%, rgba(244,243,252,0.7) 50%, #f4f3fc 100%);
-}
-[data-theme="ocean"] {
-  --bg: #07101e;
-  --bg2: #0c1a2e;
-  --fg: #d8f0ff;
-  --fg2: #4a8aaa;
-  --dim: #153050;
-  --border: #0c2040;
-  --accent: #38bdf8;
-  --glow: rgba(56,189,248,0.1);
-  --ov: linear-gradient(to bottom, rgba(7,16,30,0.1) 0%, rgba(7,16,30,0.7) 50%, #07101e 100%);
-}
-[data-theme="ember"] {
-  --bg: #120a06;
-  --bg2: #1e1008;
-  --fg: #fff0e4;
-  --fg2: #a06848;
-  --dim: #3a1a08;
-  --border: #2c1206;
-  --accent: #fb923c;
-  --glow: rgba(251,146,60,0.1);
-  --ov: linear-gradient(to bottom, rgba(18,10,6,0.1) 0%, rgba(18,10,6,0.7) 50%, #120a06 100%);
-}
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
 
-html { scroll-behavior: smooth; }
-body {
-  background: var(--bg);
-  color: var(--fg);
-  font-family: 'Inter', sans-serif;
-  font-weight: 300;
-  line-height: 1.6;
-  transition: background 0.3s, color 0.3s;
-}
+  body {
+    font-family: var(--main-font);
+    background-color: var(--bg-dark-blue);
+    color: var(--text-white);
+    overflow-x: hidden;
+  }
 
-/* THEMES */
-.themes {
-  position: fixed; top: 16px; right: 16px; z-index: 999;
-  display: flex; gap: 5px;
-  background: var(--bg2); border: 1px solid var(--border);
-  padding: 5px 7px; border-radius: 30px;
-  transition: background 0.3s, border-color 0.3s;
-}
-.td {
-  width: 15px; height: 15px; border-radius: 50%;
-  cursor: pointer; border: 2px solid transparent;
-  transition: transform 0.15s, border-color 0.15s;
-}
-.td:hover { transform: scale(1.2); }
-.td.on { border-color: var(--fg); }
-.td-dark  { background: #7c3aed; }
-.td-light { background: #a78bfa; }
-.td-ocean { background: #38bdf8; }
-.td-ember { background: #fb923c; }
+  /* Top Bar */
+  .top-bar {
+    background-color: #c0c0c0;
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    padding: 4px 0;
+    border-bottom: 2px solid #000;
+  }
+  .top-btn {
+    background: #fff;
+    border: 1px solid #000;
+    padding: 2px 8px;
+    font-size: 10px;
+    font-weight: bold;
+    color: #000;
+    cursor: pointer;
+    box-shadow: 1px 1px 0 #000;
+  }
+  .top-btn.active {
+    background: var(--btn-green);
+  }
 
-/* HERO */
-.hero {
-  position: relative;
-  height: 100vh; min-height: 500px;
-  display: flex; align-items: flex-end;
-  overflow: hidden;
-}
+  /* Typography */
+  h1, h2, h3, .pixel-text {
+    font-family: var(--pixel-font);
+  }
 
-.hbg {
-  position: absolute; inset: 0;
-  background: url('https://i.ibb.co/B2d7tNrW/26168ca5-336a-4824-9617-f7b3e6768731.jpg') center / cover;
-}
+  .btn {
+    font-family: var(--pixel-font);
+    background-color: var(--btn-green);
+    color: var(--text-black);
+    border: 2px solid #000;
+    padding: 12px 24px;
+    font-size: 10px;
+    text-transform: uppercase;
+    cursor: pointer;
+    box-shadow: 3px 3px 0 #000;
+    transition: transform 0.1s, box-shadow 0.1s;
+    display: inline-block;
+    text-decoration: none;
+    line-height: 1.5;
+  }
+  .btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 #000;
+  }
 
-.hov {
-  position: absolute; inset: 0;
-  background: var(--ov);
-  transition: background 0.3s;
-}
+  /* Sections */
+  .section {
+    padding: 50px 20px;
+    text-align: center;
+  }
+  .bg-dark { background-color: var(--bg-dark-blue); }
+  .bg-light { background-color: var(--bg-light-blue); }
 
-.hcontent {
-  position: relative; z-index: 2;
-  padding: 0 40px 56px;
-  width: 100%;
-  max-width: 860px;
-  margin: 0 auto;
-  display: flex; align-items: flex-end; gap: 24px;
-}
+  /* Hero Section */
+  .hero {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 40px;
+    padding: 60px 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+  .hero-text {
+    text-align: left;
+    max-width: 450px;
+  }
+  .hero-text h1 {
+    font-size: 24px;
+    margin-bottom: 15px;
+    text-shadow: 2px 2px 0 #000;
+  }
+  .hero-text p {
+    font-size: 12px;
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  .hero-image {
+    font-size: 100px; /* Placeholder for the flying character */
+    text-shadow: -4px 0 black, 0 4px black, 4px 0 black, 0 -4px black;
+  }
 
-@media (max-width: 540px) {
-  .hcontent { flex-direction: column; align-items: flex-start; padding: 0 22px 44px; gap: 14px; }
-}
+  /* Features */
+  .features-grid {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+  .feature-item {
+    width: 200px;
+    text-align: center;
+    font-size: 10px;
+    line-height: 1.4;
+  }
+  .feature-icon {
+    font-size: 32px;
+    margin-bottom: 10px;
+    display: block;
+  }
 
-.seal {
-  width: 84px; height: 84px;
-  object-fit: contain;
-  filter: drop-shadow(0 0 20px var(--glow));
-  animation: bob 4s ease-in-out infinite;
-  flex-shrink: 0;
-}
+  /* Countries */
+  .countries-title {
+    font-size: 16px;
+    margin-bottom: 10px;
+    text-shadow: 2px 2px 0 #000;
+  }
+  .countries-subtitle {
+    font-size: 12px;
+    margin-bottom: 20px;
+  }
+  .flags-grid {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+    flex-wrap: wrap;
+    max-width: 400px;
+    margin: 0 auto 20px;
+  }
+  .flag {
+    width: 24px;
+    height: 16px;
+    background: #ccc;
+    border: 1px solid #000;
+  }
+  .link-pixel {
+    color: #fff;
+    font-size: 10px;
+    font-family: var(--pixel-font);
+    display: block;
+    margin-bottom: 20px;
+  }
 
-@keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+  /* Pricing */
+  .pricing-stats {
+    font-size: 10px;
+    margin-bottom: 30px;
+    color: #00ff00;
+  }
+  .pricing-cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    align-items: flex-end;
+    flex-wrap: wrap;
+  }
+  .card {
+    background: #fff;
+    color: #000;
+    border: 4px solid #000;
+    width: 220px;
+    padding: 20px;
+    position: relative;
+    box-shadow: 6px 6px 0 #000;
+  }
+  .card-header {
+    background: #000;
+    color: #fff;
+    padding: 5px;
+    font-family: var(--pixel-font);
+    font-size: 10px;
+    margin: -20px -20px 15px -20px;
+  }
+  .card-badge {
+    position: absolute;
+    top: -15px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: red;
+    color: white;
+    padding: 4px 8px;
+    font-size: 8px;
+    font-family: var(--pixel-font);
+    border: 2px solid #000;
+    white-space: nowrap;
+  }
+  .card-badge.yellow {
+    background: yellow;
+    color: black;
+  }
+  .price {
+    font-family: var(--pixel-font);
+    font-size: 20px;
+    margin: 10px 0;
+  }
+  .price-sub {
+    font-size: 10px;
+    color: #555;
+    margin-bottom: 15px;
+    font-family: var(--pixel-font);
+  }
+  .card-btn {
+    width: 100%;
+    padding: 10px;
+    font-size: 8px;
+  }
+  .card-features {
+    text-align: left;
+    font-size: 10px;
+    margin-top: 15px;
+    line-height: 1.5;
+  }
 
-.htxt { }
+  /* Reviews */
+  .reviews-container {
+    display: flex;
+    overflow-x: auto;
+    gap: 15px;
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .review-card {
+    background: #fff;
+    color: #000;
+    border: 2px solid #000;
+    min-width: 280px;
+    padding: 15px;
+    display: flex;
+    gap: 10px;
+    text-align: left;
+    box-shadow: 3px 3px 0 rgba(0,0,0,0.2);
+  }
+  .review-avatar {
+    width: 40px;
+    height: 40px;
+    background: #ccc;
+    border: 2px solid #000;
+  }
+  .review-name {
+    font-weight: bold;
+    font-size: 12px;
+    margin-bottom: 5px;
+  }
+  .review-text {
+    font-size: 11px;
+    line-height: 1.4;
+  }
 
-.hlabel {
-  font-size: 10px; letter-spacing: 0.28em;
-  text-transform: uppercase; color: var(--accent);
-  margin-bottom: 7px;
-}
+  /* Telegram Section */
+  .telegram-section {
+    background-color: var(--bg-dark-blue);
+    background-image: 
+      linear-gradient(rgba(255,255,255,0.1) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.1) 1px, transparent 1px);
+    background-size: 20px 20px;
+    padding: 60px 20px;
+    text-align: center;
+  }
+  .telegram-icon {
+    font-size: 40px;
+    margin-bottom: 15px;
+  }
+  .telegram-title {
+    font-size: 16px;
+    margin-bottom: 15px;
+  }
+  .telegram-text {
+    font-size: 12px;
+    max-width: 500px;
+    margin: 0 auto 20px;
+    line-height: 1.6;
+  }
+  .telegram-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+  }
+  .btn-white {
+    background: #fff;
+    color: #000;
+  }
 
-.hname {
-  font-family: 'Unbounded', sans-serif;
-  font-weight: 900;
-  font-size: clamp(46px, 9vw, 88px);
-  letter-spacing: -0.04em; line-height: 0.88;
-  margin-bottom: 12px;
-}
-
-.hname em { color: var(--accent); font-style: normal; }
-
-.hsub {
-  font-size: 14px; color: var(--fg2);
-  max-width: 340px;
-}
-
-/* PAGE */
-.page { max-width: 860px; margin: 0 auto; padding: 0 40px; }
-@media (max-width: 540px) { .page { padding: 0 22px; } }
-
-.sec {
-  padding: 44px 0;
-  border-bottom: 1px solid var(--border);
-}
-
-.sec-title {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 14px; font-weight: 700;
-  letter-spacing: -0.01em;
-  margin-bottom: 22px;
-  color: var(--fg);
-}
-
-.e { filter: grayscale(1) contrast(0.5); }
-
-/* TABS */
-.tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 18px; }
-.tab {
-  background: none; border: none;
-  font-family: 'Unbounded', sans-serif;
-  font-size: 8px; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--dim);
-  padding: 8px 18px 8px 0; cursor: pointer;
-  position: relative; transition: color 0.15s;
-}
-.tab::after {
-  content: ''; position: absolute;
-  bottom: -1px; left: 0; right: 18px; height: 1px;
-  background: var(--accent);
-  transform: scaleX(0); transform-origin: left;
-  transition: transform 0.18s;
-}
-.tab.on { color: var(--fg); }
-.tab.on::after { transform: scaleX(1); }
-.panel { display: none; }
-.panel.on { display: block; }
-
-/* VIDEO GRID */
-.vgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-@media (max-width: 500px) { .vgrid { grid-template-columns: 1fr; } }
-
-.vcard { display: flex; flex-direction: column; gap: 8px; }
-
-.ebox {
-  position: relative; padding-bottom: 56.25%;
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 4px; overflow: hidden;
-}
-.ebox iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-
-.ythumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-
-.pbtn {
-  position: absolute; inset: 0;
-  display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.18); border: none; cursor: pointer; width: 100%;
-  transition: background 0.15s;
-}
-.pbtn:hover { background: rgba(0,0,0,0.05); }
-
-.pring {
-  width: 42px; height: 42px;
-  background: rgba(255,255,255,0.92); border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  transition: transform 0.15s;
-}
-.pbtn:hover .pring { transform: scale(1.08); }
-.pring svg { fill: #111; width: 14px; height: 14px; margin-left: 2px; }
-
-.lbox { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
-.lbox video { width: 100%; display: block; aspect-ratio: 16/9; }
-
-.vnew {
-  display: inline-block; font-size: 8px; letter-spacing: 0.14em;
-  text-transform: uppercase; color: var(--accent);
-  border: 1px solid var(--accent); opacity: 0.7;
-  padding: 1px 6px; border-radius: 2px; margin-bottom: 3px;
-}
-.vtitle { font-size: 12px; color: var(--fg2); margin-bottom: 1px; }
-.vdate  { font-size: 10px; color: var(--dim); }
-
-/* LINKS */
-.lgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-@media (max-width: 500px) { .lgrid { grid-template-columns: 1fr; } }
-
-.lcard {
-  display: flex; align-items: center; gap: 10px;
-  background: var(--bg2); border: 1px solid var(--border);
-  padding: 12px 14px; border-radius: 4px;
-  text-decoration: none; color: inherit;
-  transition: border-color 0.2s, transform 0.18s;
-}
-.lcard:hover { transform: translateY(-2px); }
-.lcard.dc:hover { border-color: #5865f2; }
-.lcard.tw:hover { border-color: #9146ff; }
-.lcard.mc:hover { border-color: #5da832; }
-.lcard.rb:hover { border-color: #e60000; }
-.lcard.st:hover { border-color: #66a0c7; }
-
-.lic { width: 32px; height: 32px; object-fit: contain; border-radius: 4px; flex-shrink: 0; }
-.lic-mc { height: 20px; width: auto; max-width: 72px; object-fit: contain; image-rendering: pixelated; flex-shrink: 0; }
-
-.lb { flex: 1; }
-.lname { font-size: 13px; font-weight: 500; color: var(--fg); }
-.ldesc { font-size: 10px; color: var(--dim); }
-.larr { font-size: 12px; color: var(--dim); transition: transform 0.15s, color 0.15s; }
-.lcard:hover .larr { transform: translate(2px,-2px); color: var(--accent); }
-
-/* RULES */
-.rules { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-@media (max-width: 500px) { .rules { grid-template-columns: 1fr; } }
-
-.rcard {
-  background: var(--bg2); border: 1px solid var(--border);
-  padding: 18px; border-radius: 4px;
-}
-.rtitle {
-  font-size: 9px; letter-spacing: 0.2em;
-  text-transform: uppercase; color: var(--accent);
-  margin-bottom: 14px; padding-bottom: 9px;
-  border-bottom: 1px solid var(--border);
-}
-.rlist { list-style: none; display: flex; flex-direction: column; gap: 9px; }
-.rlist li { display: flex; gap: 10px; font-size: 12px; line-height: 1.6; color: var(--fg2); }
-.rn { font-size: 9px; color: var(--accent); opacity: 0.5; flex-shrink: 0; margin-top: 2px; width: 12px; }
-.rlist a { color: var(--fg2); text-decoration: underline; text-underline-offset: 3px; }
-
-/* FOOTER */
-.footer {
-  max-width: 860px; margin: 0 auto;
-  padding: 40px 40px 52px;
-  display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
-}
-@media (max-width: 540px) { .footer { grid-template-columns: 1fr; gap: 24px; padding: 32px 22px 44px; } }
-
-.flogo { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
-.fseal { width: 28px; height: 28px; object-fit: contain; filter: drop-shadow(0 0 6px var(--glow)); }
-.fbrand { font-family: 'Unbounded', sans-serif; font-weight: 900; font-size: 15px; letter-spacing: -0.03em; }
-.fbrand em { color: var(--accent); font-style: normal; }
-.ftag { font-size: 12px; color: var(--fg2); line-height: 1.8; }
-
-.fh { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--dim); margin-bottom: 12px; }
-.flinks { list-style: none; display: flex; flex-direction: column; gap: 6px; }
-.flinks a { font-size: 12px; color: var(--fg2); text-decoration: none; transition: color 0.15s; }
-.flinks a:hover { color: var(--accent); }
-
-.fbot {
-  border-top: 1px solid var(--border);
-  max-width: 860px; margin: 0 auto;
-  padding: 16px 40px 32px;
-  font-size: 10px; color: var(--dim);
-  display: flex; justify-content: space-between;
-  letter-spacing: 0.08em;
-}
-@media (max-width: 540px) { .fbot { flex-direction: column; gap: 4px; padding: 14px 22px 28px; } }
-
-/* reveal */
-.rv { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
-.rv.in { opacity: 1; transform: none; }
+  /* Footer */
+  .footer {
+    padding: 40px 20px;
+  }
 </style>
 </head>
 <body>
 
-<div class="themes">
-  <div class="td td-dark on"  onclick="setT('dark',this)"></div>
-  <div class="td td-light"    onclick="setT('light',this)"></div>
-  <div class="td td-ocean"    onclick="setT('ocean',this)"></div>
-  <div class="td td-ember"    onclick="setT('ember',this)"></div>
-</div>
-
-<!-- HERO -->
-<div class="hero">
-  <div class="hbg"></div>
-  <div class="hov"></div>
-  <div class="hcontent">
-    <img src="https://i.ibb.co/F4d0Tfty/Gemini-Generated-Image-v9wkymv9wkymv9wk-removebg-preview.png" class="seal" alt="тюлень">
-    <div class="htxt">
-      <div class="hlabel">Garry's Mod канал</div>
-      <h1 class="hname">Misha<em>TV</em></h1>
-      <p class="hsub">Привет, я Михаил — снимаю Garry's Mod и стримлю на Twitch <span class="e">🎮</span></p>
-    </div>
+  <div class="top-bar">
+    <button class="top-btn">🔒 кабинет</button>
+    <button class="top-btn">главная</button>
+    <button class="top-btn active">купить</button>
+    <button class="top-btn">помощь</button>
+    <button class="top-btn">RU ▼</button>
   </div>
-</div>
 
-<div class="page">
-
-  <!-- VIDEOS -->
-  <div class="sec rv">
-    <div class="sec-title">Видео <span class="e">▶️</span></div>
-
-    <div class="tabs">
-      <button class="tab on" onclick="sw(this,'yt')">YouTube</button>
-      <button class="tab"    onclick="sw(this,'site')">С сайта</button>
-    </div>
-
-    <div class="panel on" id="tab-yt">
-      <div class="vgrid">
-        <div class="vcard">
-          <div class="ebox" id="yw1">
-            <img class="ythumb" src="https://img.youtube.com/vi/C7871CTaccc/hqdefault.jpg" alt="">
-            <button class="pbtn" onclick="loadYT('yw1','C7871CTaccc')">
-              <span class="pring"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></span>
-            </button>
-          </div>
-          <div><div class="vnew">новое</div><div class="vtitle">Garry's Mod</div><div class="vdate">30 марта 2026</div></div>
-        </div>
-        <div class="vcard">
-          <div class="ebox" id="yw2">
-            <img class="ythumb" src="https://img.youtube.com/vi/Z06YG9b1oyE/hqdefault.jpg" alt="">
-            <button class="pbtn" onclick="loadYT('yw2','Z06YG9b1oyE')">
-              <span class="pring"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></span>
-            </button>
-          </div>
-          <div><div class="vtitle">Garry's Mod</div><div class="vdate">29 марта 2026</div></div>
-        </div>
+  <div class="section bg-dark">
+    <div class="hero">
+      <div class="hero-text">
+        <h1>Durev VPN</h1>
+        <p>Ваш быстрый и надежный пропуск в интернет!<br>
+        Более 50 стран, высокая скорость и подключение<br>
+        до 10 устройств с одной подпиской.</p>
+        <p style="color: #88ccff; margin-bottom: 25px;">Идеальное решение для стабильного пинга и комфорта в сети!</p>
+        <button class="btn">ПОДКЛЮЧИТЬ ЗА 15 РУБ</button>
       </div>
-    </div>
-
-    <div class="panel" id="tab-site">
-      <div class="vgrid">
-        <div class="vcard">
-          <div class="lbox">
-            <video controls preload="metadata" playsinline>
-              <source src="Videos/tuleni1.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div><div class="vnew">новое</div><div class="vtitle">Тюлени · Garry's Mod</div><div class="vdate">30 марта 2026</div></div>
-        </div>
-        <div class="vcard">
-          <div class="lbox">
-            <video controls preload="metadata" playsinline>
-              <source src="Videos/ohranik1.mp4" type="video/mp4">
-            </video>
-          </div>
-          <div><div class="vtitle">Охранник · Garry's Mod</div><div class="vdate">29 марта 2026</div></div>
-        </div>
+      <div class="hero-image">
+        🦸🏻‍♂️
       </div>
     </div>
   </div>
 
-  <!-- LINKS -->
-  <div class="sec rv">
-    <div class="sec-title">Ссылки</div>
-    <div class="lgrid">
-
-      <a class="lcard dc" href="https://surl.li/nktpnv" target="_blank" rel="noopener">
-        <img class="lic" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord">
-        <div class="lb"><div class="lname">Discord</div><div class="ldesc">Сообщество MishaTV</div></div>
-        <span class="larr">↗</span>
-      </a>
-
-      <a class="lcard tw" href="https://twitch.tv/duhovkatw" target="_blank" rel="noopener">
-        <img class="lic" src="https://avatars.githubusercontent.com/u/1795021?s=280&v=4" alt="Twitch">
-        <div class="lb"><div class="lname">Twitch</div><div class="ldesc">duhovkatw</div></div>
-        <span class="larr">↗</span>
-      </a>
-
-      <a class="lcard mc" href="https://sunsl.vercel.app" target="_blank" rel="noopener">
-        <img class="lic-mc" src="https://i.ibb.co/Qvf1Djw7/minecraft-title-11.png" alt="Minecraft">
-        <div class="lb" style="margin-left:6px"><div class="lname">Minecraft сервер</div><div class="ldesc">sunsl.vercel.app</div></div>
-        <span class="larr">↗</span>
-      </a>
-
-      <a class="lcard rb" href="https://www.roblox.com/communities/33497198/MetaSpace-Reloaded#!/about" target="_blank" rel="noopener">
-        <img class="lic" src="https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/optimized/5X/9/b/9/8/9b984a3ca6e4fc6bb40401c495d593012c0ee6f1_2_500x500.png" alt="Roblox">
-        <div class="lb"><div class="lname">Roblox</div><div class="ldesc">MetaSpace Reloaded</div></div>
-        <span class="larr">↗</span>
-      </a>
-
-      <a class="lcard st" href="https://surl.li/terjfm" target="_blank" rel="noopener">
-        <img class="lic" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/512px-Steam_icon_logo.svg.png" alt="Steam">
-        <div class="lb"><div class="lname">Steam — моды</div><div class="ldesc">Сборка аддонов для Garry's Mod</div></div>
-        <span class="larr">↗</span>
-      </a>
-
-    </div>
-  </div>
-
-  <!-- RULES -->
-  <div class="sec rv">
-    <div class="sec-title">Как записаться <span class="e">📋</span></div>
-    <div class="rules">
-      <div class="rcard">
-        <div class="rtitle">Что нужно</div>
-        <ul class="rlist">
-          <li><span class="rn">1</span><span>Лицензионный Garry's Mod в <a href="https://store.steampowered.com/app/4000/Garrys_Mod/" target="_blank">Steam</a></span></li>
-          <li><span class="rn">2</span><span>Подписаться на <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3695094466" target="_blank">сборку аддонов</a></span></li>
-          <li><span class="rn">3</span><span>Добавить Михаила в Steam и написать в голосовой канал Discord</span></li>
-          <li><span class="rn">4</span><span>Ждать записи — обычно 18:00–21:00 по Киеву</span></li>
-        </ul>
+  <div class="section bg-light">
+    <div class="features-grid">
+      <div class="feature-item">
+        <span class="feature-icon">🌍</span>
+        <p>подключайся из<br>любого места</p>
       </div>
-      <div class="rcard">
-        <div class="rtitle">Поведение</div>
-        <ul class="rlist">
-          <li><span class="rn">1</span><span>Следовать инструктажу ведущего</span></li>
-          <li><span class="rn">2</span><span>Не портить запись и стрим</span></li>
-          <li><span class="rn">3</span><span>Не перебивать и уважать других <span class="e">🤝</span></span></li>
-        </ul>
+      <div class="feature-item">
+        <span class="feature-icon">⚡</span>
+        <p>до 300 Мбит/с</p>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">📱</span>
+        <p>подключай до 10<br>устройств</p>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🛡️</span>
+        <p>высокий скрытый<br>уровень</p>
+      </div>
+      <div class="feature-item">
+        <span class="feature-icon">🎮</span>
+        <p>низкий пинг<br>в играх</p>
       </div>
     </div>
   </div>
 
-</div>
-
-<!-- FOOTER -->
-<div class="footer rv">
-  <div>
-    <div class="flogo">
-      <img src="https://i.ibb.co/F4d0Tfty/Gemini-Generated-Image-v9wkymv9wkymv9wk-removebg-preview.png" class="fseal" alt="">
-      <div class="fbrand">Misha<em>TV</em></div>
+  <div class="section bg-dark">
+    <h2 class="countries-title pixel-text">более 50 стран</h2>
+    <p class="countries-subtitle">легко и быстро меняй местоположение для безопасного и надежного подключения.</p>
+    
+    <div class="flags-grid">
+      <div class="flag" style="background: red;"></div>
+      <div class="flag" style="background: blue;"></div>
+      <div class="flag" style="background: yellow;"></div>
+      <div class="flag" style="background: green;"></div>
+      <div class="flag" style="background: orange;"></div>
+      <div class="flag" style="background: purple;"></div>
+      <div class="flag" style="background: cyan;"></div>
+      <div class="flag" style="background: pink;"></div>
+      <div class="flag" style="background: brown;"></div>
+      <div class="flag" style="background: lime;"></div>
+      <div class="flag" style="background: teal;"></div>
+      <div class="flag" style="background: navy;"></div>
+      <div class="flag" style="background: maroon;"></div>
+      <div class="flag" style="background: olive;"></div>
+      <div class="flag" style="background: silver;"></div>
     </div>
-    <p class="ftag">
-      Garry's Mod канал от Михаила из Киева <span class="e">🇺🇦</span><br>
-      Записи, стримы и немного тюленей <span class="e">🦭</span><br><br>
-      Хочешь поучаствовать в записи — заходи в Discord и читай правила выше!
-    </p>
+    
+    <a href="#" class="link-pixel">Показать все страны</a>
+    <button class="btn" style="padding: 8px 16px; font-size: 8px;">ПОПРОБОВАТЬ</button>
   </div>
 
-  <div>
-    <div class="fh">Все ссылки</div>
-    <ul class="flinks">
-      <li><a href="https://surl.li/nktpnv" target="_blank">💬 Discord</a></li>
-      <li><a href="https://twitch.tv/duhovkatw" target="_blank">📺 Twitch — duhovkatw</a></li>
-      <li><a href="https://sunsl.vercel.app" target="_blank">⛏️ Minecraft сервер</a></li>
-      <li><a href="https://www.roblox.com/communities/33497198/MetaSpace-Reloaded#!/about" target="_blank">🟥 Roblox — MetaSpace Reloaded</a></li>
-      <li><a href="https://surl.li/terjfm" target="_blank">🔧 Steam — сборка модов</a></li>
-    </ul>
+  <div class="section bg-light">
+    <h2 class="countries-title pixel-text">всё, что нужно для удобства в сети</h2>
+    <p class="pricing-stats pixel-text">● Подключено прямо сейчас: 79 914</p>
+
+    <div class="pricing-cards">
+      <div class="card">
+        <div class="card-header">1 месяц</div>
+        <div class="price">399 руб</div>
+        <div class="price-sub">ежемесячно</div>
+        <button class="btn card-btn">ВЫБРАТЬ</button>
+        <div class="card-features">
+          - 399 руб каждые 30 дней<br>
+          - полный доступ ко всем странам
+        </div>
+      </div>
+
+      <div class="card" style="transform: scale(1.05); z-index: 2;">
+        <div class="card-badge">Скидка 10%</div>
+        <div class="card-header" style="background: #000080;">6 месяцев</div>
+        <div class="price">350 руб</div>
+        <div class="price-sub">ежемесячно</div>
+        <button class="btn card-btn">ВЫБРАТЬ</button>
+        <div class="card-features">
+          - 2 100 руб каждые 6 месяцев<br>
+          - полный доступ ко всем странам
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-badge yellow">Лучшая цена</div>
+        <div class="card-header" style="background: #000080;">1 год</div>
+        <div class="price">187 руб</div>
+        <div class="price-sub">ежемесячно</div>
+        <button class="btn card-btn">ВЫБРАТЬ</button>
+        <div class="card-features">
+          - 2 244 руб каждые 365 дней<br>
+          - полный доступ ко всем странам
+        </div>
+      </div>
+    </div>
   </div>
-</div>
 
-<div class="fbot">
-  <span>MishaTV · Garry's Mod forever <span class="e">❤️</span></span>
-  <span>© 2026</span>
-</div>
+  <div class="section bg-light" style="padding-top: 20px;">
+    <h2 class="countries-title pixel-text" style="font-size: 14px; margin-bottom: 20px;">что пишут те, кто уже подключился</h2>
+    <div class="reviews-container">
+      <div class="review-card">
+        <div class="review-avatar"></div>
+        <div>
+          <div class="review-name">Игорь</div>
+          <div class="review-text">Часто играю онлайн. Подключение стабильное, пинг нормальный. Вообще не жалею что поставил.</div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-avatar"></div>
+        <div>
+          <div class="review-name">Максим</div>
+          <div class="review-text">Классный сервис, удобный и простой. Даже моя мама разобралась как включить.</div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-avatar"></div>
+        <div>
+          <div class="review-name">Антон</div>
+          <div class="review-text">Подключил уже всю семью. У всех всё открывается без проблем. Топ за свои деньги!</div>
+        </div>
+      </div>
+      <div class="review-card">
+        <div class="review-avatar"></div>
+        <div>
+          <div class="review-name">Алексей</div>
+          <div class="review-text">Уже три месяца с вами, никаких проблем! Сайты открываются, скорость реально хорошая.</div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-<script>
-function setT(n, el) {
-  document.documentElement.setAttribute('data-theme', n);
-  document.querySelectorAll('.td').forEach(d => d.classList.remove('on'));
-  el.classList.add('on');
-  localStorage.setItem('mt', n);
-}
-(function(){
-  const s = localStorage.getItem('mt');
-  if (!s) return;
-  document.documentElement.setAttribute('data-theme', s);
-  const d = document.querySelector('.td-' + s);
-  if (d) { document.querySelectorAll('.td').forEach(x => x.classList.remove('on')); d.classList.add('on'); }
-})();
+  <div class="telegram-section">
+    <div class="telegram-icon">✈️</div>
+    <h2 class="telegram-title pixel-text">Теперь в Telegram!</h2>
+    <p class="telegram-text">У нас появился Telegram-бот: покупайте подписки, меняйте локации и управляйте всеми настройками VPN прямо в чате — быстро, понятно и удобно!</p>
+    <p class="telegram-text">Также подписывайтесь на наш канал, чтобы всегда быть в курсе акций и новостей.</p>
+    <div class="telegram-buttons">
+      <button class="btn">ПЕРЕЙТИ В БОТ</button>
+      <button class="btn btn-white">ПРИСОЕДИНИТЬСЯ К КАНАЛУ</button>
+    </div>
+  </div>
 
-function sw(btn, id) {
-  document.querySelectorAll('.tab').forEach(b => b.classList.remove('on'));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
-  btn.classList.add('on');
-  document.getElementById('tab-' + id).classList.add('on');
-}
+  <div class="section bg-light footer">
+    <h2 class="pixel-text" style="font-size: 14px; margin-bottom: 10px;">ПОДКЛЮЧИ Durev VPN</h2>
+    <p style="font-size: 12px; opacity: 0.8;">и получи полный доступ к безграничным возможностям!</p>
+  </div>
 
-function loadYT(wid, vid) {
-  const w = document.getElementById(wid);
-  w.querySelector('.ythumb')?.remove();
-  w.querySelector('.pbtn')?.remove();
-  const f = document.createElement('iframe');
-  f.src = 'https://www.youtube.com/embed/' + vid + '?autoplay=1&rel=0';
-  f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
-  f.allowFullscreen = true;
-  f.style.cssText = 'position:absolute;inset:0;width:100%;height:100%;border:none;';
-  w.appendChild(f);
-}
-
-const ob = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){e.target.classList.add('in');ob.unobserve(e.target);} }), {threshold:0.08});
-document.querySelectorAll('.rv').forEach(el => ob.observe(el));
-</script>
 </body>
 </html>
