@@ -9,469 +9,329 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
 [data-theme="dark"] {
-  --bg: #0c0c10;
-  --bg2: #13131a;
-  --bg3: #1c1c26;
-  --fg: #f0f0f8;
-  --fg2: #8888a8;
-  --dim: #35354a;
-  --border: #1e1e2e;
+  --bg: #0e0e12;
+  --bg2: #16161e;
+  --fg: #e8e8f0;
+  --fg2: #7878a0;
+  --dim: #303048;
+  --border: #1e1e2c;
   --accent: #a78bfa;
-  --glow: rgba(167,139,250,0.12);
-  --overlay: linear-gradient(to bottom, rgba(12,12,16,0.2) 0%, rgba(12,12,16,0.7) 55%, #0c0c10 100%);
+  --glow: rgba(167,139,250,0.1);
+  --ov: linear-gradient(to bottom, rgba(14,14,18,0.1) 0%, rgba(14,14,18,0.65) 50%, #0e0e12 100%);
 }
 [data-theme="light"] {
-  --bg: #f2f0fb;
-  --bg2: #e8e6f8;
-  --bg3: #dedcf2;
-  --fg: #1a1828;
+  --bg: #f4f3fc;
+  --bg2: #eceaf8;
+  --fg: #18182a;
   --fg2: #6060a0;
-  --dim: #b0b0d0;
-  --border: #d4d2ec;
+  --dim: #c0c0e0;
+  --border: #d8d6f0;
   --accent: #7c3aed;
   --glow: rgba(124,58,237,0.08);
-  --overlay: linear-gradient(to bottom, rgba(242,240,251,0.1) 0%, rgba(242,240,251,0.75) 55%, #f2f0fb 100%);
+  --ov: linear-gradient(to bottom, rgba(244,243,252,0.05) 0%, rgba(244,243,252,0.7) 50%, #f4f3fc 100%);
 }
 [data-theme="ocean"] {
-  --bg: #060e1c;
-  --bg2: #0a1628;
-  --bg3: #0f2038;
-  --fg: #ddf0ff;
-  --fg2: #5a9abf;
-  --dim: #1a4060;
-  --border: #0f2840;
+  --bg: #07101e;
+  --bg2: #0c1a2e;
+  --fg: #d8f0ff;
+  --fg2: #4a8aaa;
+  --dim: #153050;
+  --border: #0c2040;
   --accent: #38bdf8;
-  --glow: rgba(56,189,248,0.12);
-  --overlay: linear-gradient(to bottom, rgba(6,14,28,0.2) 0%, rgba(6,14,28,0.75) 55%, #060e1c 100%);
+  --glow: rgba(56,189,248,0.1);
+  --ov: linear-gradient(to bottom, rgba(7,16,30,0.1) 0%, rgba(7,16,30,0.7) 50%, #07101e 100%);
 }
 [data-theme="ember"] {
-  --bg: #100808;
-  --bg2: #1c0e0e;
-  --bg3: #261414;
-  --fg: #fff0e8;
-  --fg2: #b07060;
-  --dim: #3a1a1a;
-  --border: #2a1010;
+  --bg: #120a06;
+  --bg2: #1e1008;
+  --fg: #fff0e4;
+  --fg2: #a06848;
+  --dim: #3a1a08;
+  --border: #2c1206;
   --accent: #fb923c;
-  --glow: rgba(251,146,60,0.12);
-  --overlay: linear-gradient(to bottom, rgba(16,8,8,0.2) 0%, rgba(16,8,8,0.75) 55%, #100808 100%);
+  --glow: rgba(251,146,60,0.1);
+  --ov: linear-gradient(to bottom, rgba(18,10,6,0.1) 0%, rgba(18,10,6,0.7) 50%, #120a06 100%);
 }
 
 html { scroll-behavior: smooth; }
-
 body {
   background: var(--bg);
   color: var(--fg);
   font-family: 'Inter', sans-serif;
   font-weight: 300;
-  min-height: 100vh;
-  overflow-x: hidden;
-  transition: background 0.35s, color 0.35s;
+  line-height: 1.6;
+  transition: background 0.3s, color 0.3s;
 }
 
-/* theme pill */
+/* THEMES */
 .themes {
-  position: fixed;
-  top: 16px; right: 16px;
-  z-index: 500;
-  display: flex;
-  gap: 5px;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  padding: 6px 8px;
-  border-radius: 40px;
-  transition: background 0.35s, border-color 0.35s;
+  position: fixed; top: 16px; right: 16px; z-index: 999;
+  display: flex; gap: 5px;
+  background: var(--bg2); border: 1px solid var(--border);
+  padding: 5px 7px; border-radius: 30px;
+  transition: background 0.3s, border-color 0.3s;
 }
 .td {
-  width: 16px; height: 16px;
-  border-radius: 50%;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: transform 0.18s, border-color 0.18s;
+  width: 15px; height: 15px; border-radius: 50%;
+  cursor: pointer; border: 2px solid transparent;
+  transition: transform 0.15s, border-color 0.15s;
 }
-.td:hover { transform: scale(1.25); }
+.td:hover { transform: scale(1.2); }
 .td.on { border-color: var(--fg); }
 .td-dark  { background: #7c3aed; }
 .td-light { background: #a78bfa; }
 .td-ocean { background: #38bdf8; }
 .td-ember { background: #fb923c; }
 
-/* ===== HERO ===== */
+/* HERO */
 .hero {
   position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: flex-end;
+  height: 100vh; min-height: 500px;
+  display: flex; align-items: flex-end;
   overflow: hidden;
 }
 
-.hero-bg {
+.hbg {
   position: absolute; inset: 0;
-  background: url('https://i.ibb.co/B2d7tNrW/26168ca5-336a-4824-9617-f7b3e6768731.jpg') center top / cover;
-  transform: scale(1.05);
-  transition: transform 10s ease;
-}
-.hero:hover .hero-bg { transform: scale(1); }
-
-.hero-ov {
-  position: absolute; inset: 0;
-  background: var(--overlay);
-  transition: background 0.35s;
+  background: url('https://i.ibb.co/B2d7tNrW/26168ca5-336a-4824-9617-f7b3e6768731.jpg') center / cover;
 }
 
-.hero-body {
+.hov {
+  position: absolute; inset: 0;
+  background: var(--ov);
+  transition: background 0.3s;
+}
+
+.hcontent {
   position: relative; z-index: 2;
+  padding: 0 40px 56px;
   width: 100%;
-  max-width: 1000px;
+  max-width: 860px;
   margin: 0 auto;
-  padding: 0 36px 64px;
-  display: flex;
-  align-items: flex-end;
-  gap: 28px;
+  display: flex; align-items: flex-end; gap: 24px;
 }
 
-@media (max-width: 600px) {
-  .hero-body { flex-direction: column; align-items: flex-start; padding: 0 20px 48px; gap: 16px; }
+@media (max-width: 540px) {
+  .hcontent { flex-direction: column; align-items: flex-start; padding: 0 22px 44px; gap: 14px; }
 }
 
 .seal {
-  width: 96px; height: 96px;
+  width: 84px; height: 84px;
   object-fit: contain;
-  filter: drop-shadow(0 0 28px var(--glow));
-  animation: bob 3.5s ease-in-out infinite;
+  filter: drop-shadow(0 0 20px var(--glow));
+  animation: bob 4s ease-in-out infinite;
   flex-shrink: 0;
 }
 
-@keyframes bob {
-  0%,100% { transform: translateY(0); }
-  50%      { transform: translateY(-7px); }
+@keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+.htxt { }
+
+.hlabel {
+  font-size: 10px; letter-spacing: 0.28em;
+  text-transform: uppercase; color: var(--accent);
+  margin-bottom: 7px;
 }
 
-.hero-txt {}
-
-.hero-eyebrow {
-  font-size: 10px;
-  letter-spacing: 0.28em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 8px;
-}
-
-.hero-name {
+.hname {
   font-family: 'Unbounded', sans-serif;
   font-weight: 900;
-  font-size: clamp(52px, 10vw, 100px);
-  letter-spacing: -0.04em;
-  line-height: 0.88;
-  margin-bottom: 14px;
+  font-size: clamp(46px, 9vw, 88px);
+  letter-spacing: -0.04em; line-height: 0.88;
+  margin-bottom: 12px;
 }
 
-.hero-name span { color: var(--accent); }
+.hname em { color: var(--accent); font-style: normal; }
 
-.hero-desc {
-  font-size: 14px;
-  color: var(--fg2);
-  line-height: 1.7;
-  max-width: 380px;
+.hsub {
+  font-size: 14px; color: var(--fg2);
+  max-width: 340px;
 }
 
-/* ===== PAGE ===== */
-.page {
-  max-width: 1000px;
-  margin: 0 auto;
-  padding: 0 36px;
-}
-@media (max-width: 600px) { .page { padding: 0 20px; } }
+/* PAGE */
+.page { max-width: 860px; margin: 0 auto; padding: 0 40px; }
+@media (max-width: 540px) { .page { padding: 0 22px; } }
 
-/* ===== SECTION ===== */
 .sec {
-  padding: 48px 0;
+  padding: 44px 0;
   border-bottom: 1px solid var(--border);
-}
-
-.sec-head {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  margin-bottom: 24px;
 }
 
 .sec-title {
   font-family: 'Unbounded', sans-serif;
-  font-size: 16px;
-  font-weight: 700;
-  letter-spacing: -0.02em;
+  font-size: 14px; font-weight: 700;
+  letter-spacing: -0.01em;
+  margin-bottom: 22px;
+  color: var(--fg);
 }
 
-.sec-line { flex: 1; height: 1px; background: var(--border); }
+.e { filter: grayscale(1) contrast(0.5); }
 
-/* emoji */
-.e { filter: grayscale(1) contrast(0.55); }
-
-/* ===== TABS ===== */
-.tabs {
-  display: flex;
-  border-bottom: 1px solid var(--border);
-  margin-bottom: 20px;
-}
-
+/* TABS */
+.tabs { display: flex; border-bottom: 1px solid var(--border); margin-bottom: 18px; }
 .tab {
   background: none; border: none;
   font-family: 'Unbounded', sans-serif;
   font-size: 8px; letter-spacing: 0.2em;
-  text-transform: uppercase;
-  color: var(--dim);
-  padding: 8px 20px 8px 0;
-  cursor: pointer;
-  position: relative;
-  transition: color 0.18s;
+  text-transform: uppercase; color: var(--dim);
+  padding: 8px 18px 8px 0; cursor: pointer;
+  position: relative; transition: color 0.15s;
 }
-
 .tab::after {
-  content: '';
-  position: absolute;
-  bottom: -1px; left: 0; right: 20px;
-  height: 1px;
+  content: ''; position: absolute;
+  bottom: -1px; left: 0; right: 18px; height: 1px;
   background: var(--accent);
   transform: scaleX(0); transform-origin: left;
-  transition: transform 0.2s;
+  transition: transform 0.18s;
 }
-
 .tab.on { color: var(--fg); }
 .tab.on::after { transform: scaleX(1); }
-
 .panel { display: none; }
 .panel.on { display: block; }
 
-/* ===== VIDEO GRID ===== */
-.vgrid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-  gap: 14px;
+/* VIDEO GRID */
+.vgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+@media (max-width: 500px) { .vgrid { grid-template-columns: 1fr; } }
+
+.vcard { display: flex; flex-direction: column; gap: 8px; }
+
+.ebox {
+  position: relative; padding-bottom: 56.25%;
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 4px; overflow: hidden;
 }
+.ebox iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
 
-.vcard { display: flex; flex-direction: column; gap: 9px; }
+.ythumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
 
-.embed-box {
-  position: relative;
-  padding-bottom: 56.25%;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.embed-box iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-
-.yt-thumb {
-  position: absolute; inset: 0;
-  width: 100%; height: 100%;
-  object-fit: cover;
-  transition: transform 0.3s;
-}
-.embed-box:hover .yt-thumb { transform: scale(1.03); }
-
-.play-btn {
+.pbtn {
   position: absolute; inset: 0;
   display: flex; align-items: center; justify-content: center;
-  background: rgba(0,0,0,0.22);
-  border: none; cursor: pointer; width: 100%;
-  transition: background 0.2s;
+  background: rgba(0,0,0,0.18); border: none; cursor: pointer; width: 100%;
+  transition: background 0.15s;
 }
-.play-btn:hover { background: rgba(0,0,0,0.08); }
+.pbtn:hover { background: rgba(0,0,0,0.05); }
 
-.play-ring {
-  width: 46px; height: 46px;
-  background: rgba(255,255,255,0.93);
-  border-radius: 50%;
+.pring {
+  width: 42px; height: 42px;
+  background: rgba(255,255,255,0.92); border-radius: 50%;
   display: flex; align-items: center; justify-content: center;
-  transition: transform 0.18s;
+  transition: transform 0.15s;
 }
-.play-btn:hover .play-ring { transform: scale(1.1); }
-.play-ring svg { fill: #0c0c10; width: 15px; height: 15px; margin-left: 2px; }
+.pbtn:hover .pring { transform: scale(1.08); }
+.pring svg { fill: #111; width: 14px; height: 14px; margin-left: 2px; }
 
-.local-box {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  border-radius: 6px; overflow: hidden;
-}
-.local-box video { width: 100%; display: block; aspect-ratio: 16/9; object-fit: cover; }
+.lbox { background: var(--bg2); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; }
+.lbox video { width: 100%; display: block; aspect-ratio: 16/9; }
 
-.v-new {
-  display: inline-block;
-  font-size: 8px; letter-spacing: 0.15em; text-transform: uppercase;
-  color: var(--accent); border: 1px solid var(--accent);
-  opacity: 0.75; padding: 2px 7px; border-radius: 2px; margin-bottom: 4px;
+.vnew {
+  display: inline-block; font-size: 8px; letter-spacing: 0.14em;
+  text-transform: uppercase; color: var(--accent);
+  border: 1px solid var(--accent); opacity: 0.7;
+  padding: 1px 6px; border-radius: 2px; margin-bottom: 3px;
 }
-.v-title { font-size: 12px; color: var(--fg2); margin-bottom: 1px; }
-.v-date  { font-size: 10px; color: var(--dim); }
+.vtitle { font-size: 12px; color: var(--fg2); margin-bottom: 1px; }
+.vdate  { font-size: 10px; color: var(--dim); }
 
-/* ===== LINKS ===== */
-.lgrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 8px;
-}
-@media (max-width: 560px) { .lgrid { grid-template-columns: 1fr; } }
+/* LINKS */
+.lgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+@media (max-width: 500px) { .lgrid { grid-template-columns: 1fr; } }
 
 .lcard {
-  display: flex; align-items: center; gap: 12px;
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  padding: 14px 16px;
-  border-radius: 6px;
+  display: flex; align-items: center; gap: 10px;
+  background: var(--bg2); border: 1px solid var(--border);
+  padding: 12px 14px; border-radius: 4px;
   text-decoration: none; color: inherit;
-  transition: border-color 0.2s, transform 0.2s;
+  transition: border-color 0.2s, transform 0.18s;
 }
 .lcard:hover { transform: translateY(-2px); }
-.lcard.discord:hover { border-color: #5865f2; }
-.lcard.twitch:hover  { border-color: #9146ff; }
-.lcard.mc:hover      { border-color: #5da832; }
-.lcard.roblox:hover  { border-color: #e60000; }
-.lcard.steam:hover   { border-color: #66a0c7; }
+.lcard.dc:hover { border-color: #5865f2; }
+.lcard.tw:hover { border-color: #9146ff; }
+.lcard.mc:hover { border-color: #5da832; }
+.lcard.rb:hover { border-color: #e60000; }
+.lcard.st:hover { border-color: #66a0c7; }
 
-.li {
-  width: 36px; height: 36px;
-  object-fit: contain; flex-shrink: 0;
-  border-radius: 4px;
-}
+.lic { width: 32px; height: 32px; object-fit: contain; border-radius: 4px; flex-shrink: 0; }
+.lic-mc { height: 20px; width: auto; max-width: 72px; object-fit: contain; image-rendering: pixelated; flex-shrink: 0; }
 
-.li-mc {
-  height: 22px; width: auto; max-width: 80px;
-  object-fit: contain; flex-shrink: 0;
-  image-rendering: pixelated;
-}
-
-.lbody { flex: 1; min-width: 0; }
-.lname { font-size: 13px; font-weight: 500; color: var(--fg); margin-bottom: 1px; }
+.lb { flex: 1; }
+.lname { font-size: 13px; font-weight: 500; color: var(--fg); }
 .ldesc { font-size: 10px; color: var(--dim); }
-
-.larr { font-size: 13px; color: var(--dim); transition: transform 0.18s, color 0.18s; }
+.larr { font-size: 12px; color: var(--dim); transition: transform 0.15s, color 0.15s; }
 .lcard:hover .larr { transform: translate(2px,-2px); color: var(--accent); }
 
-/* ===== RULES ===== */
-.rgrid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-}
-@media (max-width: 560px) { .rgrid { grid-column: 1fr; } }
+/* RULES */
+.rules { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+@media (max-width: 500px) { .rules { grid-template-columns: 1fr; } }
 
 .rcard {
-  background: var(--bg2);
-  border: 1px solid var(--border);
-  padding: 20px;
-  border-radius: 6px;
+  background: var(--bg2); border: 1px solid var(--border);
+  padding: 18px; border-radius: 4px;
 }
-
 .rtitle {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 9px; letter-spacing: 0.22em;
+  font-size: 9px; letter-spacing: 0.2em;
   text-transform: uppercase; color: var(--accent);
-  margin-bottom: 14px; padding-bottom: 10px;
+  margin-bottom: 14px; padding-bottom: 9px;
   border-bottom: 1px solid var(--border);
 }
-
 .rlist { list-style: none; display: flex; flex-direction: column; gap: 9px; }
-
-.rlist li {
-  display: flex; gap: 10px;
-  font-size: 12px; line-height: 1.6; color: var(--fg2);
-}
-
-.rn {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 9px; color: var(--accent);
-  opacity: 0.5; flex-shrink: 0; margin-top: 2px; width: 12px;
-}
-
+.rlist li { display: flex; gap: 10px; font-size: 12px; line-height: 1.6; color: var(--fg2); }
+.rn { font-size: 9px; color: var(--accent); opacity: 0.5; flex-shrink: 0; margin-top: 2px; width: 12px; }
 .rlist a { color: var(--fg2); text-decoration: underline; text-underline-offset: 3px; }
 
-/* ===== FOOTER ===== */
+/* FOOTER */
 .footer {
-  border-top: 1px solid var(--border);
-  padding: 40px 36px 52px;
-  max-width: 1000px;
-  margin: 0 auto;
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  gap: 36px;
+  max-width: 860px; margin: 0 auto;
+  padding: 40px 40px 52px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 32px;
 }
-@media (max-width: 640px) { .footer { grid-template-columns: 1fr; gap: 24px; padding: 32px 20px 44px; } }
+@media (max-width: 540px) { .footer { grid-template-columns: 1fr; gap: 24px; padding: 32px 22px 44px; } }
 
-.flogo {
-  display: flex; align-items: center; gap: 10px; margin-bottom: 10px;
-}
+.flogo { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+.fseal { width: 28px; height: 28px; object-fit: contain; filter: drop-shadow(0 0 6px var(--glow)); }
+.fbrand { font-family: 'Unbounded', sans-serif; font-weight: 900; font-size: 15px; letter-spacing: -0.03em; }
+.fbrand em { color: var(--accent); font-style: normal; }
+.ftag { font-size: 12px; color: var(--fg2); line-height: 1.8; }
 
-.fseal {
-  width: 32px; height: 32px;
-  object-fit: contain;
-  filter: drop-shadow(0 0 8px var(--glow));
-}
-
-.fbrand {
-  font-family: 'Unbounded', sans-serif;
-  font-weight: 900; font-size: 16px;
-  letter-spacing: -0.03em;
-}
-.fbrand span { color: var(--accent); }
-
-.ftag { font-size: 12px; color: var(--fg2); line-height: 1.75; }
-
-.fh {
-  font-family: 'Unbounded', sans-serif;
-  font-size: 8px; letter-spacing: 0.25em;
-  text-transform: uppercase; color: var(--dim);
-  margin-bottom: 12px;
-}
-
-.flinks { list-style: none; display: flex; flex-direction: column; gap: 7px; }
-.flinks a {
-  font-size: 12px; color: var(--fg2);
-  text-decoration: none; display: flex; align-items: center; gap: 7px;
-  transition: color 0.18s;
-}
+.fh { font-size: 9px; letter-spacing: 0.22em; text-transform: uppercase; color: var(--dim); margin-bottom: 12px; }
+.flinks { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.flinks a { font-size: 12px; color: var(--fg2); text-decoration: none; transition: color 0.15s; }
 .flinks a:hover { color: var(--accent); }
-.fi { font-size: 13px; filter: grayscale(1) contrast(0.5); }
 
-.finfo { font-size: 12px; color: var(--fg2); line-height: 1.85; }
-.finfo b { color: var(--fg); font-weight: 500; }
-
-.foot-bottom {
+.fbot {
   border-top: 1px solid var(--border);
-  max-width: 1000px; margin: 0 auto;
-  padding: 18px 36px 36px;
-  display: flex; justify-content: space-between; align-items: center;
-  font-size: 10px; color: var(--dim); letter-spacing: 0.1em;
+  max-width: 860px; margin: 0 auto;
+  padding: 16px 40px 32px;
+  font-size: 10px; color: var(--dim);
+  display: flex; justify-content: space-between;
+  letter-spacing: 0.08em;
 }
-@media (max-width: 600px) {
-  .foot-bottom { flex-direction: column; gap: 4px; padding: 16px 20px 32px; text-align: center; }
-}
+@media (max-width: 540px) { .fbot { flex-direction: column; gap: 4px; padding: 14px 22px 28px; } }
 
 /* reveal */
-.rv { opacity: 0; transform: translateY(18px); transition: opacity 0.55s ease, transform 0.55s ease; }
+.rv { opacity: 0; transform: translateY(14px); transition: opacity 0.5s ease, transform 0.5s ease; }
 .rv.in { opacity: 1; transform: none; }
 </style>
 </head>
 <body>
 
 <div class="themes">
-  <div class="td td-dark  on" onclick="setT('dark',this)"  title="Тёмная"></div>
-  <div class="td td-light"    onclick="setT('light',this)" title="Светлая"></div>
-  <div class="td td-ocean"    onclick="setT('ocean',this)" title="Океан"></div>
-  <div class="td td-ember"    onclick="setT('ember',this)" title="Огонь"></div>
+  <div class="td td-dark on"  onclick="setT('dark',this)"></div>
+  <div class="td td-light"    onclick="setT('light',this)"></div>
+  <div class="td td-ocean"    onclick="setT('ocean',this)"></div>
+  <div class="td td-ember"    onclick="setT('ember',this)"></div>
 </div>
 
 <!-- HERO -->
 <div class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-ov"></div>
-  <div class="hero-body">
+  <div class="hbg"></div>
+  <div class="hov"></div>
+  <div class="hcontent">
     <img src="https://i.ibb.co/F4d0Tfty/Gemini-Generated-Image-v9wkymv9wkymv9wk-removebg-preview.png" class="seal" alt="тюлень">
-    <div class="hero-txt">
-      <div class="hero-eyebrow">Garry's Mod канал</div>
-      <h1 class="hero-name">Misha<span>TV</span></h1>
-      <p class="hero-desc">Привет, я Михаил — снимаю Garry's Mod и стримлю на Twitch. Подпишись и не пропусти новое <span class="e">🎮</span></p>
+    <div class="htxt">
+      <div class="hlabel">Garry's Mod канал</div>
+      <h1 class="hname">Misha<em>TV</em></h1>
+      <p class="hsub">Привет, я Михаил — снимаю Garry's Mod и стримлю на Twitch <span class="e">🎮</span></p>
     </div>
   </div>
 </div>
@@ -480,10 +340,7 @@ body {
 
   <!-- VIDEOS -->
   <div class="sec rv">
-    <div class="sec-head">
-      <span class="sec-title">Видео <span class="e">▶️</span></span>
-      <div class="sec-line"></div>
-    </div>
+    <div class="sec-title">Видео <span class="e">▶️</span></div>
 
     <div class="tabs">
       <button class="tab on" onclick="sw(this,'yt')">YouTube</button>
@@ -493,22 +350,22 @@ body {
     <div class="panel on" id="tab-yt">
       <div class="vgrid">
         <div class="vcard">
-          <div class="embed-box" id="yw1">
-            <img class="yt-thumb" src="https://img.youtube.com/vi/C7871CTaccc/hqdefault.jpg" alt="">
-            <button class="play-btn" onclick="loadYT('yw1','C7871CTaccc')">
-              <span class="play-ring"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></span>
+          <div class="ebox" id="yw1">
+            <img class="ythumb" src="https://img.youtube.com/vi/C7871CTaccc/hqdefault.jpg" alt="">
+            <button class="pbtn" onclick="loadYT('yw1','C7871CTaccc')">
+              <span class="pring"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></span>
             </button>
           </div>
-          <div><div class="v-new">новое</div><div class="v-title">Garry's Mod</div><div class="v-date">30 марта 2026</div></div>
+          <div><div class="vnew">новое</div><div class="vtitle">Garry's Mod</div><div class="vdate">30 марта 2026</div></div>
         </div>
         <div class="vcard">
-          <div class="embed-box" id="yw2">
-            <img class="yt-thumb" src="https://img.youtube.com/vi/Z06YG9b1oyE/hqdefault.jpg" alt="">
-            <button class="play-btn" onclick="loadYT('yw2','Z06YG9b1oyE')">
-              <span class="play-ring"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></span>
+          <div class="ebox" id="yw2">
+            <img class="ythumb" src="https://img.youtube.com/vi/Z06YG9b1oyE/hqdefault.jpg" alt="">
+            <button class="pbtn" onclick="loadYT('yw2','Z06YG9b1oyE')">
+              <span class="pring"><svg viewBox="0 0 24 24"><polygon points="5,3 19,12 5,21"/></svg></span>
             </button>
           </div>
-          <div><div class="v-title">Garry's Mod</div><div class="v-date">29 марта 2026</div></div>
+          <div><div class="vtitle">Garry's Mod</div><div class="vdate">29 марта 2026</div></div>
         </div>
       </div>
     </div>
@@ -516,20 +373,20 @@ body {
     <div class="panel" id="tab-site">
       <div class="vgrid">
         <div class="vcard">
-          <div class="local-box">
+          <div class="lbox">
             <video controls preload="metadata" playsinline>
               <source src="Videos/tuleni1.mp4" type="video/mp4">
             </video>
           </div>
-          <div><div class="v-new">новое</div><div class="v-title">Тюлени · Garry's Mod</div><div class="v-date">30 марта 2026</div></div>
+          <div><div class="vnew">новое</div><div class="vtitle">Тюлени · Garry's Mod</div><div class="vdate">30 марта 2026</div></div>
         </div>
         <div class="vcard">
-          <div class="local-box">
+          <div class="lbox">
             <video controls preload="metadata" playsinline>
               <source src="Videos/ohranik1.mp4" type="video/mp4">
             </video>
           </div>
-          <div><div class="v-title">Охранник · Garry's Mod</div><div class="v-date">29 марта 2026</div></div>
+          <div><div class="vtitle">Охранник · Garry's Mod</div><div class="vdate">29 марта 2026</div></div>
         </div>
       </div>
     </div>
@@ -537,39 +394,36 @@ body {
 
   <!-- LINKS -->
   <div class="sec rv">
-    <div class="sec-head">
-      <span class="sec-title">Ссылки</span>
-      <div class="sec-line"></div>
-    </div>
+    <div class="sec-title">Ссылки</div>
     <div class="lgrid">
 
-      <a class="lcard discord" href="https://surl.li/nktpnv" target="_blank" rel="noopener">
-        <img class="li" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord">
-        <div class="lbody"><div class="lname">Discord</div><div class="ldesc">Сообщество MishaTV</div></div>
+      <a class="lcard dc" href="https://surl.li/nktpnv" target="_blank" rel="noopener">
+        <img class="lic" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png" alt="Discord">
+        <div class="lb"><div class="lname">Discord</div><div class="ldesc">Сообщество MishaTV</div></div>
         <span class="larr">↗</span>
       </a>
 
-      <a class="lcard twitch" href="https://twitch.tv/duhovkatw" target="_blank" rel="noopener">
-        <img class="li" src="https://upload.wikimedia.org/wikipedia/commons/thumb/2/26/Twitch_logo.svg/512px-Twitch_logo.svg.png" alt="Twitch">
-        <div class="lbody"><div class="lname">Twitch</div><div class="ldesc">duhovkatw</div></div>
+      <a class="lcard tw" href="https://twitch.tv/duhovkatw" target="_blank" rel="noopener">
+        <img class="lic" src="https://avatars.githubusercontent.com/u/1795021?s=280&v=4" alt="Twitch">
+        <div class="lb"><div class="lname">Twitch</div><div class="ldesc">duhovkatw</div></div>
         <span class="larr">↗</span>
       </a>
 
       <a class="lcard mc" href="https://sunsl.vercel.app" target="_blank" rel="noopener">
-        <img class="li-mc" src="https://i.ibb.co/Qvf1Djw7/minecraft-title-11.png" alt="Minecraft">
-        <div class="lbody" style="margin-left:6px"><div class="lname">Сервер Minecraft</div><div class="ldesc">sunsl.vercel.app</div></div>
+        <img class="lic-mc" src="https://i.ibb.co/Qvf1Djw7/minecraft-title-11.png" alt="Minecraft">
+        <div class="lb" style="margin-left:6px"><div class="lname">Minecraft сервер</div><div class="ldesc">sunsl.vercel.app</div></div>
         <span class="larr">↗</span>
       </a>
 
-      <a class="lcard roblox" href="https://www.roblox.com/communities/33497198/MetaSpace-Reloaded#!/about" target="_blank" rel="noopener">
-        <img class="li" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/8d/Roblox_logo.svg/1280px-Roblox_logo.svg.png" alt="Roblox">
-        <div class="lbody"><div class="lname">Roblox</div><div class="ldesc">MetaSpace Reloaded</div></div>
+      <a class="lcard rb" href="https://www.roblox.com/communities/33497198/MetaSpace-Reloaded#!/about" target="_blank" rel="noopener">
+        <img class="lic" src="https://devforum-uploads.s3.dualstack.us-east-2.amazonaws.com/uploads/optimized/5X/9/b/9/8/9b984a3ca6e4fc6bb40401c495d593012c0ee6f1_2_500x500.png" alt="Roblox">
+        <div class="lb"><div class="lname">Roblox</div><div class="ldesc">MetaSpace Reloaded</div></div>
         <span class="larr">↗</span>
       </a>
 
-      <a class="lcard steam" href="https://surl.li/terjfm" target="_blank" rel="noopener">
-        <img class="li" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/512px-Steam_icon_logo.svg.png" alt="Steam">
-        <div class="lbody"><div class="lname">Steam — сборка модов</div><div class="ldesc">Аддоны для Garry's Mod</div></div>
+      <a class="lcard st" href="https://surl.li/terjfm" target="_blank" rel="noopener">
+        <img class="lic" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/512px-Steam_icon_logo.svg.png" alt="Steam">
+        <div class="lb"><div class="lname">Steam — моды</div><div class="ldesc">Сборка аддонов для Garry's Mod</div></div>
         <span class="larr">↗</span>
       </a>
 
@@ -578,26 +432,23 @@ body {
 
   <!-- RULES -->
   <div class="sec rv">
-    <div class="sec-head">
-      <span class="sec-title">Правила Discord <span class="e">📋</span></span>
-      <div class="sec-line"></div>
-    </div>
-    <div class="rgrid">
+    <div class="sec-title">Как записаться <span class="e">📋</span></div>
+    <div class="rules">
       <div class="rcard">
-        <div class="rtitle">Как попасть на запись</div>
+        <div class="rtitle">Что нужно</div>
         <ul class="rlist">
           <li><span class="rn">1</span><span>Лицензионный Garry's Mod в <a href="https://store.steampowered.com/app/4000/Garrys_Mod/" target="_blank">Steam</a></span></li>
           <li><span class="rn">2</span><span>Подписаться на <a href="https://steamcommunity.com/sharedfiles/filedetails/?id=3695094466" target="_blank">сборку аддонов</a></span></li>
-          <li><span class="rn">3</span><span>Добавить Михаила в Steam, написать в войс</span></li>
-          <li><span class="rn">4</span><span>Ждать записи 18:00–21:00 по Киеву</span></li>
+          <li><span class="rn">3</span><span>Добавить Михаила в Steam и написать в голосовой канал Discord</span></li>
+          <li><span class="rn">4</span><span>Ждать записи — обычно 18:00–21:00 по Киеву</span></li>
         </ul>
       </div>
       <div class="rcard">
-        <div class="rtitle">Поведение на записи</div>
+        <div class="rtitle">Поведение</div>
         <ul class="rlist">
           <li><span class="rn">1</span><span>Следовать инструктажу ведущего</span></li>
           <li><span class="rn">2</span><span>Не портить запись и стрим</span></li>
-          <li><span class="rn">3</span><span>Уважать других участников <span class="e">🤝</span></span></li>
+          <li><span class="rn">3</span><span>Не перебивать и уважать других <span class="e">🤝</span></span></li>
         </ul>
       </div>
     </div>
@@ -610,51 +461,45 @@ body {
   <div>
     <div class="flogo">
       <img src="https://i.ibb.co/F4d0Tfty/Gemini-Generated-Image-v9wkymv9wkymv9wk-removebg-preview.png" class="fseal" alt="">
-      <div class="fbrand">Misha<span>TV</span></div>
+      <div class="fbrand">Misha<em>TV</em></div>
     </div>
-    <p class="ftag">Garry's Mod канал от Михаила <span class="e">🇺🇦</span><br>Записи, стримы и немного тюленей <span class="e">🦭</span></p>
+    <p class="ftag">
+      Garry's Mod канал от Михаила из Киева <span class="e">🇺🇦</span><br>
+      Записи, стримы и немного тюленей <span class="e">🦭</span><br><br>
+      Хочешь поучаствовать в записи — заходи в Discord и читай правила выше!
+    </p>
   </div>
 
   <div>
-    <div class="fh">Ссылки</div>
+    <div class="fh">Все ссылки</div>
     <ul class="flinks">
-      <li><a href="https://surl.li/nktpnv" target="_blank"><span class="fi">💬</span> Discord</a></li>
-      <li><a href="https://twitch.tv/duhovkatw" target="_blank"><span class="fi">📺</span> Twitch</a></li>
-      <li><a href="https://sunsl.vercel.app" target="_blank"><span class="fi">⛏️</span> Minecraft сервер</a></li>
-      <li><a href="https://www.roblox.com/communities/33497198/MetaSpace-Reloaded#!/about" target="_blank"><span class="fi">🟥</span> Roblox</a></li>
-      <li><a href="https://surl.li/terjfm" target="_blank"><span class="fi">🔧</span> Steam моды</a></li>
+      <li><a href="https://surl.li/nktpnv" target="_blank">💬 Discord</a></li>
+      <li><a href="https://twitch.tv/duhovkatw" target="_blank">📺 Twitch — duhovkatw</a></li>
+      <li><a href="https://sunsl.vercel.app" target="_blank">⛏️ Minecraft сервер</a></li>
+      <li><a href="https://www.roblox.com/communities/33497198/MetaSpace-Reloaded#!/about" target="_blank">🟥 Roblox — MetaSpace Reloaded</a></li>
+      <li><a href="https://surl.li/terjfm" target="_blank">🔧 Steam — сборка модов</a></li>
     </ul>
-  </div>
-
-  <div>
-    <div class="fh">О канале</div>
-    <div class="finfo">
-      Привет! Меня зовут Михаил и я снимаю Garry's Mod.<br><br>
-      Хочешь поучаствовать в записи? Заходи в Discord и читай правила! <span class="e">👆</span>
-    </div>
   </div>
 </div>
 
-<div class="foot-bottom">
+<div class="fbot">
   <span>MishaTV · Garry's Mod forever <span class="e">❤️</span></span>
-  <span>© 2026 · сделано с душой</span>
+  <span>© 2026</span>
 </div>
 
 <script>
-function setT(name, el) {
-  document.documentElement.setAttribute('data-theme', name);
+function setT(n, el) {
+  document.documentElement.setAttribute('data-theme', n);
   document.querySelectorAll('.td').forEach(d => d.classList.remove('on'));
   el.classList.add('on');
-  localStorage.setItem('mt', name);
+  localStorage.setItem('mt', n);
 }
-
-(function() {
+(function(){
   const s = localStorage.getItem('mt');
-  if (s) {
-    document.documentElement.setAttribute('data-theme', s);
-    const d = document.querySelector('.td-' + s);
-    if (d) { document.querySelectorAll('.td').forEach(x => x.classList.remove('on')); d.classList.add('on'); }
-  }
+  if (!s) return;
+  document.documentElement.setAttribute('data-theme', s);
+  const d = document.querySelector('.td-' + s);
+  if (d) { document.querySelectorAll('.td').forEach(x => x.classList.remove('on')); d.classList.add('on'); }
 })();
 
 function sw(btn, id) {
@@ -664,10 +509,10 @@ function sw(btn, id) {
   document.getElementById('tab-' + id).classList.add('on');
 }
 
-function loadYT(wrapId, vid) {
-  const w = document.getElementById(wrapId);
-  w.querySelector('.yt-thumb')?.remove();
-  w.querySelector('.play-btn')?.remove();
+function loadYT(wid, vid) {
+  const w = document.getElementById(wid);
+  w.querySelector('.ythumb')?.remove();
+  w.querySelector('.pbtn')?.remove();
   const f = document.createElement('iframe');
   f.src = 'https://www.youtube.com/embed/' + vid + '?autoplay=1&rel=0';
   f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
@@ -676,8 +521,8 @@ function loadYT(wrapId, vid) {
   w.appendChild(f);
 }
 
-const obs = new IntersectionObserver(es => es.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); } }), { threshold: 0.1 });
-document.querySelectorAll('.rv').forEach(el => obs.observe(el));
+const ob = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){e.target.classList.add('in');ob.unobserve(e.target);} }), {threshold:0.08});
+document.querySelectorAll('.rv').forEach(el => ob.observe(el));
 </script>
 </body>
 </html>
