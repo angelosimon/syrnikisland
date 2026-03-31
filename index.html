@@ -1,546 +1,479 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MishaTV & HissuGames Ultimate</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<style>
-  :root {
-    --bg-dark-blue: #000066;
-    --bg-light-blue: #004b9b;
-    --btn-green: #00ff00;
-    --hissu-purple: #a78bfa;
-    --text-white: #ffffff;
-    --text-black: #000000;
-    --pixel-font: 'Press Start 2P', monospace;
-    --main-font: 'Roboto', sans-serif;
-  }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MishaTV | HissuGames Official</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* ОСНОВНЫЕ ПЕРЕМЕННЫЕ */
+        :root {
+            --dark: #050520;
+            --blue: #004b9b;
+            --green: #00ff00;
+            --hissu: #a78bfa;
+            --pixel: 'Press Start 2P', cursive;
+            --shadow: 4px 4px 0px #000;
+        }
 
-  /* Базовые настройки */
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-  html { scroll-behavior: smooth; }
-  body {
-    background: var(--bg-dark-blue);
-    color: var(--text-white);
-    font-family: var(--main-font);
-    line-height: 1.6;
-    overflow-x: hidden;
-  }
+        * { margin: 0; padding: 0; box-sizing: border-box; outline: none; }
+        body { 
+            background: var(--dark); 
+            color: #fff; 
+            font-family: 'Roboto', sans-serif;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 50% 50%, #0a0a3a 0%, #050520 100%);
+        }
 
-  /* Типографика */
-  h1, h2, h3, .pixel-text {
-    font-family: var(--pixel-font);
-    text-transform: uppercase;
-  }
+        /* КРАСИВЫЙ СКРОЛЛБАР */
+        ::-webkit-scrollbar { width: 10px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: var(--hissu); border: 2px solid #000; }
 
-  /* Навигация (Твоя оригинальная) */
-  .top-bar {
-    background-color: #c0c0c0;
-    display: flex;
-    justify-content: center;
-    gap: 10px;
-    padding: 10px 0;
-    border-bottom: 4px solid #000;
-    position: sticky;
-    top: 0;
-    z-index: 1000;
-  }
-  .top-btn {
-    background: #fff;
-    border: 3px solid #000;
-    padding: 6px 14px;
-    font-size: 10px;
-    font-family: var(--pixel-font);
-    color: #000;
-    cursor: pointer;
-    box-shadow: 3px 3px 0 #000;
-    text-decoration: none;
-    transition: 0.1s;
-  }
-  .top-btn:active { transform: translate(3px, 3px); box-shadow: 0 0 0 #000; }
-  .top-btn.special { background: var(--hissu-purple); color: white; border-color: #fff; }
+        /* ШАПКА САЙТА */
+        .navbar {
+            background: #c0c0c0;
+            padding: 12px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            border-bottom: 5px solid #000;
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+        .nav-link {
+            background: #fff;
+            border: 3px solid #000;
+            padding: 8px 15px;
+            font-family: var(--pixel);
+            font-size: 10px;
+            color: #000;
+            text-decoration: none;
+            box-shadow: var(--shadow);
+            transition: 0.1s;
+        }
+        .nav-link:hover { transform: translateY(-2px); box-shadow: 6px 6px 0 #000; }
+        .nav-link.active { background: var(--hissu); color: #fff; }
 
-  /* UI Элементы */
-  .btn {
-    display: inline-block;
-    font-family: var(--pixel-font);
-    background-color: var(--btn-green);
-    color: var(--text-black);
-    border: 4px solid #000;
-    padding: 16px 28px;
-    font-size: 12px;
-    text-transform: uppercase;
-    cursor: pointer;
-    box-shadow: 5px 5px 0 #000;
-    text-decoration: none;
-    text-align: center;
-  }
-  .btn:active { transform: translate(4px, 4px); box-shadow: 0 0 0 #000; }
+        /* ГЕРОЙ СЕКЦИЯ */
+        .hero {
+            padding: 100px 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 50px;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .hero-img {
+            width: 180px;
+            filter: drop-shadow(0 0 20px var(--blue));
+            animation: float 4s ease-in-out infinite;
+        }
+        @keyframes float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-20px) rotate(5deg); } }
+        
+        .hero-content h1 { font-family: var(--pixel); font-size: 35px; margin-bottom: 20px; text-shadow: 4px 4px 0 var(--blue); }
+        .hero-content h1 span { color: var(--green); }
+        .hero-content p { font-size: 18px; color: #ccc; max-width: 500px; line-height: 1.6; }
 
-  .pixel-box {
-    background: #fff;
-    color: #000;
-    border: 4px solid #000;
-    box-shadow: 6px 6px 0 #000;
-    padding: 25px;
-  }
+        /* HISSUGAMES HUB (УЗКИЙ И СТИЛЬНЫЙ) */
+        #hissu { 
+            background: rgba(0,0,0,0.4); 
+            border-top: 4px solid var(--hissu); 
+            padding: 60px 20px;
+            text-align: center;
+        }
+        .hub-box { max-width: 800px; margin: 0 auto; }
+        
+        .pixel-gamepad {
+            width: 120px;
+            fill: var(--hissu);
+            filter: drop-shadow(0 0 15px var(--hissu));
+            margin-bottom: 20px;
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse { 0% { opacity: 0.7; } 50% { opacity: 1; } 100% { opacity: 0.7; } }
 
-  /* Секции */
-  .section { padding: 80px 20px; text-align: center; }
-  .bg-dark { background-color: var(--bg-dark-blue); }
-  .bg-light { background-color: var(--bg-light-blue); }
-  .sec-title { font-size: 20px; margin-bottom: 40px; text-shadow: 3px 3px 0 #000; color: #fff; }
+        .btn-hub {
+            background: var(--hissu);
+            color: #fff;
+            border: 4px solid #000;
+            padding: 20px 40px;
+            font-family: var(--pixel);
+            font-size: 18px;
+            cursor: pointer;
+            box-shadow: 8px 8px 0 #000;
+            margin-bottom: 40px;
+            transition: 0.2s;
+        }
+        .btn-hub:hover { transform: scale(1.05); background: #b794f4; }
 
-  /* --- HISSUGAMES HUB (НОВЫЙ УЗКИЙ ДИЗАЙН) --- */
-  #hissu { background: #0a0a0a; border-top: 6px solid var(--hissu-purple); padding: 50px 10px; }
-  .hissu-inner { max-width: 850px; margin: 0 auto; }
-  
-  .gamepad-svg { width: 100px; height: 100px; fill: var(--hissu-purple); margin-bottom: 20px; filter: drop-shadow(0 0 15px var(--hissu-purple)); animation: gamepad-bounce 2s infinite ease-in-out; }
-  @keyframes gamepad-bounce { 0%, 100% { transform: scale(1) rotate(0deg); } 50% { transform: scale(1.1) rotate(5deg); } }
+        .game-shelf {
+            display: none;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+            margin-top: 40px;
+            animation: slideUp 0.5s ease-out;
+        }
+        @keyframes slideUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
 
-  .hub-toggle { 
-    background: var(--hissu-purple); color: white; border: 4px solid #000; 
-    padding: 20px 40px; font-family: var(--pixel-font); font-size: 16px; 
-    cursor: pointer; box-shadow: 6px 6px 0 #000; margin-bottom: 30px;
-  }
-  .hub-toggle:active { transform: translate(4px, 4px); box-shadow: 0 0 0 #000; }
+        .game-item {
+            background: #fff;
+            border: 4px solid #000;
+            padding: 15px;
+            color: #000;
+            box-shadow: 6px 6px 0 var(--hissu);
+            transition: 0.3s;
+            text-align: left;
+        }
+        .game-item:hover { transform: translateY(-10px); }
+        .game-img {
+            width: 100%;
+            height: 120px;
+            background: #eee;
+            border: 2px solid #000;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        .game-img img { width: 60px; image-rendering: pixelated; }
+        .play-now {
+            display: block;
+            margin-top: 15px;
+            background: var(--green);
+            color: #000;
+            padding: 10px;
+            text-align: center;
+            font-family: var(--pixel);
+            font-size: 10px;
+            text-decoration: none;
+            border: 3px solid #000;
+            box-shadow: 4px 4px 0 #000;
+        }
 
-  #games-wrapper { display: none; margin-top: 40px; animation: fadeIn 0.4s ease; }
-  @keyframes fadeIn { from { opacity: 0; transform: translateY(-30px); } to { opacity: 1; transform: translateY(0); } }
+        /* ВИДЕО ГАЛЕРЕЯ */
+        .video-sec { padding: 80px 20px; max-width: 1100px; margin: 0 auto; }
+        .v-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 30px; }
+        .v-card { background: #000; border: 4px solid var(--blue); position: relative; overflow: hidden; box-shadow: 8px 8px 0 #000; }
+        .v-card iframe { width: 100%; aspect-ratio: 16/9; border: none; display: block; }
+        .v-info { padding: 15px; background: #fff; color: #000; font-family: var(--pixel); font-size: 8px; border-top: 4px solid #000; }
 
-  .game-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 20px; }
-  .game-card { background: #fff; border: 4px solid #000; padding: 15px; color: #000; text-align: left; box-shadow: 5px 5px 0 var(--hissu-purple); }
-  .game-preview { height: 120px; background: #eee; border: 2px solid #000; margin-bottom: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative; }
-  .game-preview img { width: 70px; image-rendering: pixelated; }
-  .play-btn-small { 
-    display: block; background: var(--btn-green); color: #000; border: 3px solid #000; 
-    padding: 10px; text-align: center; font-family: var(--pixel-font); font-size: 10px; 
-    text-decoration: none; cursor: pointer; margin-top: 10px; box-shadow: 3px 3px 0 #000;
-  }
+        /* ПРАВИЛА (КАК В ОРИГИНАЛЕ) */
+        .rules-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 60px auto;
+            padding: 0 20px;
+        }
+        .rule-box {
+            background: #fff;
+            color: #000;
+            border: 4px solid #000;
+            padding: 30px;
+            box-shadow: 10px 10px 0 var(--blue);
+        }
+        .rule-box h3 { font-family: var(--pixel); font-size: 14px; margin-bottom: 20px; border-bottom: 4px solid #000; padding-bottom: 10px; }
+        .rule-box ul { list-style: none; }
+        .rule-box li { margin-bottom: 15px; display: flex; align-items: flex-start; gap: 10px; }
+        .rule-box li::before { content: "►"; color: var(--blue); }
 
-  /* --- МОДАЛКА ИГРЫ --- */
-  #game-modal { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 9999; align-items: center; justify-content: center; padding: 15px; }
-  .modal-box { background: #fff; border: 8px solid #000; width: 100%; max-width: 500px; padding: 30px; color: #000; text-align: center; position: relative; }
-  .close-x { position: absolute; top: -20px; right: -20px; background: #ff0000; color: #fff; border: 4px solid #000; font-family: var(--pixel-font); padding: 8px 12px; cursor: pointer; }
-  
-  /* Экраны игр */
-  .game-scr { display: none; }
-  .game-scr.active { display: block; }
+        /* ИГРОВОЕ ОКНО */
+        #game-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.95);
+            z-index: 10000;
+            align-items: center;
+            justify-content: center;
+        }
+        .game-window {
+            background: #fff;
+            border: 8px solid #000;
+            width: 95%;
+            max-width: 600px;
+            padding: 40px;
+            position: relative;
+            color: #000;
+            text-align: center;
+        }
+        .close-btn {
+            position: absolute;
+            top: -20px;
+            right: -20px;
+            background: #ff0000;
+            color: #fff;
+            border: 4px solid #000;
+            font-family: var(--pixel);
+            padding: 10px;
+            cursor: pointer;
+        }
 
-  /* КЛИКЕР Стиль */
-  #tulen-target { width: 150px; cursor: pointer; transition: 0.1s; margin: 20px 0; -webkit-user-drag: none; }
-  #tulen-target:active { transform: scale(0.85); }
-  .g-stats { display: flex; justify-content: space-around; background: #f0f0f0; border: 3px solid #000; padding: 10px; margin-bottom: 20px; font-family: var(--pixel-font); font-size: 12px; }
-  .g-shop { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-  .g-item { background: #ddd; border: 3px solid #000; padding: 10px; font-family: var(--pixel-font); font-size: 8px; cursor: pointer; }
-  .g-item:hover { background: var(--btn-green); }
-  .g-item:disabled { opacity: 0.5; cursor: not-allowed; }
+        .screen { display: none; }
+        .screen.active { display: block; }
 
-  /* --- ГЛАВНАЯ (ТВОЯ) --- */
-  .hero { display: flex; justify-content: center; align-items: center; gap: 40px; max-width: 900px; margin: 0 auto; text-align: left; }
-  @media (max-width: 768px) { .hero { flex-direction: column; text-align: center; gap: 20px; } }
-  .hero-logo { width: 150px; height: 150px; filter: drop-shadow(4px 4px 0 #000); animation: bob 3s ease-in-out infinite; }
-  @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
-  .hero-text h1 { font-size: 32px; margin-bottom: 10px; text-shadow: 3px 3px 0 #000; color: #fff;}
-  .hero-text h1 em { color: var(--btn-green); font-style: normal; }
-  .hero-text p { font-size: 15px; margin-bottom: 20px; max-width: 450px; }
-  .hlabel { font-size: 10px; color: var(--btn-green); margin-bottom: 10px; font-family: var(--pixel-font); }
+        /* СПЕЦИАЛЬНО ДЛЯ TULEN RUNNER */
+        .canvas-wrap { background: #87CEEB; border: 4px solid #000; margin-top: 20px; }
+        #runnerCanvas { display: block; max-width: 100%; }
 
-  /* --- ВИДЕО (ТВОИ ТАБЫ) --- */
-  .tabs { display: flex; justify-content: center; gap: 15px; margin-bottom: 30px; }
-  .tab { background: #ccc; border: 3px solid #000; font-family: var(--pixel-font); font-size: 10px; padding: 12px 24px; cursor: pointer; box-shadow: 4px 4px 0 #000; }
-  .tab.on { background: var(--btn-green); }
-  .panel { display: none; max-width: 950px; margin: 0 auto; }
-  .panel.on { display: block; }
-  .vgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; text-align: left; }
-  @media (max-width: 650px) { .vgrid { grid-template-columns: 1fr; } }
-  .vcard { display: flex; flex-direction: column; gap: 12px; }
-  .ebox { position: relative; padding-bottom: 56.25%; border: 4px solid #000; box-shadow: 5px 5px 0 #000; background: #000; overflow: hidden; }
-  .ebox iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: none; }
-  .ythumb { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-  .pbtn { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: rgba(0,0,0,0.4); border: none; cursor: pointer; width: 100%; }
-  .pring { width: 64px; height: 64px; background: var(--btn-green); border: 3px solid #000; display: flex; align-items: center; justify-content: center; box-shadow: 4px 4px 0 #000; transition: 0.1s; }
-  .pbtn:hover .pring { transform: scale(1.15); }
-  .lbox { border: 4px solid #000; box-shadow: 5px 5px 0 #000; background: #000; }
-  .lbox video { width: 100%; display: block; aspect-ratio: 16/9; }
-  .vnew { display: inline-block; font-size: 8px; font-family: var(--pixel-font); background: red; color: white; padding: 4px 8px; border: 2px solid #000; margin-bottom: 6px; }
-  .vtitle { font-size: 14px; font-weight: bold; font-family: var(--pixel-font); color: #fff; line-height: 1.5; }
-  .vdate { font-size: 12px; color: #bbb; margin-top: 5px; }
+        /* ФУТЕР */
+        footer {
+            background: #000;
+            padding: 50px 20px;
+            text-align: center;
+            border-top: 4px dashed var(--hissu);
+            margin-top: 100px;
+        }
+        .footer-logo { font-family: var(--pixel); font-size: 20px; margin-bottom: 15px; }
 
-  /* --- ССЫЛКИ (ТВОИ) --- */
-  .lgrid { display: grid; grid-template-columns: 1fr 1fr; gap: 25px; max-width: 900px; margin: 0 auto; }
-  @media (max-width: 650px) { .lgrid { grid-template-columns: 1fr; } }
-  .lcard { display: flex; align-items: center; gap: 20px; text-decoration: none; color: inherit; transition: 0.1s; }
-  .lcard:hover { transform: translate(-3px, -3px); box-shadow: 10px 10px 0 #000; }
-  .lic { width: 50px; height: 50px; object-fit: contain; border: 3px solid #000; background: #eee; }
-  .lic-mc { height: 35px; image-rendering: pixelated; }
-  .lb { flex: 1; text-align: left; }
-  .lname { font-size: 12px; font-family: var(--pixel-font); color: #000; margin-bottom: 5px; }
-  .ldesc { font-size: 12px; color: #444; }
-
-  /* --- ПРАВИЛА (ТВОИ) --- */
-  .rules-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; max-width: 900px; margin: 0 auto; }
-  @media (max-width: 768px) { .rules-grid { grid-template-columns: 1fr; } }
-  .rtop { font-size: 14px; font-family: var(--pixel-font); background: #000; color: #fff; padding: 12px; margin: -25px -25px 25px -25px; border-bottom: 4px solid #000; }
-  .rlist { list-style: none; text-align: left; display: flex; flex-direction: column; gap: 15px; }
-  .rlist li { display: flex; gap: 12px; font-size: 14px; }
-  .rnum { font-family: var(--pixel-font); color: var(--bg-light-blue); font-size: 12px; }
-
-  /* --- ФУТЕР (ТВОЙ) --- */
-  .footer { background-color: var(--bg-dark-blue); background-image: linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px); background-size: 25px 25px; padding: 80px 20px 40px; }
-  .f-wrap { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; max-width: 950px; margin: 0 auto; text-align: left; }
-  @media (max-width: 600px) { .f-wrap { grid-template-columns: 1fr; text-align: center; } }
-  .f-logo { font-size: 24px; font-family: var(--pixel-font); margin-bottom: 20px; }
-  .f-logo em { color: var(--btn-green); font-style: normal; }
-  .f-text { font-size: 14px; color: #ccc; margin-bottom: 25px; line-height: 1.8; }
-  .f-head { font-family: var(--pixel-font); font-size: 12px; color: var(--btn-green); margin-bottom: 20px; }
-  .f-links { list-style: none; display: flex; flex-direction: column; gap: 12px; }
-  .f-links a { color: #fff; text-decoration: none; font-size: 14px; }
-  .f-links a:hover { color: var(--btn-green); text-decoration: underline; }
-  .f-bottom { margin-top: 50px; padding-top: 25px; border-top: 2px dashed rgba(255,255,255,0.2); font-family: var(--pixel-font); font-size: 10px; color: #888; text-align: center; }
-
-  /* --- ГОРЯЧИЕ ЭФФЕКТЫ ДЛЯ ИГР --- */
-  .horror-target { width: 60px; height: 60px; background: red; position: absolute; cursor: pointer; border: 3px solid #000; box-shadow: 0 0 15px red; display: none; }
-  #quiz-options { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
-  .runner-canvas { background: #fff; border: 4px solid #000; width: 100%; max-height: 200px; display: block; }
-</style>
+        @media (max-width: 768px) {
+            .hero { flex-direction: column; text-align: center; }
+            .rules-container { grid-template-columns: 1fr; }
+        }
+    </style>
 </head>
 <body>
 
-<div class="top-bar">
-  <a href="#hero" class="top-btn">ГЛАВНАЯ</a>
-  <a href="#hissu" class="top-btn special">HISSU GAMES</a>
-  <a href="#video" class="top-btn">ВИДЕО</a>
-  <a href="#links" class="top-btn">ССЫЛКИ</a>
-  <a href="#rules" class="top-btn">ПРАВИЛА</a>
-</div>
+    <nav class="navbar">
+        <a href="#hero" class="nav-link active">ГЛАВНАЯ</a>
+        <a href="#hissu" class="nav-link">HISSU GAMES</a>
+        <a href="#videos" class="nav-link">ВИДЕО</a>
+        <a href="#rules" class="nav-link">ПРАВИЛА</a>
+    </nav>
 
-<div class="section bg-dark" id="hero">
-  <div class="hero">
-    <img src="https://i.ibb.co/F4d0Tfty/Gemini-Generated-Image-v9wkymv9wkymv9wk-removebg-preview.png" class="hero-logo" alt="Миша ТВ">
-    <div class="hero-text">
-      <div class="hlabel">Официальный сайт</div>
-      <h1>Misha<em>TV</em></h1>
-      <p>Привет! Я Михаил. Тут ты найдешь все мои видео по Garry's Mod, ссылки на сервера и крутые мини-игры от HissuGames. <br><br>Тюлени — сила, аддоны — жизнь!</p>
-      <a href="#rules" class="btn">КАК ПОПАСТЬ В ВИДЕО</a>
-    </div>
-  </div>
-</div>
-
-<div class="section" id="hissu">
-  <div class="hissu-inner">
-    <svg class="gamepad-svg" viewBox="0 0 24 24">
-        <path d="M7 6H17V8H19V14V16H17V18H15V16H9V18H7V16H5V14V8H7V6ZM15 10V12H17V10H15ZM7 10V12H9V10H7ZM10 12V14H12V12H10ZM12 10V12H14V10H12Z" stroke="white" stroke-width="0.5"/>
-    </svg>
-    <h2 class="sec-title pixel-text" style="color: var(--hissu-purple); margin-bottom: 20px;">Игровой Центр HissuGames</h2>
-    <p style="margin-bottom: 30px; font-size: 14px; color: #888;">Эксклюзивные мини-игры специально для подписчиков MishaTV</p>
-    
-    <button class="hub-toggle" onclick="toggleHub()">ОТКРЫТЬ ИГРЫ</button>
-
-    <div id="games-wrapper">
-      <div class="game-grid">
-        <div class="game-card">
-          <div class="game-preview"><img src="https://i.ibb.co/F4d0Tfty/Gemini-Generated-Image-v9wkymv9wkymv9wk-removebg-preview.png"></div>
-          <div style="font-family: var(--pixel-font); font-size: 10px;">TULEN CLICKER</div>
-          <p style="font-size: 11px; margin-top: 5px;">Стань самым богатым тюленем. Покупай апгрейды!</p>
-          <div class="play-btn-small" onclick="launch('clicker')">ИГРАТЬ</div>
+    <section class="hero" id="hero">
+        <img src="https://i.ibb.co/F4d0Tfty/Gemini-Generated-Image-v9wkymv9wkymv9wk-removebg-preview.png" class="hero-img">
+        <div class="hero-content">
+            <h1>MISHA<span>TV</span></h1>
+            <p>Добро пожаловать в обитель тюленей и лучшего контента по Garry's Mod! Здесь живут аддоны, игры и ламповое комьюнити.</p>
+            <br>
+            <a href="#hissu" class="nav-link" style="background:var(--green)">ИГРАТЬ СЕЙЧАС</a>
         </div>
+    </section>
 
-        <div class="game-card">
-          <div class="game-preview" style="background:#200;"><img src="https://i.ibb.co/F4d0Tfty/Gemini-Generated-Image-v9wkymv9wkymv9wk-removebg-preview.png" style="filter: invert(1) sepia(1) saturate(10) hue-rotate(-50deg);"></div>
-          <div style="font-family: var(--pixel-font); font-size: 10px;">TULEN HORROR</div>
-          <p style="font-size: 11px; margin-top: 5px;">Успей нажать на красного тюленя, пока он не исчез!</p>
-          <div class="play-btn-small" onclick="launch('horror')">ИГРАТЬ</div>
+    <section id="hissu">
+        <div class="hub-box">
+            <svg class="pixel-gamepad" viewBox="0 0 24 24">
+                <path d="M7 6H17V8H19V14V16H17V18H15V16H9V18H7V16H5V14V8H7V6ZM15 10V12H17V10H15ZM7 10V12H9V10H7ZM10 12V14H12V12H10ZM12 10V12H14V10H12Z"/>
+            </svg>
+            <h2 style="font-family: var(--pixel); font-size: 20px; margin-bottom: 20px;">HISSUGAMES HUB</h2>
+            <button class="btn-hub" onclick="toggleHub()" id="hubBtn">ОТКРЫТЬ МЕНЮ ИГР</button>
+
+            <div class="game-shelf" id="shelf">
+                <div class="game-item">
+                    <div class="game-img"><img src="https://i.ibb.co/F4d0Tfty/Gemini-Generated-Image-v9wkymv9wkymv9wk-removebg-preview.png"></div>
+                    <h4 style="font-family: var(--pixel); font-size: 10px;">TULEN CLICKER</h4>
+                    <p style="font-size: 12px; margin-top: 5px;">Добывай рыбу и прокачивай свою армию тюленей!</p>
+                    <button class="play-now" onclick="openGame('clicker')">ИГРАТЬ</button>
+                </div>
+                <div class="game-item">
+                    <div class="game-img" style="background:#400;"><img src="https://i.ibb.co/F4d0Tfty/Gemini-Generated-Image-v9wkymv9wkymv9wk-removebg-preview.png" style="filter: brightness(0.5) sepia(1) saturate(5);"></div>
+                    <h4 style="font-family: var(--pixel); font-size: 10px;">TULEN HORROR</h4>
+                    <p style="font-size: 12px; margin-top: 5px;">Успей кликнуть на красного тюленя. Время ограничено!</p>
+                    <button class="play-now" onclick="openGame('horror')">ИГРАТЬ</button>
+                </div>
+                <div class="game-item">
+                    <div class="game-img" style="background:var(--blue);"><img src="https://i.ibb.co/F4d0Tfty/Gemini-Generated-Image-v9wkymv9wkymv9wk-removebg-preview.png"></div>
+                    <h4 style="font-family: var(--pixel); font-size: 10px;">TULEN RUNNER</h4>
+                    <p style="font-size: 12px; margin-top: 5px;">Прыгай через ошибки Lua. Новая легкая версия!</p>
+                    <button class="play-now" onclick="openGame('runner')">ИГРАТЬ</button>
+                </div>
+            </div>
         </div>
+    </section>
 
-        <div class="game-card">
-          <div class="game-preview"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/512px-Steam_icon_logo.svg.png" style="width:40px;"></div>
-          <div style="font-family: var(--pixel-font); font-size: 10px;">GMOD QUIZ</div>
-          <p style="font-size: 11px; margin-top: 5px;">Проверь свои знания Garry's Mod и канала Михаила.</p>
-          <div class="play-btn-small" onclick="launch('quiz')">ИГРАТЬ</div>
+    <section class="video-sec" id="videos">
+        <h2 style="font-family: var(--pixel); margin-bottom: 40px; text-align: center;">СВЕЖИЕ РОЛИКИ ▶</h2>
+        <div class="v-grid">
+            <div class="v-card">
+                <iframe src="https://www.youtube.com/embed/C7871CTaccc" allowfullscreen></iframe>
+                <div class="v-info">GMOD: БИТВА ТЮЛЕНЕЙ ЗА РЫБУ</div>
+            </div>
+            <div class="v-card">
+                <iframe src="https://www.youtube.com/embed/Z06YG9b1oyE" allowfullscreen></iframe>
+                <div class="v-info">САМЫЕ СТРАШНЫЕ АДДОНЫ В МИРЕ</div>
+            </div>
         </div>
+    </section>
 
-        <div class="game-card">
-          <div class="game-preview" style="background:#333; color:white; font-family:var(--pixel-font); font-size:10px;">RUN!</div>
-          <div style="font-family: var(--pixel-font); font-size: 10px;">ERROR RUNNER</div>
-          <p style="font-size: 11px; margin-top: 5px;">Прыгай через ошибки Lua и не дай игре крашнуться.</p>
-          <div class="play-btn-small" onclick="launch('runner')">ИГРАТЬ</div>
+    <section class="rules-container" id="rules">
+        <div class="rule-box">
+            <h3>ПРАВИЛА КАНАЛА</h3>
+            <ul>
+                <li>Будь вежлив с другими тюленями.</li>
+                <li>Не спамить в чате во время стримов.</li>
+                <li>Уважать работу админов и Михаила.</li>
+            </ul>
         </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="section bg-light" id="video">
-  <h2 class="sec-title pixel-text">ПОСЛЕДНИЕ ВИДЕО ▶️</h2>
-  <div class="tabs">
-    <button class="tab on" onclick="changeTab(this,'yt')">YOUTUBE</button>
-    <button class="tab" onclick="changeTab(this,'site')">С САЙТА</button>
-  </div>
-
-  <div class="panel on" id="tab-yt">
-    <div class="vgrid">
-      <div class="vcard">
-        <div class="ebox" id="v1">
-          <img class="ythumb" src="https://img.youtube.com/vi/C7871CTaccc/hqdefault.jpg">
-          <button class="pbtn" onclick="loadVideo('v1','C7871CTaccc')">
-            <span class="pring"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-          </button>
+        <div class="rule-box">
+            <h3>ЗАПИСЬ В РОЛИК</h3>
+            <ul>
+                <li>Иметь микрофон без шумов.</li>
+                <li>Возраст 12+ (желательно).</li>
+                <li>Быть подписанным на Discord и Steam группу.</li>
+            </ul>
         </div>
-        <div><div class="vnew">НОВОЕ</div><div class="vtitle">Garry's Mod: Тюлени против всех</div><div class="vdate">30 марта 2026</div></div>
-      </div>
-      <div class="vcard">
-        <div class="ebox" id="v2">
-          <img class="ythumb" src="https://img.youtube.com/vi/Z06YG9b1oyE/hqdefault.jpg">
-          <button class="pbtn" onclick="loadVideo('v2','Z06YG9b1oyE')">
-            <span class="pring"><svg width="24" height="24" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg></span>
-          </button>
+    </section>
+
+    <footer>
+        <div class="footer-logo">MISHA<span>TV</span></div>
+        <p style="color:#888; font-size: 12px;">© 2026 Все права защищены тюленями.</p>
+    </footer>
+
+    <div id="game-overlay">
+        <div class="game-window">
+            <button class="close-btn" onclick="closeGame()">ЗАКРЫТЬ X</button>
+            
+            <div id="game-clicker" class="screen">
+                <h3 style="font-family: var(--pixel); font-size: 12px;">РЫБА: <span id="fishCount">0</span></h3>
+                <img src="https://i.ibb.co/F4d0Tfty/Gemini-Generated-Image-v9wkymv9wkymv9wk-removebg-preview.png" 
+                     id="clickSeal" style="width: 150px; cursor: pointer; margin: 20px; transition: 0.1s;" onclick="fishClick()">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                    <button class="play-now" id="up1" onclick="buyClick(20)">СИЛА КЛИКА (+1) [20]</button>
+                    <button class="play-now" id="up2" onclick="buyAuto(100)">АВТО-РЫБАЛКА (+1) [100]</button>
+                </div>
+            </div>
+
+            <div id="game-horror" class="screen">
+                <div id="h-timer" style="font-family: var(--pixel); color: red; margin-bottom: 10px;">ВРЕМЯ: 10</div>
+                <div style="height: 250px; background: #000; position: relative; overflow: hidden;" id="horrorField">
+                    <img src="https://i.ibb.co/F4d0Tfty/Gemini-Generated-Image-v9wkymv9wkymv9wk-removebg-preview.png" 
+                         id="target" style="width: 50px; position: absolute; cursor: pointer; display: none; filter: brightness(0.5) sepia(1) saturate(10);" onclick="hitHorror()">
+                </div>
+                <div id="h-score" style="font-family: var(--pixel); margin-top: 10px;">СЧЕТ: 0</div>
+            </div>
+
+            <div id="game-runner" class="screen">
+                <div id="r-score-ui" style="font-family: var(--pixel); font-size: 12px; margin-bottom: 10px;">СЧЕТ: 0</div>
+                <div class="canvas-wrap">
+                    <canvas id="runnerCanvas" width="400" height="150"></canvas>
+                </div>
+                <p style="font-size: 10px; margin-top: 10px; color: #666;">Кликай или жми ПРОБЕЛ для прыжка</p>
+            </div>
         </div>
-        <div><div class="vtitle">Garry's Mod: Самый длинный пинг</div><div class="vdate">29 марта 2026</div></div>
-      </div>
-    </div>
-  </div>
-
-  <div class="panel" id="tab-site">
-    <div class="vgrid">
-        <div class="vcard">
-            <div class="lbox"><video controls><source src="Videos/tuleni1.mp4" type="video/mp4"></video></div>
-            <div class="vtitle" style="margin-top:10px;">Архивное видео #1</div>
-        </div>
-    </div>
-  </div>
-</div>
-
-<div class="section bg-dark" id="links">
-  <h2 class="sec-title pixel-text">ПОЛЕЗНЫЕ ССЫЛКИ</h2>
-  <div class="lgrid">
-    <a class="lcard pixel-box" href="https://surl.li/nktpnv" target="_blank">
-      <img class="lic" src="https://assets-global.website-files.com/6257adef93867e50d84d30e2/636e0a6a49cf127bf92de1e2_icon_clyde_blurple_RGB.png">
-      <div class="lb"><div class="lname">Discord</div><div class="ldesc">Тут проходят все сборы</div></div>
-    </a>
-    <a class="lcard pixel-box" href="https://twitch.tv/duhovkatw" target="_blank">
-      <img class="lic" src="https://avatars.githubusercontent.com/u/1795021?s=280&v=4">
-      <div class="lb"><div class="lname">Twitch</div><div class="ldesc">Прямые трансляции</div></div>
-    </a>
-    <a class="lcard pixel-box" href="https://sunsl.vercel.app" target="_blank">
-      <img class="lic-mc" src="https://i.ibb.co/Qvf1Djw7/minecraft-title-11.png">
-      <div class="lb"><div class="lname">Minecraft</div><div class="ldesc">Наш ламповый сервер</div></div>
-    </a>
-    <a class="lcard pixel-box" href="https://surl.li/terjfm" target="_blank">
-      <img class="lic" src="https://upload.wikimedia.org/wikipedia/commons/thumb/8/83/Steam_icon_logo.svg/512px-Steam_icon_logo.svg.png">
-      <div class="lb"><div class="lname">Steam</div><div class="ldesc">Сборка аддонов для GMod</div></div>
-    </a>
-  </div>
-</div>
-
-<div class="section bg-light" id="rules">
-  <h2 class="sec-title pixel-text">ПРАВИЛА И ЗАПИСЬ 📋</h2>
-  <div class="rules-grid">
-    <div class="pixel-box">
-      <div class="rtop">КАК ПОПАСТЬ В РОЛИК</div>
-      <ul class="rlist">
-        <li><span class="rnum">1</span><span>Иметь лицензию GMod в Steam.</span></li>
-        <li><span class="rnum">2</span><span>Установить всю сборку аддонов (ссылка выше).</span></li>
-        <li><span class="rnum">3</span><span>Зайти в Discord в канал "Ожидание записи".</span></li>
-        <li><span class="rnum">4</span><span>Быть адекватным и слушать Михаила.</span></li>
-      </ul>
-    </div>
-    <div class="pixel-box">
-      <div class="rtop">ПОВЕДЕНИЕ</div>
-      <ul class="rlist">
-        <li><span class="rnum">1</span><span>Не спамить пропами и эффектами.</span></li>
-        <li><span class="rnum">2</span><span>Не перебивать ведущего на записи.</span></li>
-        <li><span class="rnum">3</span><span>Уважать других участников тюленьего стада.</span></li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<div class="footer">
-  <div class="f-wrap">
-    <div>
-      <div class="f-logo">Misha<em>TV</em></div>
-      <p class="f-text">Канал про Garry's Mod, тюленей и веселое комьюнити. Снимаем шедевры с 2024 года. <br>Киев, Украина 🇺🇦</p>
-    </div>
-    <div>
-      <div class="f-head">НАВИГАЦИЯ</div>
-      <ul class="f-links">
-        <li><a href="#hero">В начало</a></li>
-        <li><a href="#hissu">Игры HissuGames</a></li>
-        <li><a href="#video">Смотреть видео</a></li>
-        <li><a href="https://surl.li/nktpnv">Наш Discord</a></li>
-      </ul>
-    </div>
-  </div>
-  <div class="f-bottom">MishaTV Project & HissuGames Unity © 2026 · Powered by Seals</div>
-</div>
-
-<div id="game-modal">
-  <div class="modal-box">
-    <button class="close-x" onclick="closeGame()">X</button>
-    
-    <div id="scr-clicker" class="game-scr">
-      <div style="font-family:var(--pixel-font); font-size:14px; margin-bottom:15px;">TULEN CLICKER</div>
-      <div class="g-stats">
-        <div>РЫБА: <span id="f-count">0</span></div>
-        <div>АВТО: <span id="a-count">0</span></div>
-      </div>
-      <img id="tulen-target" src="https://i.ibb.co/F4d0Tfty/Gemini-Generated-Image-v9wkymv9wkymv9wk-removebg-preview.png" onclick="doClick()">
-      <div class="g-shop">
-        <button class="g-item" id="btn-c" onclick="buyItem('c')">СИЛА КЛИКА (+1)<br>ЦЕНА: <span id="c-price">15</span></button>
-        <button class="g-item" id="btn-a" onclick="buyItem('a')">АВТОРЫБАЛКА (+1)<br>ЦЕНА: <span id="a-price">50</span></button>
-      </div>
     </div>
 
-    <div id="scr-horror" class="game-scr">
-      <div style="font-family:var(--pixel-font); font-size:12px; margin-bottom:10px;">ПОЙМАЙ ЕГО!</div>
-      <div id="horror-field" style="height:250px; background:#000; position:relative; border:4px solid #333; overflow:hidden;">
-        <div class="horror-target" id="scary-seal" onclick="catchHorror()"></div>
-      </div>
-      <div id="h-score" style="font-family:var(--pixel-font); font-size:14px; margin-top:15px;">СЧЕТ: 0</div>
-    </div>
+    <script>
+        // --- ЛОГИКА ИНТЕРФЕЙСА ---
+        function toggleHub() {
+            const shelf = document.getElementById('shelf');
+            const btn = document.getElementById('hubBtn');
+            if(shelf.style.display === 'grid') {
+                shelf.style.display = 'none';
+                btn.innerText = 'ОТКРЫТЬ МЕНЮ ИГР';
+            } else {
+                shelf.style.display = 'grid';
+                btn.innerText = 'ЗАКРЫТЬ МЕНЮ ИГР';
+            }
+        }
 
-    <div id="scr-quiz" class="game-scr">
-      <div id="quiz-question" style="font-family:var(--pixel-font); font-size:10px; line-height:1.6;">Загрузка...</div>
-      <div id="quiz-options"></div>
-    </div>
+        function openGame(name) {
+            document.getElementById('game-overlay').style.display = 'flex';
+            document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+            document.getElementById('game-'+name).classList.add('active');
+            if(name === 'runner') initRunner();
+            if(name === 'horror') initHorror();
+        }
 
-    <div id="scr-runner" class="game-scr">
-      <div style="font-family:var(--pixel-font); font-size:10px; margin-bottom:10px;">ПРЫГАЙ (CLICK/SPACE)</div>
-      <canvas id="runnerCanvas" class="runner-canvas" width="400" height="150"></canvas>
-      <div id="r-score" style="font-family:var(--pixel-font); font-size:12px; margin-top:10px;">СЧЕТ: 0</div>
-    </div>
+        function closeGame() {
+            document.getElementById('game-overlay').style.display = 'none';
+            cancelAnimationFrame(runId);
+            clearInterval(horrId);
+        }
 
-  </div>
-</div>
+        // --- TULEN CLICKER ---
+        let fish = 0, power = 1, auto = 0;
+        function fishClick() { 
+            fish += power; 
+            document.getElementById('fishCount').innerText = Math.floor(fish);
+            document.getElementById('clickSeal').style.transform = 'scale(0.9)';
+            setTimeout(() => document.getElementById('clickSeal').style.transform = 'scale(1)', 50);
+        }
+        function buyClick(c) { if(fish >= c) { fish -= c; power++; updateC(); } }
+        function buyAuto(c) { if(fish >= c) { fish -= c; auto++; updateC(); } }
+        function updateC() { document.getElementById('fishCount').innerText = Math.floor(fish); }
+        setInterval(() => { fish += auto/10; updateC(); }, 100);
 
-<script>
-// --- ВСПОМОГАТЕЛЬНЫЕ ФУНКЦИИ ---
-function toggleHub() {
-  const w = document.getElementById('games-wrapper');
-  w.style.display = (w.style.display === 'block') ? 'none' : 'block';
-}
+        // --- TULEN HORROR ---
+        let horrId, hScore = 0;
+        function initHorror() {
+            hScore = 0;
+            document.getElementById('h-score').innerText = "СЧЕТ: 0";
+            moveTarget();
+            horrId = setInterval(moveTarget, 1000);
+        }
+        function moveTarget() {
+            const t = document.getElementById('target');
+            t.style.display = 'block';
+            t.style.left = Math.random()*80 + "%";
+            t.style.top = Math.random()*70 + "%";
+        }
+        function hitHorror() {
+            hScore++;
+            document.getElementById('h-score').innerText = "СЧЕТ: " + hScore;
+            document.getElementById('target').style.display = 'none';
+        }
 
-function changeTab(btn, id) {
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('on'));
-  document.querySelectorAll('.panel').forEach(p => p.classList.remove('on'));
-  btn.classList.add('on');
-  document.getElementById('tab-' + id).classList.add('on');
-}
+        // --- TULEN RUNNER (ЛЕГКАЯ ВЕРСИЯ) ---
+        let runId;
+        function initRunner() {
+            const cvs = document.getElementById('runnerCanvas');
+            const ctx = cvs.getContext('2d');
+            const sealImg = new Image();
+            sealImg.src = "https://i.ibb.co/F4d0Tfty/Gemini-Generated-Image-v9wkymv9wkymv9wk-removebg-preview.png";
 
-function loadVideo(divId, vid) {
-  document.getElementById(divId).innerHTML = `<iframe src="https://www.youtube.com/embed/${vid}?autoplay=1" allow="autoplay; encrypted-media; fullscreen" style="position:absolute;inset:0;width:100%;height:100%;border:none;"></iframe>`;
-}
+            let py = 100, pdy = 0, isJump = false;
+            let obsX = 450, rScore = 0;
+            let speed = 4;
 
-// --- ЛОГИКА ИГРОВОГО МОДУЛЯ ---
-let activeGame = "";
-function launch(name) {
-  document.getElementById('game-modal').style.display = 'flex';
-  document.querySelectorAll('.game-scr').forEach(s => s.classList.remove('active'));
-  document.getElementById('scr-' + name).classList.add('active');
-  activeGame = name;
+            function draw() {
+                ctx.fillStyle = "#87CEEB"; ctx.fillRect(0,0,400,150); // Небо
+                ctx.fillStyle = "#fff"; ctx.fillRect(50, 20, 40, 10); ctx.fillRect(200, 40, 50, 15); // Облака
+                ctx.fillStyle = "#e0c090"; ctx.fillRect(0, 130, 400, 20); // Песок
 
-  if(name === 'horror') startHorror();
-  if(name === 'quiz') startQuiz();
-  if(name === 'runner') startRunner();
-}
+                // Тюлень с наклоном
+                ctx.save();
+                ctx.translate(50 + 17, py + 17);
+                if(isJump) ctx.rotate(-0.2);
+                ctx.drawImage(sealImg, -17, -17, 35, 35);
+                ctx.restore();
 
-function closeGame() {
-  document.getElementById('game-modal').style.display = 'none';
-  clearInterval(horrorTimer);
-  cancelAnimationFrame(runnerAnim);
-}
+                // Ошибка (препятствие)
+                ctx.fillStyle = "red"; ctx.fillRect(obsX, 110, 20, 20);
+                ctx.fillStyle = "white"; ctx.font = "8px Arial"; ctx.fillText("ERROR", obsX, 105);
 
-// --- 1. КЛИКЕР ---
-let fishes = 0, cPow = 1, aPow = 0, cCost = 15, aCost = 50;
-function doClick() { fishes += cPow; refreshClicker(); }
-function buyItem(t) {
-  if(t === 'c' && fishes >= cCost) { fishes -= cCost; cPow++; cCost = Math.round(cCost*1.5); }
-  if(t === 'a' && fishes >= aCost) { fishes -= aCost; aPow++; aCost = Math.round(aCost*1.7); }
-  refreshClicker();
-}
-function refreshClicker() {
-  document.getElementById('f-count').innerText = Math.floor(fishes);
-  document.getElementById('a-count').innerText = aPow;
-  document.getElementById('c-price').innerText = cCost;
-  document.getElementById('a-price').innerText = aCost;
-  document.getElementById('btn-c').disabled = fishes < cCost;
-  document.getElementById('btn-a').disabled = fishes < aCost;
-}
-setInterval(() => { fishes += aPow/10; refreshClicker(); }, 100);
+                // Физика
+                if(isJump || py < 100) {
+                    pdy += 0.5; // Гравитация (Легкая)
+                    py += pdy;
+                    if(py >= 100) { py = 100; isJump = false; }
+                }
 
-// --- 2. ХОРРОР ---
-let horrorTimer, hScore = 0;
-function startHorror() {
-  hScore = 0; document.getElementById('h-score').innerText = "СЧЕТ: 0";
-  nextHorror();
-}
-function nextHorror() {
-  const s = document.getElementById('scary-seal');
-  s.style.display = 'block';
-  s.style.top = Math.random()*70 + "%";
-  s.style.left = Math.random()*80 + "%";
-  horrorTimer = setTimeout(() => { s.style.display = 'none'; nextHorror(); }, 1000 - Math.min(hScore*20, 600));
-}
-function catchHorror() {
-  clearTimeout(horrorTimer);
-  hScore++;
-  document.getElementById('h-score').innerText = "СЧЕТ: " + hScore;
-  nextHorror();
-}
+                obsX -= speed;
+                if(obsX < -20) { obsX = 450; rScore++; speed += 0.1; }
 
-// --- 3. ВИКТОРИНА ---
-const qData = [
-  {q: "Что Михаил снимает чаще всего?", a: ["Minecraft", "Garry's Mod", "Roblox"], c: 1},
-  {q: "Какое животное является символом канала?", a: ["Кот", "Тюлень", "Пингвин"], c: 1},
-  {q: "Как называется основной мод в GMod?", a: ["Sandbox", "DarkRP", "Trouble in Terrorist Town"], c: 0}
-];
-function startQuiz() {
-  const item = qData[Math.floor(Math.random()*qData.length)];
-  document.getElementById('quiz-question').innerText = item.q;
-  const opt = document.getElementById('quiz-options');
-  opt.innerHTML = "";
-  item.a.forEach((v, i) => {
-    const b = document.createElement('button');
-    b.className = "play-btn-small";
-    b.innerText = v;
-    b.onclick = () => { alert(i === item.c ? "ПРАВИЛЬНО!" : "ОШИБКА!"); startQuiz(); };
-    opt.appendChild(b);
-  });
-}
+                document.getElementById('r-score-ui').innerText = "СЧЕТ: " + rScore;
 
-// --- 4. РАННЕР ---
-let runnerAnim;
-function startRunner() {
-  const cvs = document.getElementById('runnerCanvas');
-  const ctx = cvs.getContext('2d');
-  let py = 120, pdy = 0, jump = false, obsX = 400, rScore = 0;
+                // Коллизия (Честная)
+                if(obsX < 75 && obsX > 40 && py > 90) {
+                    alert("ГЕЙМ ОВЕР! Твой счет: " + rScore);
+                    obsX = 450; rScore = 0; speed = 4;
+                }
 
-  function frame() {
-    ctx.clearRect(0,0,400,150);
-    // Пол
-    ctx.fillStyle = "#000"; ctx.fillRect(0, 140, 400, 10);
-    // Игрок (Тюлень-квадрат)
-    ctx.fillStyle = "blue"; ctx.fillRect(40, py, 20, 20);
-    // Препятствие (Ошибка Lua)
-    ctx.fillStyle = "red"; ctx.fillRect(obsX, 120, 20, 20);
-    
-    if(jump) { pdy += 0.6; py += pdy; if(py >= 120) { py = 120; jump = false; } }
-    obsX -= 5 + (rScore/2);
-    if(obsX < -20) { obsX = 400; rScore++; document.getElementById('r-score').innerText = "СЧЕТ: " + rScore; }
-    
-    // Коллизия
-    if(obsX < 60 && obsX > 20 && py > 100) { alert("ИГРА ОКОНЧЕНА! СЧЕТ: " + rScore); rScore = 0; obsX = 400; }
-    
-    runnerAnim = requestAnimationFrame(frame);
-  }
-  cvs.onclick = () => { if(!jump) { jump = true; pdy = -10; } };
-  window.onkeydown = (e) => { if(e.code === "Space" && !jump) { jump = true; pdy = -10; } };
-  frame();
-}
-</script>
+                runId = requestAnimationFrame(draw);
+            }
+
+            window.onkeydown = (e) => { if(e.code === 'Space' && !isJump) { isJump = true; pdy = -10; } };
+            cvs.onclick = () => { if(!isJump) { isJump = true; pdy = -10; } };
+
+            draw();
+        }
+    </script>
 </body>
 </html>
